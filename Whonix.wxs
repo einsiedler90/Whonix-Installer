@@ -27,7 +27,7 @@
 
           <Component Id='MainExecutable' Guid='ABCDDCBA-83F1-4F22-985B-FDB3C8ABD471'>
             <File Id='WhonixEXE' Name='Whonix.exe'
-              DiskId='1' Source='Whonix.exe' KeyPath='yes'>
+              DiskId='1' Source='$(var.whonixFileMainExe)' KeyPath='yes'>
               <Shortcut Id="startmenuWhonix" Directory="ProgramMenuDir"
                 Name="Whonix" WorkingDirectory='INSTALLDIR'
                 Icon="logo.ico" IconIndex="0" Advertise="yes" />
@@ -36,17 +36,17 @@
                 Icon="logo.ico" IconIndex="0" Advertise="yes" />
             </File>
             <File Id='licenseTXT' Name='license.txt'
-              DiskId='1' Source='license.txt' KeyPath='no' />
+              DiskId='1' Source='$(var.whonixFileLicense)' KeyPath='no' />
           </Component>
             
           <Component Id='VBoxInstall' Guid='ABCDDCBA-83F1-4F22-985B-FDB3C8ABD472'>
             <File Id='VBoxEXE' Name='vbox.exe'
-              DiskId='1' Source='vbox.exe' KeyPath='yes' />
+              DiskId='1' Source='$(var.whonixFileVboxExe)' KeyPath='yes' />
           </Component>
             
           <Component Id='WhonixOVAComp' Guid='ABCDDCBA-83F1-4F22-985B-FDB3C8ABD473'>
             <File Id='WhonixOVA' Name='Whonix.ova'
-              DiskId='1' Source='Whonix.ova' KeyPath='yes' />
+              DiskId='1' Source='$(var.whonixFileOva)' KeyPath='yes' />
           </Component>
             
         </Directory>
