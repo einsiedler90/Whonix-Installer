@@ -1,4 +1,8 @@
 #!/bin/bash
+
+set -x
+set -e
+
 VERSION="16.0.4.2-empty"
 INSTALLER_VERSION="200"
 MANUFACTURE="ENCRYPTED SUPPORT LP"
@@ -10,11 +14,12 @@ FILE_WHONIX_EXE="../deps/Whonix.exe"
 FILE_VBOX_INST_EXE="../deps/vbox.exe"
 
 if ! [ -x "$(command -v wixl)" ]; then
-  echo 'Error: wixl is not installed.' >&2
+  echo "$0: ERROR wixl is not installed." >&2
   exit 1
 fi
 
-rm Whonix.msi
+rm -f Whonix.msi
+
 wixl -v --arch x64 \
   -D whonixVersion="$VERSION" \
   -D whonixInstallerVersion="$INSTALLER_VERSION" \
@@ -25,5 +30,3 @@ wixl -v --arch x64 \
   -D whonixFileMainExe="$FILE_WHONIX_EXE" \
   -D whonixFileVboxExe="$FILE_VBOX_INST_EXE" \
   Whonix.wxs
-  
-exit 0
