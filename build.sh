@@ -18,15 +18,18 @@ if ! [ -x "$(command -v wixl)" ]; then
   exit 1
 fi
 
-rm -f Whonix.msi
+rm -f ./Whonix.msi
 
-wixl -v --arch x64 \
-  -D whonixVersion="$VERSION" \
-  -D whonixInstallerVersion="$INSTALLER_VERSION" \
-  -D whonixManufacturer="$MANUFACTURE" \
-  -D whonixDescription="$DESCRIPTION" \
-  -D whonixFileLicense="$FILE_LICENSE" \
-  -D whonixFileOva="$FILE_WHONIX_OVA" \
-  -D whonixFileMainExe="$FILE_WHONIX_EXE" \
-  -D whonixFileVboxExe="$FILE_VBOX_INST_EXE" \
+wixl \
+  --verbose \
+  --arch x64 \
+  --define whonixVersion="$VERSION" \
+  --define whonixInstallerVersion="$INSTALLER_VERSION" \
+  --define whonixManufacturer="$MANUFACTURE" \
+  --define whonixDescription="$DESCRIPTION" \
+  --define whonixFileLicense="$FILE_LICENSE" \
+  --define whonixFileOva="$FILE_WHONIX_OVA" \
+  --define whonixFileMainExe="$FILE_WHONIX_EXE" \
+  --define whonixFileVboxExe="$FILE_VBOX_INST_EXE" \
+  --output ./Whonix.msi \
   Whonix.wxs
