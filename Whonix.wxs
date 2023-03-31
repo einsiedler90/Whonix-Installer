@@ -24,7 +24,7 @@
     <Directory Id='TARGETDIR' Name='SourceDir'>
       <Directory Id='ProgramFiles64Folder' Name='PFiles'>
         <Directory Id='INSTALLDIR' Name='Whonix'>
-            
+
           <Component Id='WhonixOVAComp' Guid='5505AFE9-85C4-45CB-8EB4-90146736ED4E'>
             <File Id='WhonixOVA' Name='Whonix.ova'
               DiskId='1' Source='$(var.whonixFileOva)' KeyPath='no' />
@@ -45,10 +45,10 @@
             <File Id='licenseTXT' Name='license.txt'
               DiskId='1' Source='$(var.whonixFileLicense)' KeyPath='no' />
           </Component>
-            
+
         </Directory>
       </Directory>
-      
+
       <Directory Id="ProgramMenuFolder" Name="Programs">
         <Directory Id="ProgramMenuDir" Name="Whonix">
           <Component Id="ProgramMenuDir" Guid="602EA0D2-DBE7-4A4F-ACA4-F6FB23550D3D">
@@ -60,8 +60,8 @@
       </Directory>
 
       <Directory Id="DesktopFolder" Name="Desktop" />
-    </Directory>    
-    
+    </Directory>
+
     <Feature Id='Complete' Level='1'>
       <Feature Id='MainProgram' Level='1'>
         <ComponentRef Id='MainComponent' />
@@ -71,13 +71,13 @@
         <ComponentRef Id='WhonixOVAComp' />
       </Feature>
     </Feature>
-      
+
     <CustomAction Id='StartMainExe' FileKey='WhonixEXE'
       ExeCommand='[OriginalDatabase]' Return='asyncNoWait' Execute="commit" Impersonate="yes" />
     <InstallExecuteSequence>
       <Custom Action='StartMainExe' After='InstallFinalize'>NOT Installed</Custom>
     </InstallExecuteSequence>
-     
+
     <Icon Id="Whonix.ico" SourceFile="Whonix.ico" />
     <Property Id="ARPPRODUCTICON" Value="Whonix.ico" />
   </Product>
