@@ -7,6 +7,12 @@
     Codepage='1252'
     Version='$(var.whonixVersion)'
     Manufacturer='$(var.whonixManufacturer)'>
+    
+    <Upgrade Id='4845FCB7-255A-4979-A287-275D43D0B1A1'>
+      <UpgradeVersion OnlyDetect='no' Property='PREVIOUSFOUND'
+        Minimum='0.0.1' IncludeMinimum='yes'
+        Maximum='$(var.whonixVersion)' IncludeMaximum='no' />
+    </Upgrade>
 
     <Package Id='*'
       Keywords='Installer'
@@ -25,11 +31,6 @@
       <Directory Id='ProgramFiles64Folder' Name='PFiles'>
         <Directory Id='INSTALLDIR' Name='Whonix'>
 
-          <Component Id='WhonixOVAComp' Guid='5505AFE9-85C4-45CB-8EB4-90146736ED4E'>
-            <File Id='WhonixOVA' Name='Whonix.ova'
-              DiskId='1' Source='$(var.whonixFileOva)' KeyPath='no' />
-          </Component>
-
           <Component Id='MainComponent' Guid='CEEE1E58-584F-4F8C-8465-9C82C9AB38D0'>
             <File Id='WhonixEXE' Name='Whonix.exe'
               DiskId='1' Source='$(var.whonixFileMainExe)' KeyPath='yes'>
@@ -40,8 +41,6 @@
                 Name="Whonix" WorkingDirectory='INSTALLDIR'
                 Icon="Whonix.ico" IconIndex="0" Advertise="yes" />
             </File>
-            <File Id='VBoxEXE' Name='vbox.exe'
-              DiskId='1' Source='$(var.whonixFileVboxExe)' KeyPath='no' />
             <File Id='licenseTXT' Name='license.txt'
               DiskId='1' Source='$(var.whonixFileLicense)' KeyPath='no' />
           </Component>
@@ -66,16 +65,10 @@
       <Feature Id='MainProgram' Level='1'>
         <ComponentRef Id='MainComponent' />
       </Feature>
-
-      <Feature Id='Data' Level='1'>
-        <ComponentRef Id='WhonixOVAComp' />
-      </Feature>
     </Feature>
-
-    <CustomAction Id='StartMainExe' FileKey='WhonixEXE'
-      ExeCommand='[OriginalDatabase]' Return='asyncNoWait' Execute="commit" Impersonate="yes" />
+    
     <InstallExecuteSequence>
-      <Custom Action='StartMainExe' After='InstallFinalize'>NOT Installed</Custom>
+      <RemoveExistingProducts Before="InstallInitialize" />
     </InstallExecuteSequence>
 
     <Icon Id="Whonix.ico" SourceFile="Whonix.ico" />
