@@ -27,12 +27,28 @@ interface
 uses
   Classes, SysUtils, FileUtil, Forms, Process, Math;
 
+function AppDiskGetFreeSpace(const fn: string): Int64;
 procedure EnsureValidExePath(var TargetPath: string; DefaultPath: string);
 procedure Execute(CommandLine: string; Output: TStrings = nil);
 procedure StreamSaveToFile(Stream: TStream; FileName: String);
 procedure CopyUnblocked(FromStream, ToStream: TStream);
 
 implementation
+
+function AppDiskGetFreeSpace(const fn: string): Int64;
+begin
+  {$ifdef linux}
+  //this crashes on FreeBSD 12 x64
+  exit(SysUtils.DiskFree(SysUtils.AddDisk(ExtractFileDir(fn))));
+  {$endif}
+
+  {$ifdef windows}
+  exit(SysUtils.DiskFree(SysUtils.GetDriveIDFromLetter(ExtractFileDrive(fn))));
+  {$endif}
+
+  //cannot detect
+  exit(-1);
+end;
 
 procedure EnsureValidExePath(var TargetPath: string; DefaultPath: string);
 var

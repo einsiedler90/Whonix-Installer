@@ -37,6 +37,7 @@ type
     ProgressBar: TProgressBar;
     RadioButtonConfigFull: TRadioButton;
     RadioButtonConfigMinimal: TRadioButton;
+    SelectDirectoryDialog: TSelectDirectoryDialog;
     TabSheetConfiguration: TTabSheet;
     TabSheetLicense: TTabSheet;
     TabSheetInstallation: TTabSheet;
@@ -48,12 +49,13 @@ type
     procedure CheckBoxOutputChange(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: boolean);
     procedure FormCreate(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
     procedure LabelCompleteDescClick(Sender: TObject);
     procedure PageControlChange(Sender: TObject);
     procedure TabSheetConfigurationContextPopup(Sender: TObject;
-      MousePos: TPoint; var Handled: Boolean);
+      MousePos: TPoint; var Handled: boolean);
   private
-
+    UnpackPath: string;
   public
     procedure Installation;
     procedure NextStatus(Status: string; Output: TStrings = nil);
@@ -196,7 +198,42 @@ begin
   ResourceStream.Free;
 
   MemoOutput.Hide;
-  //SetupForm.Height := CheckBoxOutput.Top + CheckBoxOutput.Height + 10;
+
+  UnpackPath := GetAppConfigDir(False);
+  if not ForceDirectories(UnpackPath) then
+  begin
+    ShowMessage('Error : directory for unpacking could not be created');
+    Halt;
+  end;
+
+  while AppDiskGetFreeSpace(UnpackPath) < 4 * 1024 * 1024 * 1024 do
+  begin
+    if MessageDlg('no free disk space for temp data! ( 4GB needed )',
+      'do you wish to select directory?', mtConfirmation, [mbYes, mbClose], 0) =
+      mrYes then
+    begin
+      if SelectDirectoryDialog.Execute then
+      begin
+        UnpackPath := IncludeTrailingPathDelimiter(
+          IncludeTrailingPathDelimiter(SelectDirectoryDialog.FileName) +
+          ApplicationName);
+        if not ForceDirectories(UnpackPath) then
+        begin
+          ShowMessage('Error : directory for unpacking could not be created');
+          Halt;
+        end;
+      end;
+    end
+    else
+    begin
+      Halt;
+    end;
+  end;
+end;
+
+procedure TSetupForm.FormDestroy(Sender: TObject);
+begin
+  DeleteDirectory(UnpackPath, False);
 end;
 
 procedure TSetupForm.LabelCompleteDescClick(Sender: TObject);
@@ -234,7 +271,7 @@ begin
 end;
 
 procedure TSetupForm.TabSheetConfigurationContextPopup(Sender: TObject;
-  MousePos: TPoint; var Handled: Boolean);
+  MousePos: TPoint; var Handled: boolean);
 begin
 
 end;
@@ -249,19 +286,11 @@ const
   defaultWhonixStarterPath = '/usr/bin/Whonix';
   {$ENDIF}
 var
-  UnpackPath: string;
   CurrentVBoxManagePath, CurrentWhonixStarterPath: string;
   Output: TStringList;
   ResourceStream: TResourceStream;
   ExeFileStream: TFileStream;
 begin
-  UnpackPath := GetAppConfigDir(False);
-  if not ForceDirectories(UnpackPath) then
-  begin
-    SetupForm.NextStatus('Error : directory for unpacking could not be created');
-    Exit;
-  end;
-
   ProgressBar.Position := 1;
   SetupForm.NextStatus('Step 1 / 9 : check if VirtualBox is already installed');
   EnsureValidExePath(CurrentVBoxManagePath, defaultVBoxManagePath);
@@ -323,7 +352,8 @@ begin
 
   Output.Free;
 
-  if RadioButtonConfigMinimal.Checked then begin
+  if RadioButtonConfigMinimal.Checked then
+  begin
     ButtonNextClick(ButtonNext);
     Exit;
   end;

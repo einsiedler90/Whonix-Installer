@@ -10,6 +10,7 @@ object SetupForm: TSetupForm
   ClientWidth = 645
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
+  OnDestroy = FormDestroy
   LCLVersion = '2.2.4.0'
   object PageControl: TPageControl
     Left = 10
@@ -318,5 +319,9 @@ object SetupForm: TSetupForm
     Align = alTop
     Proportional = True
     Stretch = True
+  end
+  object SelectDirectoryDialog: TSelectDirectoryDialog
+    Left = 8
+    Top = 8
   end
 end
