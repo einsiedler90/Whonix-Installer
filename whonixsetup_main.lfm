@@ -1,0 +1,322 @@
+object SetupForm: TSetupForm
+  Left = 317
+  Height = 605
+  Top = 140
+  Width = 645
+  BorderIcons = [biSystemMenu, biMinimize]
+  BorderStyle = bsSingle
+  Caption = 'Whonix Setup'
+  ClientHeight = 605
+  ClientWidth = 645
+  OnCloseQuery = FormCloseQuery
+  OnCreate = FormCreate
+  LCLVersion = '2.2.4.0'
+  object PageControl: TPageControl
+    Left = 10
+    Height = 384
+    Top = 176
+    Width = 625
+    ActivePage = TabSheetInstallation
+    Align = alClient
+    BorderSpacing.Around = 10
+    TabIndex = 2
+    TabOrder = 0
+    OnChange = PageControlChange
+    object TabSheetLicense: TTabSheet
+      Caption = 'License'
+      ClientHeight = 353
+      ClientWidth = 615
+      object MemoLicense: TMemo
+        Left = 15
+        Height = 194
+        Top = 106
+        Width = 585
+        Align = alClient
+        BorderSpacing.Top = 10
+        BorderSpacing.Around = 15
+        ParentFont = False
+        ReadOnly = True
+        ScrollBars = ssVertical
+        TabOrder = 0
+      end
+      object CheckBoxLicense: TCheckBox
+        Left = 15
+        Height = 23
+        Top = 315
+        Width = 585
+        Align = alBottom
+        BorderSpacing.Around = 15
+        Caption = 'Yes, I accept the license agreement'
+        OnChange = CheckBoxLicenseChange
+        TabOrder = 1
+      end
+      object LabelLicense: TLabel
+        Left = 15
+        Height = 17
+        Top = 15
+        Width = 585
+        Align = alTop
+        BorderSpacing.Around = 15
+        Caption = 'License Agreement'
+        Font.Style = [fsBold]
+        ParentColor = False
+        ParentFont = False
+      end
+      object LabelLicenseDesc: TLabel
+        Left = 15
+        Height = 34
+        Top = 47
+        Width = 585
+        Align = alTop
+        BorderSpacing.Around = 15
+        Caption = 'Please read the following License Agreement. You must accept the terms of this agreement before continuing with the installation.'
+        ParentColor = False
+        WordWrap = True
+      end
+    end
+    object TabSheetConfiguration: TTabSheet
+      Caption = 'Configuration'
+      ClientHeight = 353
+      ClientWidth = 615
+      OnContextPopup = TabSheetConfigurationContextPopup
+      object LabelConfiguration: TLabel
+        Left = 15
+        Height = 17
+        Top = 15
+        Width = 585
+        Align = alTop
+        BorderSpacing.Around = 15
+        Caption = 'Installation Settings'
+        Font.Style = [fsBold]
+        ParentColor = False
+        ParentFont = False
+      end
+      object LabelConfigurationDesc: TLabel
+        Left = 15
+        Height = 17
+        Top = 47
+        Width = 585
+        Align = alTop
+        BorderSpacing.Around = 15
+        Caption = 'Please select one of the installation types listed below.'
+        ParentColor = False
+        WordWrap = True
+      end
+      object RadioButtonConfigFull: TRadioButton
+        Left = 15
+        Height = 23
+        Top = 89
+        Width = 585
+        Align = alTop
+        BorderSpacing.Top = 10
+        BorderSpacing.Around = 15
+        Caption = 'Full Installation'
+        Checked = True
+        Font.Style = [fsBold]
+        ParentBidiMode = False
+        ParentFont = False
+        TabOrder = 1
+        TabStop = True
+      end
+      object RadioButtonConfigMinimal: TRadioButton
+        Left = 15
+        Height = 23
+        Top = 186
+        Width = 585
+        Align = alTop
+        BorderSpacing.Top = 10
+        BorderSpacing.Around = 15
+        Caption = 'Minimal Installation'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 0
+      end
+      object LabelConfigFullDesc: TLabel
+        Left = 31
+        Height = 34
+        Top = 127
+        Width = 569
+        Align = alTop
+        BorderSpacing.Left = 16
+        BorderSpacing.Around = 15
+        Caption = 'This option installs the whole Whonix bundle. That means Oracle VirtualBox, the Whonix VMs and the Whonix Starter Software will be installed.'
+        ParentColor = False
+        WordWrap = True
+      end
+      object LabelConfigMinimalDesc: TLabel
+        Left = 31
+        Height = 34
+        Top = 224
+        Width = 569
+        Align = alTop
+        BorderSpacing.Left = 16
+        BorderSpacing.Around = 15
+        Caption = 'This option installs the minimal requirements to launch Whonix on your computer. This means only VirtualBox and the Whonix VMs will be installed.'
+        ParentColor = False
+        WordWrap = True
+      end
+    end
+    object TabSheetInstallation: TTabSheet
+      Caption = 'Installation'
+      ClientHeight = 353
+      ClientWidth = 615
+      object ProgressBar: TProgressBar
+        Left = 15
+        Height = 30
+        Top = 89
+        Width = 585
+        Align = alTop
+        BorderSpacing.Top = 10
+        BorderSpacing.Around = 15
+        Max = 9
+        Smooth = True
+        TabOrder = 0
+      end
+      object MemoOutput: TMemo
+        Left = 15
+        Height = 111
+        Top = 227
+        Width = 585
+        Align = alClient
+        BorderSpacing.Around = 15
+        Color = clBlack
+        Font.Color = clWhite
+        Font.Name = 'Courier'
+        ParentFont = False
+        ReadOnly = True
+        ScrollBars = ssBoth
+        TabOrder = 1
+      end
+      object CheckBoxOutput: TCheckBox
+        Left = 15
+        Height = 23
+        Top = 189
+        Width = 585
+        Align = alTop
+        BorderSpacing.Around = 15
+        Caption = 'Show installation details'
+        OnChange = CheckBoxOutputChange
+        TabOrder = 2
+      end
+      object PanelStatus: TPanel
+        Left = 15
+        Height = 30
+        Top = 144
+        Width = 585
+        Align = alTop
+        Alignment = taLeftJustify
+        BorderSpacing.Top = 10
+        BorderSpacing.Around = 15
+        BevelOuter = bvNone
+        Caption = 'Status : waiting'
+        TabOrder = 3
+      end
+      object LabelInstallation: TLabel
+        Left = 15
+        Height = 17
+        Top = 15
+        Width = 585
+        Align = alTop
+        BorderSpacing.Around = 15
+        Caption = 'Installation Progress'
+        Font.Style = [fsBold]
+        ParentColor = False
+        ParentFont = False
+      end
+      object LabelInstallationDesc: TLabel
+        Left = 15
+        Height = 17
+        Top = 47
+        Width = 585
+        Align = alTop
+        BorderSpacing.Around = 15
+        Caption = 'Please wait while Setup installs Whonix on your computer.'
+        ParentColor = False
+        WordWrap = True
+      end
+    end
+    object TabSheetComplete: TTabSheet
+      Caption = 'Complete'
+      ClientHeight = 353
+      ClientWidth = 615
+      object LabelComplete: TLabel
+        Left = 15
+        Height = 17
+        Top = 15
+        Width = 585
+        Align = alTop
+        BorderSpacing.Around = 15
+        Caption = 'Installation Complete'
+        Font.Style = [fsBold]
+        ParentColor = False
+        ParentFont = False
+      end
+      object LabelCompleteDesc: TLabel
+        Left = 15
+        Height = 17
+        Top = 47
+        Width = 585
+        Align = alTop
+        BorderSpacing.Around = 15
+        Caption = 'This setup has completed the installation of Whonix on your computer.'
+        ParentColor = False
+        WordWrap = True
+        OnClick = LabelCompleteDescClick
+      end
+    end
+  end
+  object PanelControl: TPanel
+    Left = 10
+    Height = 25
+    Top = 570
+    Width = 625
+    Align = alBottom
+    BorderSpacing.Around = 10
+    BevelOuter = bvNone
+    ClientHeight = 25
+    ClientWidth = 625
+    TabOrder = 1
+    object ButtonBack: TButton
+      Left = 360
+      Height = 25
+      Top = 0
+      Width = 75
+      Align = alRight
+      Caption = '< Back'
+      Enabled = False
+      OnClick = ButtonBackClick
+      TabOrder = 0
+    end
+    object ButtonNext: TButton
+      Left = 435
+      Height = 25
+      Top = 0
+      Width = 75
+      Align = alRight
+      Caption = 'Next >'
+      Enabled = False
+      OnClick = ButtonNextClick
+      TabOrder = 1
+    end
+    object ButtonCancel: TButton
+      Left = 550
+      Height = 25
+      Top = 0
+      Width = 75
+      Align = alRight
+      BorderSpacing.Left = 40
+      Caption = 'Cancel'
+      OnClick = ButtonCancelClick
+      TabOrder = 2
+    end
+  end
+  object ImageBanner: TImage
+    Left = 0
+    Height = 166
+    Top = 0
+    Width = 645
+    Align = alTop
+    Proportional = True
+    Stretch = True
+  end
+end
