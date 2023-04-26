@@ -1,5 +1,10 @@
 # wixl generated files
-Whonix.msi
+WhonixStarterSetup.msi
+
+# special files
+WhonixSetup
+WhonixSetup-*
+WhonixOvaInfo.ini
 
 # Lazarus compiler-generated binaries (safe to delete)
 *.exe
