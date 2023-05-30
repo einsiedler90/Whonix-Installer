@@ -1,25 +1,37 @@
 #!/bin/bash
 
+## Copyright (C) 2023 - 2023 ENCRYPTED SUPPORT LP <adrelanos@whonix.org>
+## See the file COPYING for copying conditions.
+
+## This script will be called by:
+## dm-prepare-release
+## https://github.com/Kicksecure/developer-meta-files/blob/master/usr/bin/dm-prepare-release
+
 set -x
 set -e
+set -o pipefail
+set -o nounset
 
-VERSION="16.0.9.8"
-INSTALLER_VERSION="210" # increase for every different VERSION
-MANUFACTURE="ENCRYPTED SUPPORT LP"
-DESCRIPTION="Whonix Starter"
+## 1) Requires various environment variables:
+## See build-einsiedler.sh
 
-FILE_LICENSE="../deps/license.txt"
-#FILE_WHONIX_OVA="../deps/Whonix.ova"
-FILE_WHONIX_OVA="../deps/Whonix-XFCE-16.0.9.8.ova"
-FILE_WHONIX_EXE="../deps/Whonix.exe"
-FILE_VBOX_INST_EXE="../deps/vbox.exe"
-
-# 1) build msi package for whonix starter
+## 2) sanity tests
 
 if ! [ -x "$(command -v wixl)" ]; then
-  echo "$0: ERROR wixl is not installed." >&2
+  echo "$0: ERROR: wixl is not installed." >&2
   exit 1
 fi
+
+if ! [ -x "$(command -v lazbuild)" ]; then
+  echo "$0: ERROR: lazbuild is not installed." >&2
+  exit 1
+fi
+
+for fso in "$FILE_LICENSE" "$FILE_WHONIX_OVA" "$FILE_WHONIX_EXE" "$FILE_VBOX_INST_EXE" ; do
+  test -r "$fso"
+done
+
+## 3) build msi package for whonix starter
 
 rm -f ./Whonix.msi
 
@@ -35,22 +47,31 @@ wixl \
   --output WhonixStarterSetup.msi \
   WhonixStarterSetup.wxs
 
-# 2) set current whonix OVA size in INI file for main setup executable
+## 4) set current whonix OVA size in INI file for main setup executable
 
 FILE_WHONIX_OVA_SIZE=$(stat -c%s "$FILE_WHONIX_OVA")
-printf "[general]\nsize=$FILE_WHONIX_OVA_SIZE" > WhonixOvaInfo.ini
 
-# 3) update resource files
+echo "\
+[general]
+size=$FILE_WHONIX_OVA_SIZE
+" | tee "WhonixOvaInfo.ini" >/dev/null
 
-cp $FILE_LICENSE LICENSE
-cp $FILE_VBOX_INST_EXE VBoxSetup.exe
+## Debugging.
+cat "WhonixOvaInfo.ini"
 
-# 3) build executable for whonix setup
+## 5) update resource files
+
+## TODO: use paths set through environment variables /
+##       abolish need to copy/duplicate again here
+cp "$FILE_LICENSE" LICENSE
+cp "$FILE_VBOX_INST_EXE" VBoxSetup.exe
+
+## 6) build executable WhonixSetup.exe
 
 lazbuild -B WhonixSetup.lpr --cpu=x86_64 --os=win64 --compiler=/usr/bin/ppcrossx64
 
-# 4) append whonix OVA to setup executable
+## 7) append Whonix OVA to WhonixSetup.exe
 
-cat WhonixSetup.exe $FILE_WHONIX_OVA > WhonixSetup-XFCE-$VERSION.exe
+cat WhonixSetup.exe "$FILE_WHONIX_OVA" | tee "$FILE_INSTALLER_BINARY_WITH_APPENDED_OVA" >/dev/null
 
 exit 0

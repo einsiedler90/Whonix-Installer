@@ -22,4 +22,3 @@ begin
   Application.CreateForm(TSetupForm, SetupForm);
   Application.Run;
 end.
-
