@@ -37,7 +37,7 @@ for fso in "$FILE_LICENSE" "$FILE_WHONIX_OVA" "$FILE_WHONIX_EXE" "$FILE_VBOX_INS
 done
 
 rm --force "$FILE_WHONIX_EXE"
-wget https://github.com/Whonix/Whonix-Starter-Binary/raw/master/Whonix.exe -o "$FILE_WHONIX_EXE"
+wget -O "$FILE_WHONIX_EXE" "https://github.com/Whonix/Whonix-Starter-Binary/raw/master/Whonix.exe"
 
 ## Debugging.
 realpath /home/user/windows-installer-dummy-temp-delete-me/*
