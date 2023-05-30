@@ -6,10 +6,15 @@
 ## Developer script to allow easily only building the Windows-Installer.
 ## (Without building all of Whonix.)
 
+## /home/user is hardcoded, because wixl breaks with path '/github/[...]'.
+## Couldn't find file /github/home/windows-installer-dummy-temp-delete-me/Whonix.exe
+
 set -x
 set -e
 set -o pipefail
 set -o nounset
+
+whoami
 
 export VERSION="16.0.4.2"
 export INSTALLER_VERSION="210"
@@ -30,6 +35,9 @@ for fso in "$FILE_LICENSE" "$FILE_WHONIX_OVA" "$FILE_WHONIX_EXE" "$FILE_VBOX_INS
   touch "$fso"
   test -r "$fso"
 done
+
+rm --force "$FILE_WHONIX_EXE"
+wget https://github.com/Whonix/Whonix-Starter-Binary/raw/master/Whonix.exe -o "$FILE_WHONIX_EXE"
 
 ## Debugging.
 realpath /home/user/windows-installer-dummy-temp-delete-me/*
