@@ -42,8 +42,8 @@ printf "[general]\nsize=$FILE_WHONIX_OVA_SIZE" > WhonixOvaInfo.ini
 
 # 3) update resource files
 
-cp $FILE_LICENSE LICENSE
-cp $FILE_VBOX_INST_EXE VBoxSetup.exe
+cp "$FILE_LICENSE" LICENSE
+cp "$FILE_VBOX_INST_EXE" VBoxSetup.exe
 
 # 3) build executable for whonix setup
 
@@ -51,6 +51,6 @@ lazbuild -B WhonixSetup.lpr --cpu=x86_64 --os=win64 --compiler=/usr/bin/ppcrossx
 
 # 4) append whonix OVA to setup executable
 
-cat WhonixSetup.exe $FILE_WHONIX_OVA > WhonixSetup-XFCE-$VERSION.exe
+cat WhonixSetup.exe "$FILE_WHONIX_OVA" > "WhonixSetup-XFCE-$VERSION.exe"
 
 exit 0
