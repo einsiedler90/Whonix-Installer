@@ -49,7 +49,7 @@ jobs:
         steps:
             - uses: actions/checkout@v3
             - name: System Basic Packages
-              run: apt-get update && apt-get install --yes --no-install-recommends shellcheck sudo adduser wixl fpc lazarus git
+              run: apt-get update && apt-get install --yes --no-install-recommends shellcheck sudo adduser wget wixl fpc lazarus git
             - name: System information
               run: cat /etc/os-release; uname -a; echo "${PATH}"; cat /etc/sudoers; ls /etc/sudoers.d;
             - name: Normal user with sudo privileges
