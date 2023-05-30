@@ -38,7 +38,7 @@ wixl \
 # 2) set current whonix OVA size in INI file for main setup executable
 
 FILE_WHONIX_OVA_SIZE=$(stat -c%s "$FILE_WHONIX_OVA")
-printf "[general]\nsize=$FILE_WHONIX_OVA_SIZE" > WhonixOvaInfo.ini
+printf "[general]\nsize=$FILE_WHONIX_OVA_SIZE" | tee "WhonixOvaInfo.ini" >/dev/null
 
 # 3) update resource files
 
@@ -51,6 +51,6 @@ lazbuild -B WhonixSetup.lpr --cpu=x86_64 --os=win64 --compiler=/usr/bin/ppcrossx
 
 # 4) append whonix OVA to setup executable
 
-cat WhonixSetup.exe "$FILE_WHONIX_OVA" > "WhonixSetup-XFCE-$VERSION.exe"
+cat WhonixSetup.exe "$FILE_WHONIX_OVA" | tee "WhonixSetup-XFCE-$VERSION.exe" >/dev/null
 
 exit 0
