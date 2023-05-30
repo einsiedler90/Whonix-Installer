@@ -8,6 +8,8 @@
 
 ## /home/user is hardcoded, because wixl breaks with path '/github/[...]'.
 ## Couldn't find file /github/home/windows-installer-dummy-temp-delete-me/Whonix.exe
+## Might be wrong. Could be different issue.
+## ~/windows-installer-dummy-temp-delete-me might work fine.
 
 set -x
 set -e
