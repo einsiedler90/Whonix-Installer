@@ -2,6 +2,8 @@
 
 set -x
 set -e
+set -o pipefail
+set -o nounset
 
 VERSION="16.0.9.8"
 INSTALLER_VERSION="210" # increase for every different VERSION
