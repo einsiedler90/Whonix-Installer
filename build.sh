@@ -47,11 +47,11 @@ printf "[general]\nsize=$FILE_WHONIX_OVA_SIZE" | tee "WhonixOvaInfo.ini" >/dev/n
 cp "$FILE_LICENSE" LICENSE
 cp "$FILE_VBOX_INST_EXE" VBoxSetup.exe
 
-# 3) build executable for whonix setup
+# 3) build executable WhonixSetup.exe
 
 lazbuild -B WhonixSetup.lpr --cpu=x86_64 --os=win64 --compiler=/usr/bin/ppcrossx64
 
-# 4) append whonix OVA to setup executable
+# 4) append Whonix OVA to WhonixSetup.exe
 
 cat WhonixSetup.exe "$FILE_WHONIX_OVA" | tee "WhonixSetup-XFCE-$VERSION.exe" >/dev/null
 
