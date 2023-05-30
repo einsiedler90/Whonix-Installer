@@ -6,7 +6,7 @@ set -e
 VERSION="16.0.9.8"
 INSTALLER_VERSION="210" # increase for every different VERSION
 MANUFACTURE="ENCRYPTED SUPPORT LP"
-DESCRIPTION="Whonix Starter"
+DESCRIPTION="Whonix-Starter"
 
 FILE_LICENSE="../deps/license.txt"
 #FILE_WHONIX_OVA="../deps/Whonix.ova"
