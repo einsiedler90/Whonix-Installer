@@ -54,9 +54,12 @@ jobs:
               run: cat /etc/os-release; uname -a; echo "${PATH}"; cat /etc/sudoers; ls /etc/sudoers.d;
             - name: Normal user with sudo privileges
               run: |
+                  whoami
                   adduser --gecos "" --disabled-password user
                   usermod -aG sudo user
                   echo "%sudo ALL=(ALL) NOPASSWD: ALL" | tee /etc/sudoers.d/user
+                  mkdir --parents /home/user
+                  chown --recursive user:user /home/user
             - name: Run Installer
               run: ./build-dummy.sh
             - name: Run Installer ShellCheck

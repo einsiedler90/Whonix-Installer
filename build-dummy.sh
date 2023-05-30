@@ -16,15 +16,15 @@ export INSTALLER_VERSION="210"
 export MANUFACTURE="ENCRYPTED SUPPORT LP"
 export DESCRIPTION="Whonix-Starter"
 
-export FILE_LICENSE=~/windows-installer-dummy-temp-delete-me/license.txt
-export FILE_WHONIX_OVA=~/windows-installer-dummy-temp-delete-me/Whonix-XFCE-16.0.9.8.ova
-export FILE_WHONIX_EXE=~/windows-installer-dummy-temp-delete-me/Whonix.exe
-export FILE_VBOX_INST_EXE=~/windows-installer-dummy-temp-delete-me/vbox.exe
-export FILE_INSTALLER_BINARY_WITH_APPENDED_OVA=~/windows-installer-dummy-temp-delete-me/WhonixSetup-XFCE.exe
+export FILE_LICENSE=/home/user/windows-installer-dummy-temp-delete-me/license.txt
+export FILE_WHONIX_OVA=/home/user/windows-installer-dummy-temp-delete-me/Whonix-XFCE-16.0.9.8.ova
+export FILE_WHONIX_EXE=/home/user/windows-installer-dummy-temp-delete-me/Whonix.exe
+export FILE_VBOX_INST_EXE=/home/user/windows-installer-dummy-temp-delete-me/vbox.exe
+export FILE_INSTALLER_BINARY_WITH_APPENDED_OVA=/home/user/windows-installer-dummy-temp-delete-me/WhonixSetup-XFCE.exe
 
-rm --recursive --force ~/windows-installer-dummy-temp-delete-me
+rm --recursive --force /home/user/windows-installer-dummy-temp-delete-me
 
-mkdir --parents ~/windows-installer-dummy-temp-delete-me
+mkdir --parents /home/user/windows-installer-dummy-temp-delete-me
 
 for fso in "$FILE_LICENSE" "$FILE_WHONIX_OVA" "$FILE_WHONIX_EXE" "$FILE_VBOX_INST_EXE" ; do
   touch "$fso"
@@ -32,7 +32,7 @@ for fso in "$FILE_LICENSE" "$FILE_WHONIX_OVA" "$FILE_WHONIX_EXE" "$FILE_VBOX_INS
 done
 
 ## Debugging.
-realpath ~/windows-installer-dummy-temp-delete-me/*
+realpath /home/user/windows-installer-dummy-temp-delete-me/*
 
 ./build.sh
 
