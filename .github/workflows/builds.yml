@@ -63,10 +63,7 @@ jobs:
                   mkdir --parents /home/user
                   chown --recursive user:user /home/user
             - name: ppcross_install
-              run: |
-                  wget https://raw.githubusercontent.com/Whonix/misc/main/ppcross_install
-                  chmod +x ./ppcross_install
-                  ./ppcross_install all
+              run: ./ppcross_install all
             - name: Run Installer
               run: su -s /bin/bash user -- ./build-dummy.sh
             - name: Run Installer ShellCheck
