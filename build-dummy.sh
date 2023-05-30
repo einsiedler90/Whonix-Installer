@@ -41,6 +41,9 @@ wget -O "$FILE_WHONIX_EXE" "https://github.com/Whonix/Whonix-Starter-Binary/raw/
 
 ## Debugging.
 realpath /home/user/windows-installer-dummy-temp-delete-me/*
+ls -la "$FILE_WHONIX_EXE"
+test -r "$FILE_WHONIX_EXE"
+tail -n 3 "$FILE_WHONIX_EXE"
 
 ./build.sh
 
