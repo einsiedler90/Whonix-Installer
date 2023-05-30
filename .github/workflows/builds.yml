@@ -54,6 +54,7 @@ jobs:
               run: cat /etc/os-release; uname -a; echo "${PATH}"; cat /etc/sudoers; ls /etc/sudoers.d;
             - name: Normal user with sudo privileges
               run: |
+                  apt-get install --yes --no-install-recommends adduser
                   adduser --gecos "" --disabled-password user
                   usermod -aG sudo user
                   echo "%sudo ALL=(ALL) NOPASSWD: ALL" | tee /etc/sudoers.d/user
