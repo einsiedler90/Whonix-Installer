@@ -19,7 +19,7 @@
       Description="$(var.whonixDescription)"
       Comments='Copyright (c) by $(var.whonixManufacturer)'
       Manufacturer='$(var.whonixManufacturer)'
-      InstallerVersion='$(var.whonixInstallerVersion)'
+      InstallerVersion='200'
       Languages='1033'
       Compressed='yes'
       SummaryCodepage='1252' />

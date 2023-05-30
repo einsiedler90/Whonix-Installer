@@ -19,7 +19,6 @@ set -o nounset
 whoami
 
 export VERSION="16.0.4.2"
-export INSTALLER_VERSION="210"
 export MANUFACTURE="ENCRYPTED SUPPORT LP"
 export DESCRIPTION="Whonix-Starter"
 

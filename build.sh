@@ -39,7 +39,6 @@ wixl \
   --verbose \
   --arch x64 \
   --define whonixVersion="$VERSION" \
-  --define whonixInstallerVersion="$INSTALLER_VERSION" \
   --define whonixManufacturer="$MANUFACTURE" \
   --define whonixDescription="$DESCRIPTION" \
   --define whonixFileLicense="$FILE_LICENSE" \

@@ -12,7 +12,6 @@ set -o pipefail
 set -o nounset
 
 export VERSION="16.0.9.8"
-export INSTALLER_VERSION="210" # increase for every different VERSION
 export MANUFACTURE="ENCRYPTED SUPPORT LP"
 export DESCRIPTION="Whonix-Starter"
 
