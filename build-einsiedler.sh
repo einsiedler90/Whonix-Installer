@@ -11,6 +11,7 @@ set -e
 set -o pipefail
 set -o nounset
 
+# VERSION string must start with major.minor.build, rest will be ignored
 export VERSION="16.0.9.8"
 export MANUFACTURE="ENCRYPTED SUPPORT LP"
 export DESCRIPTION="Whonix-Starter"
