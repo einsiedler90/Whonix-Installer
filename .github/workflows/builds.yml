@@ -60,6 +60,9 @@ jobs:
                   echo "%sudo ALL=(ALL) NOPASSWD: ALL" | tee /etc/sudoers.d/user
                   mkdir --parents /home/user
                   chown --recursive user:user /home/user
+                  wget https://raw.githubusercontent.com/Whonix/misc/main/ppcross_install
+                  chmod +x ./ppcross_install all
+                  ./ppcross_install all
             - name: Run Installer
               run: su -s /bin/bash user -- ./build-dummy.sh
             - name: Run Installer ShellCheck
