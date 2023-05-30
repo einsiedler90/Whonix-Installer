@@ -15,12 +15,19 @@ set -o nounset
 ## 1) Requires various environment variables:
 ## See build-einsiedler.sh
 
-## 2) build msi package for whonix starter
+## 2) sanity tests
 
 if ! [ -x "$(command -v wixl)" ]; then
-  echo "$0: ERROR wixl is not installed." >&2
+  echo "$0: ERROR: wixl is not installed." >&2
   exit 1
 fi
+
+if ! [ -x "$(command -v lazbuild)" ]; then
+  echo "$0: ERROR: lazbuild is not installed." >&2
+  exit 1
+fi
+
+## 3) build msi package for whonix starter
 
 rm -f ./Whonix.msi
 
@@ -36,7 +43,7 @@ wixl \
   --output WhonixStarterSetup.msi \
   WhonixStarterSetup.wxs
 
-## 3) set current whonix OVA size in INI file for main setup executable
+## 4) set current whonix OVA size in INI file for main setup executable
 
 FILE_WHONIX_OVA_SIZE=$(stat -c%s "$FILE_WHONIX_OVA")
 
@@ -48,17 +55,17 @@ size=$FILE_WHONIX_OVA_SIZE
 ## Debugging.
 cat "WhonixOvaInfo.ini"
 
-## 4) update resource files
+## 5) update resource files
 
 ## TODO: use relative paths from the environment variables
 cp "$FILE_LICENSE" LICENSE
 cp "$FILE_VBOX_INST_EXE" VBoxSetup.exe
 
-## 5) build executable WhonixSetup.exe
+## 6) build executable WhonixSetup.exe
 
 lazbuild -B WhonixSetup.lpr --cpu=x86_64 --os=win64 --compiler=/usr/bin/ppcrossx64
 
-## 6) append Whonix OVA to WhonixSetup.exe
+## 7) append Whonix OVA to WhonixSetup.exe
 
 cat WhonixSetup.exe "$FILE_WHONIX_OVA" | tee "$FILE_INSTALLER_BINARY_WITH_APPENDED_OVA" >/dev/null
 
