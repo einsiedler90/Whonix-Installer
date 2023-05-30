@@ -7,7 +7,7 @@
     Codepage='1252'
     Version='$(var.whonixVersion)'
     Manufacturer='$(var.whonixManufacturer)'>
-    
+
     <Upgrade Id='4845FCB7-255A-4979-A287-275D43D0B1A1'>
       <UpgradeVersion OnlyDetect='no' Property='PREVIOUSFOUND'
         Minimum='0.0.1' IncludeMinimum='yes'
@@ -66,7 +66,7 @@
         <ComponentRef Id='MainComponent' />
       </Feature>
     </Feature>
-    
+
     <InstallExecuteSequence>
       <RemoveExistingProducts Before="InstallInitialize" />
     </InstallExecuteSequence>
