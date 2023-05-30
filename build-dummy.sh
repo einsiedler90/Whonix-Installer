@@ -25,7 +25,11 @@ export FILE_INSTALLER_BINARY_WITH_APPENDED_OVA=~/windows-installer-dummy-temp-de
 rm --recursive --force ~/windows-installer-dummy-temp-delete-me
 
 mkdir --parents ~/windows-installer-dummy-temp-delete-me
-touch "$FILE_LICENSE" "$FILE_WHONIX_OVA" "$FILE_WHONIX_EXE" "$FILE_VBOX_INST_EXE"
+
+for fso in "$FILE_LICENSE" "$FILE_WHONIX_OVA" "$FILE_WHONIX_EXE" "$FILE_VBOX_INST_EXE" ; do
+   touch "$fso"
+   test -r "$fso"
+done
 
 ## Debugging.
 realpath ~/windows-installer-dummy-temp-delete-me/*
