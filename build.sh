@@ -41,6 +41,8 @@ wixl \
 
 FILE_WHONIX_OVA_SIZE=$(stat -c%s "$FILE_WHONIX_OVA")
 printf "[general]\nsize=$FILE_WHONIX_OVA_SIZE" | tee "WhonixOvaInfo.ini" >/dev/null
+## Debugging.
+cat "WhonixOvaInfo.ini"
 
 # 3) update resource files
 
