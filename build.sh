@@ -27,6 +27,10 @@ if ! [ -x "$(command -v lazbuild)" ]; then
   exit 1
 fi
 
+for fso in "$FILE_LICENSE" "$FILE_WHONIX_OVA" "$FILE_WHONIX_EXE" "$FILE_VBOX_INST_EXE" ; do
+   test -r "$fso"
+done
+
 ## 3) build msi package for whonix starter
 
 rm -f ./Whonix.msi
