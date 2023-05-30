@@ -27,6 +27,9 @@ rm --recursive --force ~/windows-installer-dummy-temp-delete-me
 mkdir --parents ~/windows-installer-dummy-temp-delete-me
 touch "$FILE_LICENSE" "$FILE_WHONIX_OVA" "$FILE_WHONIX_EXE" "$FILE_VBOX_INST_EXE"
 
+## Debugging.
+realpath ~/windows-installer-dummy-temp-delete-me/*
+
 ./build.sh
 
 exit 0
