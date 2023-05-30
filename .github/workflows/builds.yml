@@ -61,7 +61,7 @@ jobs:
                   mkdir --parents /home/user
                   chown --recursive user:user /home/user
             - name: Run Installer
-              run: ./build-dummy.sh
+              run: su -s /bin/bash user -- ./build-dummy.sh
             - name: Run Installer ShellCheck
               run: shellcheck ./*.sh
 
