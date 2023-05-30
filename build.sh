@@ -39,7 +39,12 @@ wixl \
 ## 3) set current whonix OVA size in INI file for main setup executable
 
 FILE_WHONIX_OVA_SIZE=$(stat -c%s "$FILE_WHONIX_OVA")
-printf "[general]\nsize=$FILE_WHONIX_OVA_SIZE" | tee "WhonixOvaInfo.ini" >/dev/null
+
+echo "\
+[general]
+size=$FILE_WHONIX_OVA_SIZE
+" | tee "WhonixOvaInfo.ini" >/dev/null
+
 ## Debugging.
 cat "WhonixOvaInfo.ini"
 
