@@ -27,8 +27,8 @@ rm --recursive --force ~/windows-installer-dummy-temp-delete-me
 mkdir --parents ~/windows-installer-dummy-temp-delete-me
 
 for fso in "$FILE_LICENSE" "$FILE_WHONIX_OVA" "$FILE_WHONIX_EXE" "$FILE_VBOX_INST_EXE" ; do
-   touch "$fso"
-   test -r "$fso"
+  touch "$fso"
+  test -r "$fso"
 done
 
 ## Debugging.
