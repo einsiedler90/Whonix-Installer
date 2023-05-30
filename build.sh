@@ -57,7 +57,8 @@ cat "WhonixOvaInfo.ini"
 
 ## 5) update resource files
 
-## TODO: use relative paths from the environment variables
+## TODO: use paths set through environment variables /
+##       abolish need to copy/duplicate again here
 cp "$FILE_LICENSE" LICENSE
 cp "$FILE_VBOX_INST_EXE" VBoxSetup.exe
 
