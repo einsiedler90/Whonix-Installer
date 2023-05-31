@@ -33,6 +33,7 @@ jobs:
               run: |
                   mkdir --parents /home/user
                   chown --recursive user:user /home/user
+                  chown --recursive user:user /__w/Whonix-Installer
             #- name: ppcross_install
               #run: ./ppcross_install all
             - name: Run Installer
