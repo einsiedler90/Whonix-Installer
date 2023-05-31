@@ -25,7 +25,7 @@ jobs:
             - name: System Basic Packages
               run: |
                   apt-get update
-                  apt-get install --yes --no-install-recommends adduser shellcheck fpc lazarus git
+                  apt-get install --yes --no-install-recommends adduser shellcheck fpc lazarus git ca-certificates
             - name: System information
               run: |
                   whoami
