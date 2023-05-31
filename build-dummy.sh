@@ -25,7 +25,7 @@ export DESCRIPTION="Whonix-Starter"
 
 export FILE_LICENSE=/home/user/windows-installer-dummy-temp-delete-me/license.txt
 export FILE_WHONIX_OVA=/home/user/windows-installer-dummy-temp-delete-me/Whonix-XFCE-16.0.9.8.ova
-export FILE_WHONIX_STARTER_MSI=WhonixStarterSetup.msi-dummy # only for test / replace with real path later
+export FILE_WHONIX_STARTER_MSI=./WhonixStarterSetup.msi-dummy # only for test / replace with real path later
 export FILE_VBOX_INST_EXE=/home/user/windows-installer-dummy-temp-delete-me/vbox.exe
 export FILE_INSTALLER_BINARY_WITH_APPENDED_OVA=/home/user/windows-installer-dummy-temp-delete-me/WhonixSetup-XFCE.exe
 
