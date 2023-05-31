@@ -19,26 +19,22 @@ jobs:
             - name: System Basic Packages
               run: |
                   apt-get update
-                  apt-get install --yes --no-install-recommends adduser shellcheck sudo wget ca-certificates wixl fpc lazarus git
+                  apt-get install --yes --no-install-recommends adduser shellcheck fpc lazarus git
             - name: System information
               run: |
+                  whoami
                   cat /etc/os-release
                   uname -a
                   echo "${PATH}"
-            - name: Normal user with sudo privileges
-              run: |
-                  whoami
-                  adduser --gecos "" --disabled-password user
-            - name: User home folder
-              run: |
-                  mkdir --parents /home/user
-                  chown --recursive user:user /home/user
-                  chown --recursive user:user /__w/Whonix-Installer
+            - name: Create regular (non-root) user
+              run: adduser --gecos "" --disabled-password user
+            - name: Linux user file permissions fix
+              run: chown --recursive user:user /__w/Whonix-Installer
             - name: ppcross_install
               run: ./ppcross_install all
-            - name: Run Installer
+            - name: Build Installer
               run: su -s /bin/bash user -- ./build-dummy.sh
-            - name: Run Installer ShellCheck
+            - name: ShellCheck
               run: shellcheck ./*.sh
 
 # vim: sw=4
