@@ -17,12 +17,14 @@ jobs:
         steps:
             - name: Checkout main repository
               uses: actions/checkout@v3
+            - name: Test1
+              run: ls -la
             - name: Checkout developer-meta-files
               uses: actions/checkout@v3
               with:
                   repository: Kicksecure/developer-meta-files
-            - name: Test
-              run: ls -la ../developer-meta-files
+            - name: Test2
+              run: ls -la
             #- name: System Basic Packages
               #run: |
                   #apt-get update
