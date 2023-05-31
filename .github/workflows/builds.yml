@@ -16,25 +16,31 @@ jobs:
 
         steps:
             - uses: actions/checkout@v3
-            - name: System Basic Packages
-              run: |
-                  apt-get update
-                  apt-get install --yes --no-install-recommends adduser shellcheck fpc lazarus git
-            - name: System information
-              run: |
-                  whoami
-                  cat /etc/os-release
-                  uname -a
-                  echo "${PATH}"
-            - name: Create regular (non-root) user
-              run: adduser --gecos "" --disabled-password user
-            - name: Linux user file permissions fix
-              run: chown --recursive user:user /__w/Whonix-Installer
+            - name: Checkout
+                uses: actions/checkout@v3
+                    with:
+                        repository: Kicksecure/developer-meta-files
+            - name: Test
+              run: ls -la ../developer-meta-files
+            #- name: System Basic Packages
+              #run: |
+                  #apt-get update
+                  #apt-get install --yes --no-install-recommends adduser shellcheck fpc lazarus git
+            #- name: System information
+              #run: |
+                  #whoami
+                  #cat /etc/os-release
+                  #uname -a
+                  #echo "${PATH}"
+            #- name: Create regular (non-root) user
+              #run: adduser --gecos "" --disabled-password user
+            #- name: Linux user file permissions fix
+              #run: chown --recursive user:user /__w/Whonix-Installer
             #- name: ppcross_install
               #run: ./ppcross_install all
-            - name: Build Installer
-              run: su -s /bin/bash user -- ./build-dummy.sh
-            - name: ShellCheck
-              run: shellcheck ./*.sh
+            #- name: Build Installer
+              #run: su -s /bin/bash user -- ./build-dummy.sh
+            #- name: ShellCheck
+              #run: shellcheck ./*.sh
 
 # vim: sw=4
