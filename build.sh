@@ -37,10 +37,10 @@ FILE_WHONIX_OVA_SIZE=$(stat -c%s "$FILE_WHONIX_OVA")
 echo "\
 [general]
 size=$FILE_WHONIX_OVA_SIZE
-" | tee "WhonixOvaInfo.ini" >/dev/null
+" | tee "./WhonixOvaInfo.ini" >/dev/null
 
 ## Debugging.
-cat "WhonixOvaInfo.ini"
+cat "./WhonixOvaInfo.ini"
 
 ## 4) update resource files
 

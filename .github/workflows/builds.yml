@@ -29,10 +29,10 @@ jobs:
               run: |
                   whoami
                   adduser --gecos "" --disabled-password user
-            #- name: User home folder
-              #run: |
-                  #mkdir --parents /home/user
-                  #chown --recursive user:user /home/user
+            - name: User home folder
+              run: |
+                  mkdir --parents /home/user
+                  chown --recursive user:user /home/user
             #- name: ppcross_install
               #run: ./ppcross_install all
             - name: Run Installer
