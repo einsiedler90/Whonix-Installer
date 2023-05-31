@@ -1,12 +1,5 @@
 name: docker build
-# on: [push]
-on:
-    push:
-        paths:
-            - 'build-dummy.sh'
-            - 'build-einsiedler.sh'
-            - 'build.sh'
-            - '.github/workflows/builds.yml'
+on: push
 
 jobs:
     changes:
@@ -49,21 +42,26 @@ jobs:
         steps:
             - uses: actions/checkout@v3
             - name: System Basic Packages
-              run: apt-get update && apt-get install --yes --no-install-recommends shellcheck sudo adduser wget ca-certificates wixl fpc lazarus git
+              run: |
+                  apt-get update
+                  apt-get install --yes --no-install-recommends adduser ## shellcheck sudo wget ca-certificates wixl fpc lazarus git
             - name: System information
-              run: cat /etc/os-release; uname -a; echo "${PATH}"; cat /etc/sudoers; ls /etc/sudoers.d;
+              run: |
+                  cat /etc/os-release
+                  uname -a
+                  echo "${PATH}"
             - name: Normal user with sudo privileges
               run: |
                   whoami
                   adduser --gecos "" --disabled-password user
                   usermod -aG sudo user
                   echo "%sudo ALL=(ALL) NOPASSWD: ALL" | tee /etc/sudoers.d/user
-            - name: User home folder
-              run: |
-                  mkdir --parents /home/user
-                  chown --recursive user:user /home/user
-            - name: ppcross_install
-              run: ./ppcross_install all
+            #- name: User home folder
+              #run: |
+                  #mkdir --parents /home/user
+                  #chown --recursive user:user /home/user
+            #- name: ppcross_install
+              #run: ./ppcross_install all
             - name: Run Installer
               run: su -s /bin/bash user -- ./build-dummy.sh
             - name: Run Installer ShellCheck

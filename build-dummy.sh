@@ -49,6 +49,7 @@ realpath /home/user/windows-installer-dummy-temp-delete-me/*
 ls -la "$FILE_WHONIX_STARTER_MSI"
 test -r "$FILE_WHONIX_STARTER_MSI"
 #tail -n 3 "$FILE_WHONIX_STARTER_MSI"
+pwd
 
 ./build.sh
 

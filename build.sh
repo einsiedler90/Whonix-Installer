@@ -17,10 +17,14 @@ set -o nounset
 
 ## 2) sanity tests
 
-if ! [ -x "$(command -v lazbuild)" ]; then
-  echo "$0: ERROR: lazbuild is not installed." >&2
-  exit 1
-fi
+## TODO: re-enable
+# if ! [ -x "$(command -v lazbuild)" ]; then
+#   echo "$0: ERROR: lazbuild is not installed." >&2
+#   exit 1
+# fi
+
+## Debugging.
+pwd
 
 for fso in "$FILE_LICENSE" "$FILE_WHONIX_OVA" "$FILE_WHONIX_STARTER_MSI" "$FILE_VBOX_INST_EXE" ; do
   test -r "$fso"
@@ -40,8 +44,6 @@ cat "WhonixOvaInfo.ini"
 
 ## 4) update resource files
 
-## TODO: use paths set through environment variables /
-##       abolish need to copy/duplicate again here
 cp "$FILE_LICENSE" LICENSE
 cp "$FILE_VBOX_INST_EXE" VBoxSetup.exe
 cp "$FILE_WHONIX_STARTER_MSI" WhonixStarterSetup.msi
