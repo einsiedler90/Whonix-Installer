@@ -15,11 +15,12 @@ jobs:
             image: ${{ matrix.image }}
 
         steps:
-            - uses: actions/checkout@v3
-            - name: Checkout
-                uses: actions/checkout@v3
-                    with:
-                        repository: Kicksecure/developer-meta-files
+            - name: Checkout main repository
+              uses: actions/checkout@v3
+            - name: Checkout developer-meta-files
+              uses: actions/checkout@v3
+              with:
+                  repository: Kicksecure/developer-meta-files
             - name: Test
               run: ls -la ../developer-meta-files
             #- name: System Basic Packages
