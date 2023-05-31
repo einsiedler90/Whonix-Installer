@@ -17,19 +17,11 @@ jobs:
         steps:
             - name: Checkout main repository
               uses: actions/checkout@v3
-            - name: Test1
-              run: ls -la
             - name: Checkout developer-meta-files
               uses: actions/checkout@v3
               with:
                   repository: Kicksecure/developer-meta-files
                   path: developer-meta-files
-            - name: Test2
-              run: ls -la
-            - name: Test3
-              run: ls -la ../
-            - name: Test5
-              run: ls -la ./developer-meta-files/
             #- name: System Basic Packages
               #run: |
                   #apt-get update
@@ -45,7 +37,7 @@ jobs:
             #- name: Linux user file permissions fix
               #run: chown --recursive user:user /__w/Whonix-Installer
             #- name: ppcross_install
-              #run: ./ppcross_install all
+              #run: ./developer-meta-files/usr/bin/ppcross_install all
             #- name: Build Installer
               #run: su -s /bin/bash user -- ./build-dummy.sh
             #- name: ShellCheck
