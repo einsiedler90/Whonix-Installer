@@ -28,8 +28,6 @@ jobs:
               run: ls -la
             - name: Test3
               run: ls -la ../
-            - name: Test4
-              run: ls -la ../developer-meta-files
             - name: Test5
               run: ls -la ./developer-meta-files/
             #- name: System Basic Packages
