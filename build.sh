@@ -34,6 +34,10 @@ done
 
 FILE_WHONIX_OVA_SIZE=$(stat -c%s "$FILE_WHONIX_OVA")
 
+## Debugging.
+realpath "./WhonixOvaInfo.ini"
+ls -la
+
 echo "\
 [general]
 size=$FILE_WHONIX_OVA_SIZE
