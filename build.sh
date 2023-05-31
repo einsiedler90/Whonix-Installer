@@ -17,11 +17,12 @@ set -o nounset
 
 ## 2) sanity tests
 
-## TODO: re-enable
-# if ! [ -x "$(command -v lazbuild)" ]; then
-#   echo "$0: ERROR: lazbuild is not installed." >&2
-#   exit 1
-# fi
+true "$0: START"
+
+if ! [ -x "$(command -v lazbuild)" ]; then
+  echo "$0: ERROR: lazbuild is not installed." >&2
+  exit 1
+fi
 
 ## Debugging.
 pwd
@@ -34,30 +35,31 @@ done
 
 FILE_WHONIX_OVA_SIZE=$(stat -c%s "$FILE_WHONIX_OVA")
 
-## Debugging.
-realpath "./WhonixOvaInfo.ini"
-ls -la
-
 echo "\
 [general]
 size=$FILE_WHONIX_OVA_SIZE
-" | tee "./WhonixOvaInfo.ini" >/dev/null
+" | tee "WhonixOvaInfo.ini" >/dev/null
 
 ## Debugging.
-cat "./WhonixOvaInfo.ini"
+cat "WhonixOvaInfo.ini"
 
 ## 4) update resource files
 
-cp "$FILE_LICENSE" LICENSE
-cp "$FILE_VBOX_INST_EXE" VBoxSetup.exe
-cp "$FILE_WHONIX_STARTER_MSI" WhonixStarterSetup.msi
+cp "$FILE_LICENSE" "LICENSE"
+cp "$FILE_VBOX_INST_EXE" "VBoxSetup.exe"
+cp "$FILE_WHONIX_STARTER_MSI" "WhonixStarterSetup.msi"
 
 ## 5) build executable WhonixSetup.exe
 
-lazbuild -B WhonixSetup.lpr --cpu=x86_64 --os=win64 --compiler=/usr/bin/ppcrossx64
+lazbuild -B "WhonixSetup.lpr" --cpu=x86_64 --os=win64 --compiler=/usr/bin/ppcrossx64
 
 ## 6) append Whonix OVA to WhonixSetup.exe
 
-cat WhonixSetup.exe "$FILE_WHONIX_OVA" | tee "$FILE_INSTALLER_BINARY_WITH_APPENDED_OVA" >/dev/null
+cat "WhonixSetup.exe" "$FILE_WHONIX_OVA" | tee "$FILE_INSTALLER_BINARY_WITH_APPENDED_OVA" >/dev/null
+
+## Debugging.
+du -sh "$FILE_INSTALLER_BINARY_WITH_APPENDED_OVA"
+
+true "$0: SUCCESS"
 
 exit 0

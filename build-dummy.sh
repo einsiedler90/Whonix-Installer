@@ -6,17 +6,10 @@
 ## Developer script to allow easily only building the Windows-Installer.
 ## (Without building all of Whonix.)
 
-## /home/user is hardcoded, because wixl breaks with path '/github/[...]'.
-## Couldn't find file /github/home/windows-installer-dummy-temp-delete-me/Whonix.exe
-## Might be wrong. Could be different issue.
-## ~/windows-installer-dummy-temp-delete-me might work fine.
-
 set -x
 set -e
 set -o pipefail
 set -o nounset
-
-whoami
 
 # VERSION string must start with major.minor.build, rest will be ignored
 export VERSION="16.0.4.2"
@@ -25,31 +18,19 @@ export DESCRIPTION="Whonix-Starter"
 
 ## All files are created created as empty files using `touch` for the purpose of
 ## simulated local or CI builds only.
-export FILE_LICENSE=/home/user/windows-installer-dummy-temp-delete-me/license.txt
-export FILE_WHONIX_OVA=/home/user/windows-installer-dummy-temp-delete-me/Whonix-XFCE-16.0.9.8.ova
-export FILE_WHONIX_STARTER_MSI=/home/user/windows-installer-dummy-temp-delete-me/WhonixStarterSetup.msi
-export FILE_VBOX_INST_EXE=/home/user/windows-installer-dummy-temp-delete-me/vbox.exe
-export FILE_INSTALLER_BINARY_WITH_APPENDED_OVA=/home/user/windows-installer-dummy-temp-delete-me/WhonixSetup-XFCE.exe
+export FILE_LICENSE=~/windows-installer-dummy-temp-delete-me/license.txt
+export FILE_WHONIX_OVA=~/windows-installer-dummy-temp-delete-me/Whonix-XFCE-16.0.9.8.ova
+export FILE_WHONIX_STARTER_MSI=~/windows-installer-dummy-temp-delete-me/WhonixStarterSetup.msi
+export FILE_VBOX_INST_EXE=~/windows-installer-dummy-temp-delete-me/vbox.exe
+export FILE_INSTALLER_BINARY_WITH_APPENDED_OVA=~/windows-installer-dummy-temp-delete-me/WhonixSetup-XFCE.exe
 
-rm --recursive --force /home/user/windows-installer-dummy-temp-delete-me
+rm --recursive --force ~/windows-installer-dummy-temp-delete-me
 
-mkdir --parents /home/user/windows-installer-dummy-temp-delete-me
+mkdir --parents ~/windows-installer-dummy-temp-delete-me
 
 for fso in "$FILE_LICENSE" "$FILE_WHONIX_OVA" "$FILE_WHONIX_STARTER_MSI" "$FILE_VBOX_INST_EXE" ; do
   touch "$fso"
-  test -r "$fso"
 done
-
-# commented out for test purposes
-# rm --force "$FILE_WHONIX_STARTER_MSI"
-# wget -O "$FILE_WHONIX_STARTER_MSI" "https://github.com/Whonix/Whonix-Starter-Binary/raw/master/WhonixStarterSetup.msi"
-
-## Debugging.
-realpath /home/user/windows-installer-dummy-temp-delete-me/*
-ls -la "$FILE_WHONIX_STARTER_MSI"
-test -r "$FILE_WHONIX_STARTER_MSI"
-#tail -n 3 "$FILE_WHONIX_STARTER_MSI"
-pwd
 
 ./build.sh
 
