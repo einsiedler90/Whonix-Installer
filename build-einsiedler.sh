@@ -19,7 +19,7 @@ export DESCRIPTION="Whonix-Starter"
 export FILE_LICENSE="../deps/license.txt"
 #export FILE_WHONIX_OVA="../deps/Whonix.ova"
 export FILE_WHONIX_OVA="../deps/Whonix-XFCE-16.0.9.8.ova"
-export FILE_WHONIX_EXE="../deps/Whonix.exe"
+export FILE_WHONIX_STARTER_MSI="../deps/WhonixStarterSetup.msi"
 export FILE_VBOX_INST_EXE="../deps/vbox.exe"
 export FILE_INSTALLER_BINARY_WITH_APPENDED_OVA="WhonixSetup-XFCE-$VERSION.exe"
 
