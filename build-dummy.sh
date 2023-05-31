@@ -25,7 +25,7 @@ export DESCRIPTION="Whonix-Starter"
 
 export FILE_LICENSE=/home/user/windows-installer-dummy-temp-delete-me/license.txt
 export FILE_WHONIX_OVA=/home/user/windows-installer-dummy-temp-delete-me/Whonix-XFCE-16.0.9.8.ova
-export FILE_WHONIX_STARTER_MSI=/home/user/windows-installer-dummy-temp-delete-me/WhonixStarterSetup.msi
+export FILE_WHONIX_STARTER_MSI=WhonixStarterSetup.msi-dummy # only for test / replace with real path later
 export FILE_VBOX_INST_EXE=/home/user/windows-installer-dummy-temp-delete-me/vbox.exe
 export FILE_INSTALLER_BINARY_WITH_APPENDED_OVA=/home/user/windows-installer-dummy-temp-delete-me/WhonixSetup-XFCE.exe
 
@@ -38,8 +38,9 @@ for fso in "$FILE_LICENSE" "$FILE_WHONIX_OVA" "$FILE_WHONIX_STARTER_MSI" "$FILE_
   test -r "$fso"
 done
 
-rm --force "$FILE_WHONIX_STARTER_MSI"
-wget -O "$FILE_WHONIX_STARTER_MSI" "https://github.com/Whonix/Whonix-Starter-Binary/raw/master/WhonixStarterSetup.msi"
+# commented out for test purposes
+# rm --force "$FILE_WHONIX_STARTER_MSI"
+# wget -O "$FILE_WHONIX_STARTER_MSI" "https://github.com/Whonix/Whonix-Starter-Binary/raw/master/WhonixStarterSetup.msi"
 
 ## Debugging.
 realpath /home/user/windows-installer-dummy-temp-delete-me/*
