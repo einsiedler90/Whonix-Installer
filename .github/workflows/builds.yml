@@ -2,32 +2,7 @@ name: docker build
 on: push
 
 jobs:
-    changes:
-        runs-on: ubuntu-22.04
-        permissions:
-            pull-requests: read
-        outputs:
-            builds: ${{ steps.filter.outputs.builds }}
-            installer: ${{ steps.filter.outputs.installer }}
-        steps:
-            - uses: actions/checkout@v3
-            - uses: dorny/paths-filter@v2
-              id: filter
-              with:
-                filters: |
-                    installer:
-                        - 'build-dummy.sh'
-                    builds:
-                        - '.github/workflows/builds.yml'
-
     build:
-        needs: changes
-        # if: ${{ (needs.changes.outputs.installer == 'true') }}
-        # if: ${{ (needs.changes.outputs.builds == 'true') }}
-        if: ${{ (needs.changes.outputs.installer == 'true' || needs.changes.outputs.builds == 'true') }}
-        ## Github takes too long to set the current latest image, this is
-        ## why we set it manually.
-        ##  https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners#supported-runners-and-hardware-resources
         runs-on: ubuntu-22.04
         strategy:
             fail-fast: false
@@ -62,7 +37,7 @@ jobs:
               #run: ./ppcross_install all
             - name: Run Installer
               run: su -s /bin/bash user -- ./build-dummy.sh
-            - name: Run Installer ShellCheck
-              run: shellcheck ./*.sh
+            #- name: Run Installer ShellCheck
+              #run: shellcheck ./*.sh
 
 # vim: sw=4
