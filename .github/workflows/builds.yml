@@ -30,8 +30,8 @@ jobs:
               run: adduser --gecos "" --disabled-password user
             - name: Linux user file permissions fix
               run: chown --recursive user:user /__w/Whonix-Installer
-            - name: ppcross_install
-              run: ./ppcross_install all
+            #- name: ppcross_install
+              #run: ./ppcross_install all
             - name: Build Installer
               run: su -s /bin/bash user -- ./build-dummy.sh
             - name: ShellCheck
