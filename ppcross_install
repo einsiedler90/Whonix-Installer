@@ -19,7 +19,7 @@ fi
 
 # optional! install requirements
 install_dependencies() {
-	apt install --yes --no-install-recommends make git fpc lazarus
+	apt-get install --yes --no-install-recommends make git fpc lazarus
 }
 
 # clone fpcsrc from repo, build and install ppcross
