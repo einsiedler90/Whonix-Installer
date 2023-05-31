@@ -8,8 +8,8 @@ jobs:
             fail-fast: false
             matrix:
                 include:
-                    - image: debian:testing
-                    #- image: debian:stable ## TODO
+                    #- image: debian:testing
+                    - image: debian:stable ## TODO
 
         container:
             image: ${{ matrix.image }}
