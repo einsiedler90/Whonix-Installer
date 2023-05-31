@@ -23,9 +23,11 @@ export VERSION="16.0.4.2"
 export MANUFACTURE="ENCRYPTED SUPPORT LP"
 export DESCRIPTION="Whonix-Starter"
 
+## All files are created created as empty files using `touch` for the purpose of
+## simulated local or CI builds only.
 export FILE_LICENSE=/home/user/windows-installer-dummy-temp-delete-me/license.txt
 export FILE_WHONIX_OVA=/home/user/windows-installer-dummy-temp-delete-me/Whonix-XFCE-16.0.9.8.ova
-export FILE_WHONIX_STARTER_MSI=./WhonixStarterSetup.msi-dummy # only for test / replace with real path later
+export FILE_WHONIX_STARTER_MSI=/home/user/windows-installer-dummy-temp-delete-me/WhonixStarterSetup.msi
 export FILE_VBOX_INST_EXE=/home/user/windows-installer-dummy-temp-delete-me/vbox.exe
 export FILE_INSTALLER_BINARY_WITH_APPENDED_OVA=/home/user/windows-installer-dummy-temp-delete-me/WhonixSetup-XFCE.exe
 
