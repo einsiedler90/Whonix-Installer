@@ -19,7 +19,7 @@ jobs:
             - name: System Basic Packages
               run: |
                   apt-get update
-                  apt-get install --yes --no-install-recommends adduser ## shellcheck sudo wget ca-certificates wixl fpc lazarus git
+                  apt-get install --yes --no-install-recommends adduser shellcheck sudo wget ca-certificates wixl fpc lazarus git
             - name: System information
               run: |
                   cat /etc/os-release
@@ -34,11 +34,11 @@ jobs:
                   mkdir --parents /home/user
                   chown --recursive user:user /home/user
                   chown --recursive user:user /__w/Whonix-Installer
-            #- name: ppcross_install
-              #run: ./ppcross_install all
+            - name: ppcross_install
+              run: ./ppcross_install all
             - name: Run Installer
               run: su -s /bin/bash user -- ./build-dummy.sh
-            #- name: Run Installer ShellCheck
-              #run: shellcheck ./*.sh
+            - name: Run Installer ShellCheck
+              run: shellcheck ./*.sh
 
 # vim: sw=4
