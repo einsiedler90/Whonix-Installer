@@ -25,24 +25,24 @@ jobs:
             - name: System Basic Packages
               run: |
                   apt-get update
-                  apt-get install --yes --no-install-recommends wine fpc ## TODO lazarus git ca-certificates adduser shellcheck
+                  apt-get install --yes --no-install-recommends wine fpc adduser shellcheck ## TODO lazarus git ca-certificates
+            - name: System information
+              run: |
+                  whoami
+                  cat /etc/os-release
+                  uname -a
+                  echo "${PATH}"
+            - name: Create regular (non-root) user
+              run: adduser --gecos "" --disabled-password user
+            - name: Linux user file permissions fix
+              run: chown --recursive user:user /__w/Whonix-Installer
             - name: Build and run test.exe
-              run: ./test.sh
-            #- name: System information
-              #run: |
-                  #whoami
-                  #cat /etc/os-release
-                  #uname -a
-                  #echo "${PATH}"
-            #- name: Create regular (non-root) user
-              #run: adduser --gecos "" --disabled-password user
-            #- name: Linux user file permissions fix
-              #run: chown --recursive user:user /__w/Whonix-Installer
+              run: su -s /bin/bash user -- ./test.sh
             #- name: ppcross_install
               #run: ./developer-meta-files/usr/bin/ppcross_install all
             #- name: Build Installer
               #run: su -s /bin/bash user -- ./build-dummy.sh
-            #- name: ShellCheck
-              #run: shellcheck ./*.sh
+            - name: ShellCheck
+              run: shellcheck ./*.sh
 
 # vim: sw=4
