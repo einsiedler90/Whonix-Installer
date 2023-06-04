@@ -25,8 +25,8 @@ jobs:
             - name: System Basic Packages
               run: |
                   apt-get update
-                  apt-get install --yes --no-install-recommends fpc ## TODO lazarus git ca-certificates adduser shellcheck
-            - name: Test
+                  apt-get install --yes --no-install-recommends wine fpc ## TODO lazarus git ca-certificates adduser shellcheck
+            - name: Build and run test.exe
               run: ./test.sh
             #- name: System information
               #run: |

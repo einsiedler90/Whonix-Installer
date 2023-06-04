@@ -14,3 +14,5 @@ mkdir --parents rtl
 fpc -Twin64 -Fi/usr/share/fpcsrc/3.2.2/rtl/win64 -Fi/usr/share/fpcsrc/3.2.2/rtl/win -Fi/usr/share/fpcsrc/3.2.2/rtl/inc -Fi/usr/share/fpcsrc/3.2.2/rtl/x86_64 -Fu/usr/share/fpcsrc/3.2.2/rtl/win64 -Fu/usr/share/fpcsrc/3.2.2/rtl/inc -FU./rtl -FE./ test
 
 ls -la
+
+wine test.exe
