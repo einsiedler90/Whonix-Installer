@@ -25,7 +25,7 @@ jobs:
             - name: System Basic Packages
               run: |
                   apt-get update
-                  apt-get install --yes --no-install-recommends wine fpc adduser shellcheck ## TODO lazarus git ca-certificates
+                  apt-get install --yes --no-install-recommends wine fpc adduser shellcheck lazarus git ca-certificates
             - name: System information
               run: |
                   whoami
@@ -38,10 +38,10 @@ jobs:
               run: chown --recursive user:user /__w/Whonix-Installer
             - name: Build and run test.exe
               run: su -s /bin/bash user -- ./test.sh
-            #- name: ppcross_install
-              #run: ./developer-meta-files/usr/bin/ppcross_install all
-            #- name: Build Installer
-              #run: su -s /bin/bash user -- ./build-dummy.sh
+            - name: ppcross_install
+              run: ./developer-meta-files/usr/bin/ppcross_install all
+            - name: Build Installer
+              run: su -s /bin/bash user -- ./build-dummy.sh
             - name: ShellCheck
               run: shellcheck ./*.sh
 
