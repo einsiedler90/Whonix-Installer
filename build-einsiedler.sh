@@ -11,17 +11,19 @@ set -e
 set -o pipefail
 set -o nounset
 
-# VERSION string must start with major.minor.build, rest will be ignored
-export VERSION="16.0.9.8"
-export MANUFACTURE="ENCRYPTED SUPPORT LP"
-export DESCRIPTION="Whonix-Starter"
+export VERSION_MAJOR="16"
+export VERSION_MINOR="0"
+export VERSION_REVISION="9"
+export VERSION_BUILD="8"
+
+export VERSION_FULL="XFCE-$VERSION_MAJOR.$VERSION_MINOR.$VERSION_REVISION.$VERSION_BUILD"
 
 export FILE_LICENSE="../deps/license.txt"
 #export FILE_WHONIX_OVA="../deps/Whonix.ova"
-export FILE_WHONIX_OVA="../deps/Whonix-XFCE-16.0.9.8.ova"
+export FILE_WHONIX_OVA="../deps/Whonix-$VERSION_FULL.ova"
 export FILE_WHONIX_STARTER_MSI="../deps/WhonixStarterSetup.msi"
 export FILE_VBOX_INST_EXE="../deps/vbox.exe"
-export FILE_INSTALLER_BINARY_WITH_APPENDED_OVA="WhonixSetup-XFCE-$VERSION.exe"
+export FILE_INSTALLER_BINARY_WITH_APPENDED_OVA="WhonixSetup-$VERSION_FULL.exe"
 
 ./build.sh
 
