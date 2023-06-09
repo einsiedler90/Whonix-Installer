@@ -48,9 +48,10 @@ size=$FILE_WHONIX_OVA_SIZE
 ## Debugging.
 cat "WhonixOvaInfo.ini"
 
-## 4.0) backup original lpi file
+## 4.0) rename original lpi file
 
-cp "WhonixSetup.lpi" "WhonixSetup.lpi.in"
+mv "WhonixSetup.lpi" "WhonixSetup.lpi.in"
+cp "WhonixSetup.lpi.in" "WhonixSetup.lpi"
 
 ## 4.1) update lpi file
 
@@ -90,8 +91,8 @@ lazbuild -B "WhonixSetup.lpr" --cpu=x86_64 --os=win64 --compiler=/usr/bin/ppcros
 
 ## 5.2) restore original lpi file and delete backup
 
-cp "WhonixSetup.lpi.in" "WhonixSetup.lpi"
-rm "WhonixSetup.lpi.in"
+rm "WhonixSetup.lpi"
+mv "WhonixSetup.lpi.in" "WhonixSetup.lpi"
 
 ## 6) append Whonix OVA to WhonixSetup.exe
 
