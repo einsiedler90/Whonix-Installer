@@ -48,6 +48,10 @@ size=$FILE_WHONIX_OVA_SIZE
 ## Debugging.
 cat "WhonixOvaInfo.ini"
 
+## 4.0) backup original lpi file
+
+cp "WhonixSetup.lpi" "WhonixSetup.lpi.in"
+
 ## 4.1) update lpi file
 
 echo -e "\
@@ -80,9 +84,14 @@ save" | xmllint --shell "WhonixSetup.lpi"
 #cp "$FILE_VBOX_INST_EXE" "VBoxSetup.exe"
 #cp "$FILE_WHONIX_STARTER_MSI" "WhonixStarterSetup.msi"
 
-## 5) build executable WhonixSetup.exe
+## 5.1) build executable WhonixSetup.exe
 
 lazbuild -B "WhonixSetup.lpr" --cpu=x86_64 --os=win64 --compiler=/usr/bin/ppcrossx64
+
+## 5.2) restore original lpi file and delete backup
+
+cp "WhonixSetup.lpi.in" "WhonixSetup.lpi"
+rm "WhonixSetup.lpi.in"
 
 ## 6) append Whonix OVA to WhonixSetup.exe
 
