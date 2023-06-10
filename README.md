@@ -8,9 +8,13 @@ install WiX-Toolset on Windows or wixl on Linux
 
 Linux:
 
-1. Dependency installation:
+1. Install dependencies.
 
-https://github.com/Kicksecure/developer-meta-files/blob/master/usr/bin/ppcross_install
+Using [`ppcross_install`](https://github.com/Whonix/misc/blob/main/ppcross_install).
+
+```
+./ppcross_install
+```
 
 2. sudo apt-get install wixl
 
