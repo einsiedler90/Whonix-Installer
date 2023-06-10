@@ -21,6 +21,14 @@
         <Resource_4 FileName="WhonixStarterSetup.msi" Type="RCDATA" ResourceName="STARTER"/>
       </Resources>
     </General>
+    <VersionInfo>
+      <UseVersionInfo Value="True"/>
+      <MajorVersionNr Value="1"/>
+      <MinorVersionNr Value="2"/>
+      <RevisionNr Value="3"/>
+      <BuildNr Value="4"/>
+      <StringTable Comments="Installer for Whonix" CompanyName="ENCRYPTED SUPPORT LP" FileDescription="Installer for Whonix" InternalName="WhonixSetup" LegalCopyright="Copyright (C) 2023" OriginalFilename="WhonixSetup-XYZ-1.2.3.4.exe" ProductName="Whonix" ProductVersion="XYZ-1.2.3.4"/>
+    </VersionInfo>
     <BuildModes>
       <Item Name="Default" Default="True"/>
     </BuildModes>

@@ -11,18 +11,20 @@ set -e
 set -o pipefail
 set -o nounset
 
-# VERSION string must start with major.minor.build, rest will be ignored
-export VERSION="16.0.4.2"
-export MANUFACTURE="ENCRYPTED SUPPORT LP"
-export DESCRIPTION="Whonix-Starter"
+export VERSION_MAJOR="16"
+export VERSION_MINOR="0"
+export VERSION_REVISION="9"
+export VERSION_BUILD="8"
+
+export VERSION_FULL="XFCE-$VERSION_MAJOR.$VERSION_MINOR.$VERSION_REVISION.$VERSION_BUILD"
 
 ## All files are created created as empty files using `touch` for the purpose of
 ## simulated local or CI builds only.
 export FILE_LICENSE=~/windows-installer-dummy-temp-delete-me/license.txt
-export FILE_WHONIX_OVA=~/windows-installer-dummy-temp-delete-me/Whonix-XFCE-16.0.9.8.ova
+export FILE_WHONIX_OVA=~/windows-installer-dummy-temp-delete-me/Whonix-$VERSION_FULL.ova
 export FILE_WHONIX_STARTER_MSI=~/windows-installer-dummy-temp-delete-me/WhonixStarterSetup.msi
 export FILE_VBOX_INST_EXE=~/windows-installer-dummy-temp-delete-me/vbox.exe
-export FILE_INSTALLER_BINARY_WITH_APPENDED_OVA=~/windows-installer-dummy-temp-delete-me/WhonixSetup-XFCE.exe
+export FILE_INSTALLER_BINARY_WITH_APPENDED_OVA=~/windows-installer-dummy-temp-delete-me/WhonixSetup-$VERSION_FULL.exe
 
 rm --recursive --force ~/windows-installer-dummy-temp-delete-me
 

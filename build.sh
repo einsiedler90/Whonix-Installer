@@ -19,6 +19,11 @@ set -o nounset
 
 true "$0: START"
 
+if ! [ -x "$(command -v xmllint)" ]; then
+  echo "$0: ERROR: xmllint is not installed." >&2
+  exit 1
+fi
+
 if ! [ -x "$(command -v lazbuild)" ]; then
   echo "$0: ERROR: lazbuild is not installed." >&2
   exit 1
@@ -43,15 +48,51 @@ size=$FILE_WHONIX_OVA_SIZE
 ## Debugging.
 cat "WhonixOvaInfo.ini"
 
-## 4) update resource files
+## 4.0) rename original lpi file
 
-cp "$FILE_LICENSE" "LICENSE"
-cp "$FILE_VBOX_INST_EXE" "VBoxSetup.exe"
-cp "$FILE_WHONIX_STARTER_MSI" "WhonixStarterSetup.msi"
+mv "WhonixSetup.lpi" "WhonixSetup.lpi.in"
+cp "WhonixSetup.lpi.in" "WhonixSetup.lpi"
 
-## 5) build executable WhonixSetup.exe
+## 4.1) update lpi file
+
+echo -e "\
+cd //VersionInfo/MajorVersionNr/@Value
+set $VERSION_MAJOR
+cd //VersionInfo/MinorVersionNr/@Value
+set $VERSION_MINOR
+cd //VersionInfo/RevisionNr/@Value
+set $VERSION_REVISION
+cd //VersionInfo/BuildNr/@Value
+set $VERSION_BUILD
+cd //VersionInfo/StringTable/@ProductVersion
+set $VERSION_FULL
+cd //VersionInfo/StringTable/@OriginalFilename
+set $FILE_INSTALLER_BINARY_WITH_APPENDED_OVA
+save" | xmllint --shell "WhonixSetup.lpi"
+
+## 4.2) update resources in lpi file
+
+echo -e "\
+cd //Resources/Resource_1[@ResourceName='LICENSE']/@FileName
+set $FILE_LICENSE
+cd //Resources/Resource_2[@ResourceName='VBOX']/@FileName
+set $FILE_VBOX_INST_EXE
+cd //Resources/Resource_4[@ResourceName='STARTER']/@FileName
+set $FILE_WHONIX_STARTER_MSI
+save" | xmllint --shell "WhonixSetup.lpi"
+
+#cp "$FILE_LICENSE" "LICENSE"
+#cp "$FILE_VBOX_INST_EXE" "VBoxSetup.exe"
+#cp "$FILE_WHONIX_STARTER_MSI" "WhonixStarterSetup.msi"
+
+## 5.1) build executable WhonixSetup.exe
 
 lazbuild -B "WhonixSetup.lpr" --cpu=x86_64 --os=win64 --compiler=/usr/bin/ppcrossx64
+
+## 5.2) restore original lpi file and delete backup
+
+rm "WhonixSetup.lpi"
+mv "WhonixSetup.lpi.in" "WhonixSetup.lpi"
 
 ## 6) append Whonix OVA to WhonixSetup.exe
 
