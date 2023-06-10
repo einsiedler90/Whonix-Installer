@@ -50,6 +50,10 @@ cat "WhonixOvaInfo.ini"
 
 ## 4.0) rename original lpi file
 
+## NOTE: We cannot rename the original WhonixSetup.lpi to WhonixSetup.lpi.in,
+##       because then this source code could no longer be compiled with the
+##       lazarus GUI.
+
 mv "WhonixSetup.lpi" "WhonixSetup.lpi.in"
 cp "WhonixSetup.lpi.in" "WhonixSetup.lpi"
 
