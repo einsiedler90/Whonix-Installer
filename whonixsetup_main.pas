@@ -327,8 +327,8 @@ begin
   SetupForm.MemoOutput.Lines.AddStrings(Output);
 
   // TODO: install/repair if only one of both VMs is missing?
-  if not ContainsStr(Output.Text, 'Whonix-Gateway-XFCE') and not
-    ContainsStr(Output.Text, 'Whonix-Workstation-XFCE') then
+  if not ContainsStr(Output.Text, 'Whonix-Gateway-Xfce') and not
+    ContainsStr(Output.Text, 'Whonix-Workstation-Xfce') then
   begin
     ProgressBar.Position := 5;
     SetupForm.NextStatus('Step 5 / 9 : unpack whonix ova');
