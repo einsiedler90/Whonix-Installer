@@ -98,12 +98,18 @@ lazbuild -B "WhonixSetup.lpr" --cpu=x86_64 --os=win64 --compiler=/usr/bin/ppcros
 rm "WhonixSetup.lpi"
 mv "WhonixSetup.lpi.in" "WhonixSetup.lpi"
 
+ls -la "WhonixSetup.exe"
+du -sh "WhonixSetup.exe"
+mimetype "WhonixSetup.exe"
+
 ## 6) append Whonix OVA to WhonixSetup.exe
 
 cat "WhonixSetup.exe" "$FILE_WHONIX_OVA" | tee "$FILE_INSTALLER_BINARY_WITH_APPENDED_OVA" >/dev/null
 
 ## Debugging.
+ls -la "WhonixSetup.exe"
 du -sh "$FILE_INSTALLER_BINARY_WITH_APPENDED_OVA"
+mimetype "$FILE_INSTALLER_BINARY_WITH_APPENDED_OVA"
 
 true "$0: SUCCESS"
 

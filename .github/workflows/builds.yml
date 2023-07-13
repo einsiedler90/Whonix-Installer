@@ -8,8 +8,7 @@ jobs:
             fail-fast: false
             matrix:
                 include:
-                    - image: debian:testing
-                    #- image: debian:stable ## TODO
+                    - image: debian:stable
 
         container:
             image: ${{ matrix.image }}
@@ -25,7 +24,7 @@ jobs:
             - name: System Basic Packages
               run: |
                   apt-get update
-                  apt-get install --yes --no-install-recommends wine fpc adduser shellcheck lazarus git ca-certificates
+                  apt-get install --yes --no-install-recommends wine fpc adduser shellcheck lazarus git ca-certificates libfile-mimeinfo-perl
             - name: System information
               run: |
                   whoami
