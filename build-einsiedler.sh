@@ -11,6 +11,8 @@ set -e
 set -o pipefail
 set -o nounset
 
+true "$0: START"
+
 export VERSION_MAJOR="16"
 export VERSION_MINOR="0"
 export VERSION_REVISION="9"
@@ -26,5 +28,7 @@ export FILE_VBOX_INST_EXE="../deps/vbox.exe"
 export FILE_INSTALLER_BINARY_WITH_APPENDED_OVA="WhonixSetup-$VERSION_FULL.exe"
 
 ./build.sh
+
+true "$0: SUCCESS"
 
 exit 0
