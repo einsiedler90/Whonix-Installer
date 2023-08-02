@@ -11,6 +11,8 @@ set -e
 set -o pipefail
 set -o nounset
 
+true "$0: START"
+
 export VERSION_MAJOR="16"
 export VERSION_MINOR="0"
 export VERSION_REVISION="9"
@@ -35,5 +37,7 @@ for fso in "$FILE_LICENSE" "$FILE_WHONIX_OVA" "$FILE_WHONIX_STARTER_MSI" "$FILE_
 done
 
 ./build.sh
+
+true "$0: SUCCESS"
 
 exit 0
