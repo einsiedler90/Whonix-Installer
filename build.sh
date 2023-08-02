@@ -91,7 +91,11 @@ save" | xmllint --shell "WhonixSetup.lpi"
 
 ## 5.1) build executable WhonixSetup.exe
 
-lazbuild -B "WhonixSetup.lpr" --cpu=x86_64 --os=win64 --compiler=/usr/bin/ppcrossx64
+## Was functional.
+#lazbuild -B "WhonixSetup.lpr" --cpu=x86_64 --os=win64 --compiler=/usr/bin/ppcrossx64
+
+## Requires packages from Debian trixie: fp-units-win-base fp-units-win-rtl fp-units-win-fcl fp-units-win-misc
+lazbuild -B "WhonixSetup.lpr" --cpu=x86_64 --os=win64
 
 ## 5.2) restore original lpi file and delete backup
 
