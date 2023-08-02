@@ -91,10 +91,15 @@ save" | xmllint --shell "WhonixSetup.lpi"
 
 ## 5.1) build executable WhonixSetup.exe
 
-## Was functional.
+## Was functional without build dependency packages from Debian trixie.
 #lazbuild -B "WhonixSetup.lpr" --cpu=x86_64 --os=win64 --compiler=/usr/bin/ppcrossx64
 
-## Requires packages from Debian trixie: fp-units-win-base fp-units-win-rtl fp-units-win-fcl fp-units-win-misc
+## lazbuild requires build dependency packages from Debian trixie.
+dpkg -l | grep fp-units-win-base >/dev/null
+dpkg -l | grep fp-units-win-rtl >/dev/null
+dpkg -l | grep fp-units-win-fcl >/dev/null
+dpkg -l | grep fp-units-win-misc >/dev/null
+
 lazbuild -B "WhonixSetup.lpr" --cpu=x86_64 --os=win64
 
 ## 5.2) restore original lpi file and delete backup
