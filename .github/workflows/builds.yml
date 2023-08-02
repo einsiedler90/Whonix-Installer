@@ -27,7 +27,7 @@ jobs:
                   apt-get install --yes --no-install-recommends wine fpc adduser shellcheck lazarus git ca-certificates libfile-mimeinfo-perl
             - name: Install Packages from Debian trixie
               run: |
-                  echo -e 'deb https://deb.debian.org/debian trixie main' > /etc/apt/sources.list.d/trixie.list"
+                  echo -e 'deb https://deb.debian.org/debian trixie main' > /etc/apt/sources.list.d/trixie.list
                   apt-get update
                   apt-get install --yes --no-install-recommends fp-units-win-base fp-units-win-rtl fp-units-win-fcl fp-units-win-misc
             - name: System information
