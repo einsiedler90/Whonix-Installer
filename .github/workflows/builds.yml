@@ -37,7 +37,7 @@ jobs:
                   uname -a
                   echo "${PATH}"
             - name: Create regular (non-root) user
-              run: adduser --gecos "" --disabled-password user
+              run: adduser --comment "" --disabled-password user
             - name: Linux user file permissions fix
               run: chown --recursive user:user /__w/Whonix-Installer
             - name: Build and run test.exe
