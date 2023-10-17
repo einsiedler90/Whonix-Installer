@@ -59,6 +59,12 @@ cp "WhonixSetup.lpi.in" "WhonixSetup.lpi"
 
 ## 4.1) update lpi file
 
+## TODO: get rid of these
+export VERSION_MAJOR="0"
+export VERSION_MINOR="0"
+export VERSION_REVISION="0"
+export VERSION_BUILD="0"
+
 echo -e "\
 cd //VersionInfo/MajorVersionNr/@Value
 set $VERSION_MAJOR
