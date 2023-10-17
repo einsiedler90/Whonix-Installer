@@ -144,7 +144,7 @@ begin
     Exit;
   end;
 
-  if MessageDlg('Exit Setup', 'Are you sure you want to cancel the Whonix installation?',
+  if MessageDlg('Exit Installer', 'Are you sure you want to cancel the Whonix installation?',
     mtConfirmation, [mbYes, mbNo], 0) = mrYes then
   begin
     CanClose := True;

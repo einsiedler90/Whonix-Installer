@@ -36,7 +36,7 @@ for fso in "$FILE_LICENSE" "$FILE_WHONIX_OVA" "$FILE_WHONIX_STARTER_MSI" "$FILE_
   test -r "$fso"
 done
 
-## 3) set current whonix OVA size in INI file for main setup executable
+## 3) set current Whonix OVA size in INI file for main installer executable
 
 FILE_WHONIX_OVA_SIZE=$(stat -c%s "$FILE_WHONIX_OVA")
 

@@ -5,7 +5,7 @@ object SetupForm: TSetupForm
   Width = 645
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
-  Caption = 'Whonix Setup'
+  Caption = 'Whonix Installer'
   ClientHeight = 605
   ClientWidth = 645
   OnCloseQuery = FormCloseQuery
@@ -231,7 +231,7 @@ object SetupForm: TSetupForm
         Width = 585
         Align = alTop
         BorderSpacing.Around = 15
-        Caption = 'Please wait while Setup installs Whonix on your computer.'
+        Caption = 'Please wait while Whonix is being installed.'
         ParentColor = False
         WordWrap = True
       end
@@ -259,7 +259,7 @@ object SetupForm: TSetupForm
         Width = 585
         Align = alTop
         BorderSpacing.Around = 15
-        Caption = 'This setup has completed the installation of Whonix on your computer.'
+        Caption = 'Installation of Whonix has been completed.'
         ParentColor = False
         WordWrap = True
         OnClick = LabelCompleteDescClick

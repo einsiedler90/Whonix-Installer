@@ -18,7 +18,7 @@
         <Resource_1 FileName="LICENSE" Type="RCDATA" ResourceName="LICENSE"/>
         <Resource_2 FileName="VBoxSetup.exe" Type="RCDATA" ResourceName="VBOX"/>
         <Resource_3 FileName="WhonixOvaInfo.ini" Type="RCDATA" ResourceName="OVAINFO"/>
-        <Resource_4 FileName="WhonixStarterSetup.msi" Type="RCDATA" ResourceName="STARTER"/>
+        <Resource_4 FileName="WhonixStarterInstaller.msi" Type="RCDATA" ResourceName="STARTER"/>
       </Resources>
     </General>
     <VersionInfo>
@@ -27,7 +27,7 @@
       <MinorVersionNr Value="2"/>
       <RevisionNr Value="3"/>
       <BuildNr Value="4"/>
-      <StringTable Comments="Installer for Whonix" CompanyName="ENCRYPTED SUPPORT LP" FileDescription="Installer for Whonix" InternalName="WhonixSetup" LegalCopyright="Copyright (C) 2023" OriginalFilename="WhonixSetup-XYZ-1.2.3.4.exe" ProductName="Whonix" ProductVersion="XYZ-1.2.3.4"/>
+      <StringTable Comments="Installer for Whonix" CompanyName="ENCRYPTED SUPPORT LP" FileDescription="Installer for Whonix" InternalName="WhonixSetup" LegalCopyright="Copyright (C) 2023" OriginalFilename="WhonixInstaller-XYZ-1.2.3.4.exe" ProductName="Whonix" ProductVersion="XYZ-1.2.3.4"/>
     </VersionInfo>
     <BuildModes>
       <Item Name="Default" Default="True"/>

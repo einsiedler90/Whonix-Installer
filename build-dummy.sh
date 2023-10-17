@@ -24,9 +24,9 @@ export VERSION_FULL="Xfce-$VERSION_MAJOR.$VERSION_MINOR.$VERSION_REVISION.$VERSI
 ## simulated local or CI builds only.
 export FILE_LICENSE=~/windows-installer-dummy-temp-delete-me/license.txt
 export FILE_WHONIX_OVA=~/windows-installer-dummy-temp-delete-me/Whonix-$VERSION_FULL.ova
-export FILE_WHONIX_STARTER_MSI=~/windows-installer-dummy-temp-delete-me/WhonixStarterSetup.msi
+export FILE_WHONIX_STARTER_MSI=~/windows-installer-dummy-temp-delete-me/WhonixStarterInstaller.msi
 export FILE_VBOX_INST_EXE=~/windows-installer-dummy-temp-delete-me/vbox.exe
-export FILE_INSTALLER_BINARY_WITH_APPENDED_OVA=~/windows-installer-dummy-temp-delete-me/WhonixSetup-$VERSION_FULL.exe
+export FILE_INSTALLER_BINARY_WITH_APPENDED_OVA=~/windows-installer-dummy-temp-delete-me/WhonixInstaller-$VERSION_FULL.exe
 
 rm --recursive --force ~/windows-installer-dummy-temp-delete-me
 

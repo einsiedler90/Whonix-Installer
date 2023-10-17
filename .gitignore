@@ -2,6 +2,7 @@
 WhonixStarterSetup.msi
 
 # special files
+## TODO: document / refactor
 WhonixSetup
 WhonixSetup-*
 WhonixOvaInfo.ini
