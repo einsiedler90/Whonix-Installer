@@ -34,6 +34,7 @@ WhonixOvaInfo.ini
 backup/
 *.bak
 lib/
+lib/*
 
 # Application bundle for Mac OS
 *.app/
