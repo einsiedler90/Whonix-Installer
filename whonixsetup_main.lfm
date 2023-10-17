@@ -47,7 +47,7 @@ object SetupForm: TSetupForm
         Width = 585
         Align = alBottom
         BorderSpacing.Around = 15
-        Caption = 'Yes, I accept the license agreement'
+        Caption = 'Yes, I accept the license agreement.'
         OnChange = CheckBoxLicenseChange
         TabOrder = 1
       end
