@@ -1,5 +1,5 @@
 # wixl generated files
-WhonixStarterSetup.msi
+WhonixStarterInstaller.msi
 
 # special files
 ## TODO: document / refactor
@@ -34,7 +34,6 @@ WhonixOvaInfo.ini
 backup/
 *.bak
 lib/
-lib/*
 
 # Application bundle for Mac OS
 *.app/
