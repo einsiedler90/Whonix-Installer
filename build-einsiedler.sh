@@ -23,7 +23,7 @@ export FILE_LICENSE="../deps/license.txt"
 export FILE_WHONIX_OVA="../deps/Whonix-$VERSION_FULL.ova"
 export FILE_WHONIX_STARTER_MSI="../deps/WhonixStarterSetup.msi"
 export FILE_VBOX_INST_EXE="../deps/vbox.exe"
-export FILE_INSTALLER_BINARY_WITH_APPENDED_OVA="WhonixSetup-$VERSION_FULL.exe"
+export FILE_INSTALLER_BINARY_WITH_APPENDED_OVA="WhonixInstaller-$VERSION_FULL.exe"
 
 ./build.sh
 

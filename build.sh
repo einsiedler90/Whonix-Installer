@@ -36,7 +36,7 @@ for fso in "$FILE_LICENSE" "$FILE_WHONIX_OVA" "$FILE_WHONIX_STARTER_MSI" "$FILE_
   test -r "$fso"
 done
 
-## 3) set current whonix OVA size in INI file for main setup executable
+## 3) set current whonix OVA size in INI file for main installer executable
 
 FILE_WHONIX_OVA_SIZE=$(stat -c%s "$FILE_WHONIX_OVA")
 
@@ -50,12 +50,12 @@ cat "WhonixOvaInfo.ini"
 
 ## 4.0) rename original lpi file
 
-## NOTE: We cannot rename the original WhonixSetup.lpi to WhonixSetup.lpi.in,
+## NOTE: We cannot rename the original WhonixInstaller.lpi to WhonixInstaller.lpi.in,
 ##       because then this source code could no longer be compiled with the
 ##       lazarus GUI.
 
-mv "WhonixSetup.lpi" "WhonixSetup.lpi.in"
-cp "WhonixSetup.lpi.in" "WhonixSetup.lpi"
+mv "WhonixInstaller.lpi" "WhonixInstaller.lpi.in"
+cp "WhonixInstaller.lpi.in" "WhonixInstaller.lpi"
 
 ## 4.1) update lpi file
 
@@ -72,7 +72,7 @@ cd //VersionInfo/StringTable/@ProductVersion
 set $VERSION_FULL
 cd //VersionInfo/StringTable/@OriginalFilename
 set $FILE_INSTALLER_BINARY_WITH_APPENDED_OVA
-save" | xmllint --shell "WhonixSetup.lpi"
+save" | xmllint --shell "WhonixInstaller.lpi"
 
 ## 4.2) update resources in lpi file
 
@@ -83,24 +83,24 @@ cd //Resources/Resource_2[@ResourceName='VBOX']/@FileName
 set $FILE_VBOX_INST_EXE
 cd //Resources/Resource_4[@ResourceName='STARTER']/@FileName
 set $FILE_WHONIX_STARTER_MSI
-save" | xmllint --shell "WhonixSetup.lpi"
+save" | xmllint --shell "WhonixInstaller.lpi"
 
 #cp "$FILE_LICENSE" "LICENSE"
 #cp "$FILE_VBOX_INST_EXE" "VBoxSetup.exe"
 #cp "$FILE_WHONIX_STARTER_MSI" "WhonixStarterSetup.msi"
 
-## 5.1) build executable WhonixSetup.exe
+## 5.1) build executable WhonixInstaller.exe
 
-lazbuild -B "WhonixSetup.lpr" --cpu=x86_64 --os=win64 --compiler=/usr/bin/ppcrossx64
+lazbuild -B "WhonixInstaller.lpr" --cpu=x86_64 --os=win64 --compiler=/usr/bin/ppcrossx64
 
 ## 5.2) restore original lpi file and delete backup
 
-rm "WhonixSetup.lpi"
-mv "WhonixSetup.lpi.in" "WhonixSetup.lpi"
+rm "WhonixInstaller.lpi"
+mv "WhonixInstaller.lpi.in" "WhonixInstaller.lpi"
 
-## 6) append Whonix OVA to WhonixSetup.exe
+## 6) append Whonix OVA to WhonixInstaller.exe
 
-cat "WhonixSetup.exe" "$FILE_WHONIX_OVA" | tee "$FILE_INSTALLER_BINARY_WITH_APPENDED_OVA" >/dev/null
+cat "WhonixInstaller.exe" "$FILE_WHONIX_OVA" | tee "$FILE_INSTALLER_BINARY_WITH_APPENDED_OVA" >/dev/null
 
 ## Debugging.
 du -sh "$FILE_INSTALLER_BINARY_WITH_APPENDED_OVA"

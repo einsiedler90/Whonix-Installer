@@ -1,4 +1,4 @@
-program WhonixSetup;
+program WhonixInstaller;
 
 {$mode objfpc}{$H+}
 
@@ -10,7 +10,7 @@ uses
   athreads,
   {$ENDIF}
   Interfaces, // this includes the LCL widgetset
-  Forms, WhonixSetup_Main
+  Forms, WhonixInstaller_Main
   { you can add units after this };
 
 {$R *.res}
@@ -19,6 +19,6 @@ begin
   RequireDerivedFormResource:=True;
   Application.Scaled:=True;
   Application.Initialize;
-  Application.CreateForm(TSetupForm, SetupForm);
+  Application.CreateForm(TInstallerForm, InstallerForm);
   Application.Run;
 end.

@@ -2,8 +2,8 @@
 WhonixStarterSetup.msi
 
 # special files
-WhonixSetup
-WhonixSetup-*
+WhonixInstaller
+WhonixInstaller-*
 WhonixOvaInfo.ini
 
 # Lazarus compiler-generated binaries (safe to delete)

@@ -1,4 +1,4 @@
-object SetupForm: TSetupForm
+object InstallerForm: TInstallerForm
   Left = 317
   Height = 605
   Top = 140
