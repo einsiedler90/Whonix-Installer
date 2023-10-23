@@ -37,12 +37,12 @@ fi
 ## Debugging.
 pwd
 
-if [ $TARGET_SYSTEM = "WINDOWS" ]; then
+if [ "$TARGET_SYSTEM" = "WINDOWS" ]; then
   for fso in "$FILE_LICENSE" "$FILE_WHONIX_OVA" "$FILE_WHONIX_STARTER_MSI" "$FILE_VBOX_INST_EXE" ; do
     test -r "$fso"
   done
 fi
-if [ $TARGET_SYSTEM = "LINUX" ]; then
+if [ "$TARGET_SYSTEM" = "LINUX" ]; then
   for fso in "$FILE_LICENSE" "$FILE_CLI_INSTALLER_SCRIPT" ; do
     test -r "$fso"
   done
@@ -50,7 +50,7 @@ fi
 
 ## 3) set current whonix OVA size in INI file for main installer executable
 
-if [ $TARGET_SYSTEM = "WINDOWS" ]; then
+if [ "$TARGET_SYSTEM" = "WINDOWS" ]; then
   FILE_WHONIX_OVA_SIZE=$(stat -c%s "$FILE_WHONIX_OVA")
 else
   FILE_WHONIX_OVA_SIZE="0"
@@ -92,7 +92,7 @@ save" | xmllint --shell "WhonixInstaller.lpi"
 
 ## 4.2) update resources in lpi file
 
-if [ $TARGET_SYSTEM = "WINDOWS" ]; then
+if [ "$TARGET_SYSTEM" = "WINDOWS" ]; then
   echo -e "\
   cd //Resources/Resource_2[@ResourceName='LICENSE']/@FileName
   set $FILE_LICENSE
@@ -102,7 +102,7 @@ if [ $TARGET_SYSTEM = "WINDOWS" ]; then
   set $FILE_WHONIX_STARTER_MSI
   save" | xmllint --shell "WhonixInstaller.lpi"
 fi
-if [ $TARGET_SYSTEM = "LINUX" ]; then
+if [ "$TARGET_SYSTEM" = "LINUX" ]; then
   echo -e "\
   cd //Resources/Resource_2[@ResourceName='LICENSE']/@FileName
   set $FILE_LICENSE
@@ -117,7 +117,7 @@ fi
 
 ## 5.0) build static library libQt5Pas.a
 
-if [ $TARGET_SYSTEM = "LINUX" ]; then
+if [ "$TARGET_SYSTEM" = "LINUX" ]; then
   apt-get source libqt5pas-dev
   cd $(ls -d libqtpas* | head -n1)
   sed -i '/^TEMPLATE = lib/a CONFIG += staticlib' Qt5Pas.pro
@@ -130,10 +130,10 @@ fi
 
 ## 5.1) build executable WhonixInstaller.exe
 
-if [ $TARGET_SYSTEM = "WINDOWS" ]; then
+if [ "$TARGET_SYSTEM" = "WINDOWS" ]; then
   lazbuild -B "WhonixInstaller.lpr" --cpu=x86_64 --os=win64 --compiler=/usr/bin/ppcrossx64
 fi
-if [ $TARGET_SYSTEM = "LINUX" ]; then
+if [ "$TARGET_SYSTEM" = "LINUX" ]; then
   lazbuild -B "WhonixInstaller.lpr" --ws=qt5 --cpu=x86_64 --os=linux --compiler=/usr/bin/ppcrossx64
 fi
 
@@ -144,17 +144,17 @@ mv "WhonixInstaller.lpi.in" "WhonixInstaller.lpi"
 
 ## 6) append Whonix OVA to WhonixInstaller.exe
 
-if [ $TARGET_SYSTEM = "WINDOWS" ]; then
+if [ "$TARGET_SYSTEM" = "WINDOWS" ]; then
   cat "WhonixInstaller.exe" "$FILE_WHONIX_OVA" | tee "$FILE_INSTALLER_BINARY_FINAL" >/dev/null
 fi
-if [ $TARGET_SYSTEM = "LINUX" ]; then
+if [ "$TARGET_SYSTEM" = "LINUX" ]; then
   cp "WhonixInstaller" $FILE_INSTALLER_BINARY_FINAL
 fi
 
 ## Debugging.
 du -sh "$FILE_INSTALLER_BINARY_FINAL"
 
-if [ $TARGET_SYSTEM = "LINUX" ]; then
+if [ "$TARGET_SYSTEM" = "LINUX" ]; then
   if ldd "$FILE_INSTALLER_BINARY_FINAL" | grep -q "Qt5Pas"; then
     false "$0: ERROR: $FILE_INSTALLER_BINARY_FINAL depends on QT5Pas"
   else
