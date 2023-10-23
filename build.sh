@@ -15,7 +15,7 @@ set -o nounset
 ## 1) Requires various environment variables:
 ## See build-einsiedler.sh
 
-if ! echo "WINDOWS LINUX" | grep -w -q $TARGET_SYSTEM; then
+if ! echo "WINDOWS LINUX" | grep -w -q "$TARGET_SYSTEM"; then
   echo "$0: ERROR: TARGET_SYSTEM must be either WINDOWS or LINUX." >&2
   exit 1
 fi
@@ -119,7 +119,7 @@ fi
 
 if [ "$TARGET_SYSTEM" = "LINUX" ]; then
   apt-get source libqt5pas-dev
-  cd $(ls -d libqtpas* | head -n1)
+  cd "$(ls -d libqtpas* | head -n1)"
   sed -i '/^TEMPLATE = lib/a CONFIG += staticlib' Qt5Pas.pro
   qmake
   make
