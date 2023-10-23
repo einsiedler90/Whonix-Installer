@@ -14,11 +14,12 @@
       </XPManifest>
       <Icon Value="0"/>
       <Resources Count="5">
-        <Resource_0 FileName="WhonixSetupBanner.jpg" Type="RCDATA" ResourceName="BANNER"/>
-        <Resource_1 FileName="LICENSE" Type="RCDATA" ResourceName="LICENSE"/>
-        <Resource_2 FileName="VBoxSetup.exe" Type="RCDATA" ResourceName="VBOX"/>
-        <Resource_3 FileName="WhonixOvaInfo.ini" Type="RCDATA" ResourceName="OVAINFO"/>
-        <Resource_4 FileName="WhonixStarterSetup.msi" Type="RCDATA" ResourceName="STARTER"/>
+        <Resource_0 FileName="WhonixInstallerBannerLinux.jpg" Type="RCDATA" ResourceName="BANNERLINUX"/>
+        <Resource_1 FileName="WhonixInstallerBannerWindows.jpg" Type="RCDATA" ResourceName="BANNERWINDOWS"/>
+        <Resource_2 FileName="LICENSE" Type="RCDATA" ResourceName="LICENSE"/>
+        <Resource_3 FileName="VBoxSetup.exe" Type="RCDATA" ResourceName="VBOX"/>
+        <Resource_4 FileName="WhonixOvaInfo.ini" Type="RCDATA" ResourceName="OVAINFO"/>
+        <Resource_5 FileName="WhonixStarterSetup.msi" Type="RCDATA" ResourceName="STARTER"/>
       </Resources>
     </General>
     <VersionInfo>

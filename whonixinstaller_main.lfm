@@ -5,7 +5,7 @@ object InstallerForm: TInstallerForm
   Width = 645
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
-  Caption = 'Whonix Setup'
+  Caption = 'Whonix Installer'
   ClientHeight = 605
   ClientWidth = 645
   OnCloseQuery = FormCloseQuery

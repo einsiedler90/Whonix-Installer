@@ -77,11 +77,11 @@ save" | xmllint --shell "WhonixInstaller.lpi"
 ## 4.2) update resources in lpi file
 
 echo -e "\
-cd //Resources/Resource_1[@ResourceName='LICENSE']/@FileName
+cd //Resources/Resource_2[@ResourceName='LICENSE']/@FileName
 set $FILE_LICENSE
-cd //Resources/Resource_2[@ResourceName='VBOX']/@FileName
+cd //Resources/Resource_3[@ResourceName='VBOX']/@FileName
 set $FILE_VBOX_INST_EXE
-cd //Resources/Resource_4[@ResourceName='STARTER']/@FileName
+cd //Resources/Resource_5[@ResourceName='STARTER']/@FileName
 set $FILE_WHONIX_STARTER_MSI
 save" | xmllint --shell "WhonixInstaller.lpi"
 

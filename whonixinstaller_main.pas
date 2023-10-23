@@ -191,7 +191,12 @@ begin
   PageControl.ActivePageIndex := 0;
 
   InstallerForm.Icon.LoadFromResourceName(Hinstance, 'MAINICON');
-  ImageBanner.Picture.LoadFromResourceName(Hinstance, 'BANNER');
+
+  {$IFDEF WINDOWS}
+    ImageBanner.Picture.LoadFromResourceName(Hinstance, 'BANNERWINDOWS');
+  {$ELSE}
+    ImageBanner.Picture.LoadFromResourceName(Hinstance, 'BANNERLINUX');
+  {$ENDIF}
 
   ResourceStream := TResourceStream.Create(HInstance, 'LICENSE', RT_RCDATA);
   MemoLicense.Lines.LoadFromStream(ResourceStream);
