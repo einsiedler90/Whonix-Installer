@@ -47,7 +47,7 @@ object InstallerForm: TInstallerForm
         Width = 585
         Align = alBottom
         BorderSpacing.Around = 15
-        Caption = 'Yes, I accept the license agreement'
+        Caption = 'Yes, I accept the license agreement.'
         OnChange = CheckBoxLicenseChange
         TabOrder = 1
       end
@@ -231,7 +231,7 @@ object InstallerForm: TInstallerForm
         Width = 585
         Align = alTop
         BorderSpacing.Around = 15
-        Caption = 'Please wait while Setup installs Whonix on your computer.'
+        Caption = 'Please wait while Whonix is being installed.'
         ParentColor = False
         WordWrap = True
       end
@@ -259,7 +259,7 @@ object InstallerForm: TInstallerForm
         Width = 585
         Align = alTop
         BorderSpacing.Around = 15
-        Caption = 'This setup has completed the installation of Whonix on your computer.'
+        Caption = 'Installation of Whonix has been completed.'
         ParentColor = False
         WordWrap = True
         OnClick = LabelCompleteDescClick
