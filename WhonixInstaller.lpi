@@ -13,22 +13,23 @@
         <ExecutionLevel Value="requireAdministrator"/>
       </XPManifest>
       <Icon Value="0"/>
-      <Resources Count="5">
+      <Resources Count="7">
         <Resource_0 FileName="WhonixInstallerBannerLinux.jpg" Type="RCDATA" ResourceName="BANNERLINUX"/>
         <Resource_1 FileName="WhonixInstallerBannerWindows.jpg" Type="RCDATA" ResourceName="BANNERWINDOWS"/>
         <Resource_2 FileName="LICENSE" Type="RCDATA" ResourceName="LICENSE"/>
-        <Resource_3 FileName="VBoxSetup.exe" Type="RCDATA" ResourceName="VBOX"/>
+        <Resource_3 FileName="DUMMY_RES_FILE" Type="RCDATA" ResourceName="SCRIPT"/>
         <Resource_4 FileName="WhonixOvaInfo.ini" Type="RCDATA" ResourceName="OVAINFO"/>
-        <Resource_5 FileName="WhonixStarterSetup.msi" Type="RCDATA" ResourceName="STARTER"/>
+        <Resource_5 FileName="DUMMY_RES_FILE" Type="RCDATA" ResourceName="VBOX"/>
+        <Resource_6 FileName="DUMMY_RES_FILE" Type="RCDATA" ResourceName="STARTER"/>
       </Resources>
     </General>
     <VersionInfo>
       <UseVersionInfo Value="True"/>
-      <MajorVersionNr Value="1"/>
-      <MinorVersionNr Value="2"/>
-      <RevisionNr Value="3"/>
-      <BuildNr Value="4"/>
-      <StringTable Comments="Installer for Whonix" CompanyName="ENCRYPTED SUPPORT LP" FileDescription="Installer for Whonix" InternalName="WhonixSetup" LegalCopyright="Copyright (C) 2023" OriginalFilename="WhonixSetup-XYZ-1.2.3.4.exe" ProductName="Whonix" ProductVersion="XYZ-1.2.3.4"/>
+      <MajorVersionNr Value="16"/>
+      <MinorVersionNr Value="0"/>
+      <RevisionNr Value="9"/>
+      <BuildNr Value="8"/>
+      <StringTable Comments="Installer for Whonix" CompanyName="ENCRYPTED SUPPORT LP" FileDescription="Installer for Whonix" InternalName="WhonixSetup" LegalCopyright="Copyright (C) 2023" OriginalFilename="WhonixInstaller-XFCE-16.0.9.8" ProductName="Whonix" ProductVersion="XFCE-16.0.9.8"/>
     </VersionInfo>
     <BuildModes>
       <Item Name="Default" Default="True"/>

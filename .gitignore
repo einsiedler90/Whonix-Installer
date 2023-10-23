@@ -1,10 +1,8 @@
-# wixl generated files
-WhonixStarterSetup.msi
-
 # special files
+whonix-xfce-installer-gui-*
 WhonixInstaller
 WhonixInstaller-*
-WhonixOvaInfo.ini
+libqtpas*
 
 # Lazarus compiler-generated binaries (safe to delete)
 *.exe

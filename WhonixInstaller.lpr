@@ -6,6 +6,16 @@ uses
   {$IFDEF UNIX}
   cthreads,
   {$ENDIF}
+  {$IFDEF LCLQT5}
+    {$linklib Qt5PrintSupport}
+    {$linklib Qt5Widgets}
+    {$linklib Qt5X11Extras}
+    {$linklib Qt5Gui}
+    {$linklib Qt5Network}
+    {$linklib Qt5Core}
+    {$linklib stdc++}
+    {$linklib gcc_s}
+  {$ENDIF}
   {$IFDEF HASAMIGA}
   athreads,
   {$ENDIF}
