@@ -148,7 +148,7 @@ if [ "$TARGET_SYSTEM" = "WINDOWS" ]; then
   cat "WhonixInstaller.exe" "$FILE_WHONIX_OVA" | tee "$FILE_INSTALLER_BINARY_FINAL" >/dev/null
 fi
 if [ "$TARGET_SYSTEM" = "LINUX" ]; then
-  cp "WhonixInstaller" $FILE_INSTALLER_BINARY_FINAL
+  cp "WhonixInstaller" "$FILE_INSTALLER_BINARY_FINAL"
 fi
 
 ## Debugging.
