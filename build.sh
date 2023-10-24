@@ -27,6 +27,8 @@ fi
 command -v xmllint >/dev/null
 command -v lazbuild >/dev/null
 command -v ldd >/dev/null
+## from package libfile-mimeinfo-perl
+command -v mimetype >/dev/null
 
 ## Debugging.
 pwd
@@ -147,6 +149,7 @@ fi
 
 ## Debugging.
 du -sh "$FILE_INSTALLER_BINARY_FINAL"
+mimetype "$FILE_INSTALLER_BINARY_FINAL"
 
 if [ "$TARGET_SYSTEM" = "LINUX" ]; then
   if ldd "$FILE_INSTALLER_BINARY_FINAL" | grep -q "Qt5Pas"; then
