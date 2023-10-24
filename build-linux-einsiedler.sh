@@ -13,6 +13,7 @@ set -o nounset
 
 ## Only on developer machine for local test builds only.
 export use_ppcross_x64_maybe="--compiler=/usr/bin/ppcrossx64"
+export skip_fpc_windows_dependencies_check="true"
 
 export TARGET_SYSTEM="LINUX"
 

@@ -30,6 +30,21 @@ command -v ldd >/dev/null
 ## from package libfile-mimeinfo-perl
 command -v mimetype >/dev/null
 
+[[ -v skip_fpc_windows_dependencies_check ]] || skip_fpc_windows_dependencies_check=""
+[[ -v use_ppcross_x64_maybe ]] || use_ppcross_x64_maybe=""
+
+## If using
+## export use_ppcross_x64_maybe="--compiler=/usr/bin/ppcrossx64"
+## then this is not needed.
+## This can maybe be removed from developer machines start using Debian trixie or higher?
+if [ ! "$skip_fpc_windows_dependencies_check" = "true" ]; then
+  ## lazbuild requires build dependency packages from Debian trixie.
+  dpkg -l | grep fp-units-win-base >/dev/null
+  dpkg -l | grep fp-units-win-rtl >/dev/null
+  dpkg -l | grep fp-units-win-fcl >/dev/null
+  dpkg -l | grep fp-units-win-misc >/dev/null
+fi
+
 ## Debugging.
 pwd
 
@@ -129,10 +144,10 @@ fi
 true "use_ppcross_x64_maybe: $use_ppcross_x64_maybe"
 
 if [ "$TARGET_SYSTEM" = "WINDOWS" ]; then
-  lazbuild -B "WhonixInstaller.lpr" --cpu=x86_64 --os=win64 $use_ppcross_x64_maybe
+  lazbuild -B "WhonixInstaller.lpr" --cpu=x86_64 --os=win64 "$use_ppcross_x64_maybe"
 fi
 if [ "$TARGET_SYSTEM" = "LINUX" ]; then
-  lazbuild -B "WhonixInstaller.lpr" --ws=qt5 --cpu=x86_64 --os=linux $use_ppcross_x64_maybe
+  lazbuild -B "WhonixInstaller.lpr" --ws=qt5 --cpu=x86_64 --os=linux "$use_ppcross_x64_maybe"
 fi
 
 ## 5.2) restore original lpi file and delete backup
