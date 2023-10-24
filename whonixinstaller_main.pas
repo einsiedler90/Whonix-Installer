@@ -1,4 +1,4 @@
-unit WhonixSetup_Main;
+unit WhonixInstaller_Main;
 
 {$mode ObjFPC}{$H+}
 
@@ -10,9 +10,9 @@ uses
 
 type
 
-  { TSetupForm }
+  { TInstallerForm }
 
-  TSetupForm = class(TForm)
+  TInstallerForm = class(TForm)
     ButtonBack: TButton;
     ButtonNext: TButton;
     ButtonCancel: TButton;
@@ -62,7 +62,7 @@ type
   end;
 
 var
-  SetupForm: TSetupForm;
+  InstallerForm: TInstallerForm;
 
 implementation
 
@@ -114,23 +114,23 @@ end;
 
 *)
 
-{ TSetupForm }
+{ TInstallerForm }
 
-procedure TSetupForm.CheckBoxOutputChange(Sender: TObject);
+procedure TInstallerForm.CheckBoxOutputChange(Sender: TObject);
 begin
   if CheckBoxOutput.Checked then
   begin
-    //SetupForm.Height := 500;
+    //InstallerForm.Height := 500;
     MemoOutput.Show;
   end
   else
   begin
     MemoOutput.Hide;
-    //SetupForm.Height := CheckBoxOutput.Top + CheckBoxOutput.Height + 10;
+    //InstallerForm.Height := CheckBoxOutput.Top + CheckBoxOutput.Height + 10;
   end;
 end;
 
-procedure TSetupForm.FormCloseQuery(Sender: TObject; var CanClose: boolean);
+procedure TInstallerForm.FormCloseQuery(Sender: TObject; var CanClose: boolean);
 begin
   if PageControl.ActivePage = TabSheetComplete then
   begin
@@ -144,7 +144,7 @@ begin
     Exit;
   end;
 
-  if MessageDlg('Exit Installer', 'Are you sure you want to cancel the Whonix installation?',
+  if MessageDlg('Exit Setup', 'Are you sure you want to cancel the Whonix installation?',
     mtConfirmation, [mbYes, mbNo], 0) = mrYes then
   begin
     CanClose := True;
@@ -155,7 +155,7 @@ begin
   end;
 end;
 
-procedure TSetupForm.ButtonNextClick(Sender: TObject);
+procedure TInstallerForm.ButtonNextClick(Sender: TObject);
 begin
   ButtonBack.Enabled := False;
   ButtonNext.Enabled := False;
@@ -164,12 +164,12 @@ begin
   PageControlChange(PageControl);
 end;
 
-procedure TSetupForm.CheckBoxLicenseChange(Sender: TObject);
+procedure TInstallerForm.CheckBoxLicenseChange(Sender: TObject);
 begin
   ButtonNext.Enabled := CheckBoxLicense.Checked;
 end;
 
-procedure TSetupForm.ButtonBackClick(Sender: TObject);
+procedure TInstallerForm.ButtonBackClick(Sender: TObject);
 begin
   ButtonBack.Enabled := False;
   ButtonNext.Enabled := False;
@@ -178,20 +178,25 @@ begin
   PageControlChange(PageControl);
 end;
 
-procedure TSetupForm.ButtonCancelClick(Sender: TObject);
+procedure TInstallerForm.ButtonCancelClick(Sender: TObject);
 begin
   Close;
 end;
 
-procedure TSetupForm.FormCreate(Sender: TObject);
+procedure TInstallerForm.FormCreate(Sender: TObject);
 var
   ResourceStream: TResourceStream;
 begin
   PageControl.ShowTabs := False;
   PageControl.ActivePageIndex := 0;
 
-  SetupForm.Icon.LoadFromResourceName(Hinstance, 'MAINICON');
-  ImageBanner.Picture.LoadFromResourceName(Hinstance, 'BANNER');
+  InstallerForm.Icon.LoadFromResourceName(Hinstance, 'MAINICON');
+
+  {$IFDEF WINDOWS}
+    ImageBanner.Picture.LoadFromResourceName(Hinstance, 'BANNERWINDOWS');
+  {$ELSE}
+    ImageBanner.Picture.LoadFromResourceName(Hinstance, 'BANNERLINUX');
+  {$ENDIF}
 
   ResourceStream := TResourceStream.Create(HInstance, 'LICENSE', RT_RCDATA);
   MemoLicense.Lines.LoadFromStream(ResourceStream);
@@ -202,14 +207,14 @@ begin
   UnpackPath := GetAppConfigDir(False);
   if not ForceDirectories(UnpackPath) then
   begin
-    ShowMessage('Error : Directory for unpacking could not be created.');
+    ShowMessage('Error : directory for unpacking could not be created');
     Halt;
   end;
 
   while AppDiskGetFreeSpace(UnpackPath) < 4 * 1024 * 1024 * 1024 do
   begin
-    if MessageDlg('No free disk space for temp data! ( 4GB needed )',
-      'Do you wish to select directory?', mtConfirmation, [mbYes, mbClose], 0) =
+    if MessageDlg('no free disk space for temp data! ( 4GB needed )',
+      'do you wish to select directory?', mtConfirmation, [mbYes, mbClose], 0) =
       mrYes then
     begin
       if SelectDirectoryDialog.Execute then
@@ -231,17 +236,17 @@ begin
   end;
 end;
 
-procedure TSetupForm.FormDestroy(Sender: TObject);
+procedure TInstallerForm.FormDestroy(Sender: TObject);
 begin
   DeleteDirectory(UnpackPath, False);
 end;
 
-procedure TSetupForm.LabelCompleteDescClick(Sender: TObject);
+procedure TInstallerForm.LabelCompleteDescClick(Sender: TObject);
 begin
 
 end;
 
-procedure TSetupForm.PageControlChange(Sender: TObject);
+procedure TInstallerForm.PageControlChange(Sender: TObject);
 begin
   if PageControl.ActivePage = TabSheetLicense then
   begin
@@ -270,13 +275,13 @@ begin
   end;
 end;
 
-procedure TSetupForm.TabSheetConfigurationContextPopup(Sender: TObject;
+procedure TInstallerForm.TabSheetConfigurationContextPopup(Sender: TObject;
   MousePos: TPoint; var Handled: boolean);
 begin
 
 end;
 
-procedure TSetupForm.Installation;
+procedure TInstallerForm.Installation;
 const
   {$IFDEF WINDOWS}
   defaultVBoxManagePath = 'C:\Program Files\Oracle\VirtualBox\VBoxManage.exe';
@@ -292,46 +297,46 @@ var
   ExeFileStream: TFileStream;
 begin
   ProgressBar.Position := 1;
-  SetupForm.NextStatus('Step 1 / 9 : Check if VirtualBox is already installed.');
+  InstallerForm.NextStatus('Step 1 / 9 : check if VirtualBox is already installed');
   EnsureValidExePath(CurrentVBoxManagePath, defaultVBoxManagePath);
 
   if CurrentVBoxManagePath = '' then
   begin
     {$IFDEF WINDOWS}
     ProgressBar.Position := 2;
-    SetupForm.NextStatus('Step 2 / 9 : Unpacking VirtualBox installer.');
+    InstallerForm.NextStatus('Step 2 / 9 : unpack virtualbox installer');
     ResourceStream := TResourceStream.Create(HInstance, 'VBOX', RT_RCDATA);
     StreamSaveToFile(ResourceStream, UnpackPath + 'vbox.exe');
     ResourceStream.Free;
 
     ProgressBar.Position := 3;
-    SetupForm.NextStatus('Step 3 / 9 : Install VirtualBox.');
+    InstallerForm.NextStatus('Step 3 / 9 : install virtualbox');
     Execute('cmd.exe /c ""' + UnpackPath + 'vbox.exe"" --silent --ignore-reboot',
-      SetupForm.MemoOutput.Lines);
+      InstallerForm.MemoOutput.Lines);
     {$ENDIF}
 
     EnsureValidExePath(CurrentVBoxManagePath, defaultVBoxManagePath);
 
     if CurrentVBoxManagePath = '' then
     begin
-      SetupForm.NextStatus('Error : VirtualBox could not be installed.');
+      InstallerForm.NextStatus('Error : virtualbox could not be installed');
       ButtonCancel.Enabled := True;
       Exit;
     end;
   end;
 
   ProgressBar.Position := 4;
-  SetupForm.NextStatus('Step 4 / 9 : Detect already existing Whonix VMs.');
+  InstallerForm.NextStatus('Step 4 / 9 : detect already existing whonix vms');
   Output := TStringList.Create;
   Execute(CurrentVBoxManagePath + ' list vms', Output);
-  SetupForm.MemoOutput.Lines.AddStrings(Output);
+  InstallerForm.MemoOutput.Lines.AddStrings(Output);
 
   // TODO: install/repair if only one of both VMs is missing?
-  if not ContainsStr(Output.Text, 'Whonix-Gateway-Xfce') and not
-    ContainsStr(Output.Text, 'Whonix-Workstation-Xfce') then
+  if not ContainsStr(Output.Text, 'Whonix-Gateway-XFCE') and not
+    ContainsStr(Output.Text, 'Whonix-Workstation-XFCE') then
   begin
     ProgressBar.Position := 5;
-    SetupForm.NextStatus('Step 5 / 9 : Unpack Whonix ova.');
+    InstallerForm.NextStatus('Step 5 / 9 : unpack whonix ova');
     ExeFileStream := TFileStream.Create(Application.ExeName, fmOpenRead);
     ResourceStream := TResourceStream.Create(HInstance, 'OVAINFO', RT_RCDATA);
     with TIniFile.Create(ResourceStream) do
@@ -344,10 +349,10 @@ begin
     ExeFileStream.Free;
 
     ProgressBar.Position := 6;
-    SetupForm.NextStatus('Step 6 / 9 : Import Whonix-Gateway and Whonix-Workstation into VirtualBox.');
+    InstallerForm.NextStatus('Step 6 / 9 : install whonix gateway and workstation');
     Execute(CurrentVBoxManagePath + ' import "' + UnpackPath +
       'whonix.ova' + '" --vsys 0 --eula accept --vsys 1 --eula accept',
-      SetupForm.MemoOutput.Lines);
+      InstallerForm.MemoOutput.Lines);
   end;
 
   Output.Free;
@@ -359,29 +364,29 @@ begin
   end;
 
   ProgressBar.Position := 7;
-  SetupForm.NextStatus('Step 7 / 9 : Check if Whonix Starter is already installed.');
+  InstallerForm.NextStatus('Step 7 / 9 : check if whonix starter is already installed');
   EnsureValidExePath(CurrentWhonixStarterPath, defaultWhonixStarterPath);
 
   if CurrentWhonixStarterPath = '' then
   begin
     {$IFDEF WINDOWS}
     ProgressBar.Position := 8;
-    SetupForm.NextStatus('Step 8 / 9 : Unpack Shonix Starter Installer');
+    InstallerForm.NextStatus('Step 8 / 9 : unpack whonix starter installer');
     ResourceStream := TResourceStream.Create(HInstance, 'STARTER', RT_RCDATA);
     StreamSaveToFile(ResourceStream, UnpackPath + 'WhonixStarter.msi');
     ResourceStream.Free;
 
     ProgressBar.Position := 9;
-    SetupForm.NextStatus('Step 9 / 9 : Install Whonix Starter.');
+    InstallerForm.NextStatus('Step 9 / 9 : install whonix starter');
     Execute('msiexec /i "' + UnpackPath + 'WhonixStarter.msi"',
-        SetupForm.MemoOutput.Lines);
+        InstallerForm.MemoOutput.Lines);
     {$ENDIF}
 
     EnsureValidExePath(CurrentWhonixStarterPath, defaultWhonixStarterPath);
 
     if CurrentWhonixStarterPath = '' then
     begin
-      SetupForm.NextStatus('Error : Whonix Starter could not be installed.');
+      InstallerForm.NextStatus('Error : whonix starter could not be installed');
       ButtonCancel.Enabled := True;
       Exit;
     end;
@@ -390,13 +395,13 @@ begin
   ButtonNextClick(ButtonNext);
 end;
 
-procedure TSetupForm.NextStatus(Status: string; Output: TStrings = nil);
+procedure TInstallerForm.NextStatus(Status: string; Output: TStrings = nil);
 var
   i: integer;
 begin
-  if not SetupForm.Showing then
+  if not InstallerForm.Showing then
   begin
-    SetupForm.Show;
+    InstallerForm.Show;
   end;
 
   PanelStatus.Caption := Status;
