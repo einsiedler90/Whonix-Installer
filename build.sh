@@ -149,10 +149,11 @@ fi
 true "use_ppcross_x64_maybe: $use_ppcross_x64_maybe"
 
 if [ "$TARGET_SYSTEM" = "WINDOWS" ]; then
-  lazbuild -B "WhonixInstaller.lpr" --cpu=x86_64 --os=win64 "$use_ppcross_x64_maybe"
-fi
-if [ "$TARGET_SYSTEM" = "LINUX" ]; then
-  lazbuild -B "WhonixInstaller.lpr" --ws=qt5 --cpu=x86_64 --os=linux "$use_ppcross_x64_maybe"
+  # shellcheck disable=SC2086
+  lazbuild -B "WhonixInstaller.lpr" --cpu=x86_64 --os=win64 $use_ppcross_x64_maybe
+elif [ "$TARGET_SYSTEM" = "LINUX" ]; then
+  # shellcheck disable=SC2086
+  lazbuild -B "WhonixInstaller.lpr" --ws=qt5 --cpu=x86_64 --os=linux $use_ppcross_x64_maybe
 fi
 
 ## 5.2) restore original lpi file and delete backup
