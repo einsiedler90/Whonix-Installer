@@ -130,7 +130,12 @@ fi
 
 if [ "$TARGET_SYSTEM" = "LINUX" ]; then
   apt-get source libqt5pas-dev
-  cd "$(ls -d libqtpas* | head -n1)"
+
+  matching_dirs=$(find . -maxdepth 1 -type d -name 'libqtpas*')
+  first_dir=$(echo "$matching_dirs" | head -n1)
+  cd "$first_dir"
+
+  test -r Qt5Pas.pro
   sed -i '/^TEMPLATE = lib/a CONFIG += staticlib' Qt5Pas.pro
   qmake
   make
