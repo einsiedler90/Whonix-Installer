@@ -12,6 +12,8 @@ set -e
 set -o pipefail
 set -o nounset
 
+true "$0: START"
+
 ## 1) Requires various environment variables:
 ## See build-einsiedler.sh
 
@@ -21,8 +23,6 @@ if ! echo "WINDOWS LINUX" | grep -w -q "$TARGET_SYSTEM"; then
 fi
 
 ## 2) sanity tests
-
-true "$0: START"
 
 if ! [ -x "$(command -v xmllint)" ]; then
   echo "$0: ERROR: xmllint is not installed." >&2
@@ -157,11 +157,9 @@ du -sh "$FILE_INSTALLER_BINARY_FINAL"
 if [ "$TARGET_SYSTEM" = "LINUX" ]; then
   if ldd "$FILE_INSTALLER_BINARY_FINAL" | grep -q "Qt5Pas"; then
     false "$0: ERROR: $FILE_INSTALLER_BINARY_FINAL depends on QT5Pas"
-  else
-    true "$0: SUCCESS"
   fi
-else
-  true "$0: SUCCESS"
 fi
+
+true "$0: SUCCESS"
 
 exit 0
