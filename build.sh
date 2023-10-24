@@ -24,15 +24,9 @@ fi
 
 ## 2) sanity tests
 
-if ! [ -x "$(command -v xmllint)" ]; then
-  echo "$0: ERROR: xmllint is not installed." >&2
-  exit 1
-fi
-
-if ! [ -x "$(command -v lazbuild)" ]; then
-  echo "$0: ERROR: lazbuild is not installed." >&2
-  exit 1
-fi
+command -v xmllint >/dev/null
+command -v lazbuild >/dev/null
+command -v ldd >/dev/null
 
 ## Debugging.
 pwd
