@@ -12,6 +12,8 @@ set -e
 set -o pipefail
 set -o nounset
 
+true "$0: START"
+
 ## 1) Requires various environment variables:
 ## See build-einsiedler.sh
 
@@ -22,16 +24,25 @@ fi
 
 ## 2) sanity tests
 
-true "$0: START"
+command -v xmllint >/dev/null
+command -v lazbuild >/dev/null
+command -v ldd >/dev/null
+## from package libfile-mimeinfo-perl
+command -v mimetype >/dev/null
 
-if ! [ -x "$(command -v xmllint)" ]; then
-  echo "$0: ERROR: xmllint is not installed." >&2
-  exit 1
-fi
+[[ -v skip_fpc_windows_dependencies_check ]] || skip_fpc_windows_dependencies_check=""
+[[ -v use_ppcross_x64_maybe ]] || use_ppcross_x64_maybe=""
 
-if ! [ -x "$(command -v lazbuild)" ]; then
-  echo "$0: ERROR: lazbuild is not installed." >&2
-  exit 1
+## If using
+## export use_ppcross_x64_maybe="--compiler=/usr/bin/ppcrossx64"
+## then this is not needed.
+## This can maybe be removed from developer machines start using Debian trixie or higher?
+if [ ! "$skip_fpc_windows_dependencies_check" = "true" ]; then
+  ## lazbuild requires build dependency packages from Debian trixie.
+  dpkg -l | grep fp-units-win-base >/dev/null
+  dpkg -l | grep fp-units-win-rtl >/dev/null
+  dpkg -l | grep fp-units-win-fcl >/dev/null
+  dpkg -l | grep fp-units-win-misc >/dev/null
 fi
 
 ## Debugging.
@@ -113,13 +124,18 @@ fi
 
 #cp "$FILE_LICENSE" "LICENSE"
 #cp "$FILE_VBOX_INST_EXE" "VBoxSetup.exe"
-#cp "$FILE_WHONIX_STARTER_MSI" "WhonixStarterSetup.msi"
+#cp "$FILE_WHONIX_STARTER_MSI" "WhonixStarterInstaller.msi"
 
 ## 5.0) build static library libQt5Pas.a
 
 if [ "$TARGET_SYSTEM" = "LINUX" ]; then
   apt-get source libqt5pas-dev
-  cd "$(ls -d libqtpas* | head -n1)"
+
+  matching_dirs=$(find . -maxdepth 1 -type d -name 'libqtpas*')
+  first_dir=$(echo "$matching_dirs" | head -n1)
+  cd "$first_dir"
+
+  test -r Qt5Pas.pro
   sed -i '/^TEMPLATE = lib/a CONFIG += staticlib' Qt5Pas.pro
   qmake
   make
@@ -130,11 +146,14 @@ fi
 
 ## 5.1) build executable WhonixInstaller.exe
 
+true "use_ppcross_x64_maybe: $use_ppcross_x64_maybe"
+
 if [ "$TARGET_SYSTEM" = "WINDOWS" ]; then
-  lazbuild -B "WhonixInstaller.lpr" --cpu=x86_64 --os=win64 --compiler=/usr/bin/ppcrossx64
-fi
-if [ "$TARGET_SYSTEM" = "LINUX" ]; then
-  lazbuild -B "WhonixInstaller.lpr" --ws=qt5 --cpu=x86_64 --os=linux --compiler=/usr/bin/ppcrossx64
+  # shellcheck disable=SC2086
+  lazbuild -B "WhonixInstaller.lpr" --cpu=x86_64 --os=win64 $use_ppcross_x64_maybe
+elif [ "$TARGET_SYSTEM" = "LINUX" ]; then
+  # shellcheck disable=SC2086
+  lazbuild -B "WhonixInstaller.lpr" --ws=qt5 --cpu=x86_64 --os=linux $use_ppcross_x64_maybe
 fi
 
 ## 5.2) restore original lpi file and delete backup
@@ -153,15 +172,14 @@ fi
 
 ## Debugging.
 du -sh "$FILE_INSTALLER_BINARY_FINAL"
+mimetype "$FILE_INSTALLER_BINARY_FINAL"
 
 if [ "$TARGET_SYSTEM" = "LINUX" ]; then
   if ldd "$FILE_INSTALLER_BINARY_FINAL" | grep -q "Qt5Pas"; then
     false "$0: ERROR: $FILE_INSTALLER_BINARY_FINAL depends on QT5Pas"
-  else
-    true "$0: SUCCESS"
   fi
-else
-  true "$0: SUCCESS"
 fi
+
+true "$0: SUCCESS"
 
 exit 0
