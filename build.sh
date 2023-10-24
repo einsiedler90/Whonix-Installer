@@ -109,7 +109,7 @@ fi
 
 #cp "$FILE_LICENSE" "LICENSE"
 #cp "$FILE_VBOX_INST_EXE" "VBoxSetup.exe"
-#cp "$FILE_WHONIX_STARTER_MSI" "WhonixStarterSetup.msi"
+#cp "$FILE_WHONIX_STARTER_MSI" "WhonixStarterInstaller.msi"
 
 ## 5.0) build static library libQt5Pas.a
 
