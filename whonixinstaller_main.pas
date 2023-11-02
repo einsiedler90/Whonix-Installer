@@ -297,20 +297,20 @@ var
   ExeFileStream: TFileStream;
 begin
   ProgressBar.Position := 1;
-  InstallerForm.NextStatus('Step 1 / 9 : check if VirtualBox is already installed');
+  InstallerForm.NextStatus('Step 1 / 9 : Checking if VirtualBox is already installed...');
   EnsureValidExePath(CurrentVBoxManagePath, defaultVBoxManagePath);
 
   if CurrentVBoxManagePath = '' then
   begin
     {$IFDEF WINDOWS}
     ProgressBar.Position := 2;
-    InstallerForm.NextStatus('Step 2 / 9 : unpack virtualbox installer');
+    InstallerForm.NextStatus('Step 2 / 9 : Unpacking VirtualBox installer...');
     ResourceStream := TResourceStream.Create(HInstance, 'VBOX', RT_RCDATA);
     StreamSaveToFile(ResourceStream, UnpackPath + 'vbox.exe');
     ResourceStream.Free;
 
     ProgressBar.Position := 3;
-    InstallerForm.NextStatus('Step 3 / 9 : install virtualbox');
+    InstallerForm.NextStatus('Step 3 / 9 : Installing VirtualBox..');
     Execute('cmd.exe /c ""' + UnpackPath + 'vbox.exe"" --silent --ignore-reboot',
       InstallerForm.MemoOutput.Lines);
     {$ENDIF}
@@ -319,14 +319,14 @@ begin
 
     if CurrentVBoxManagePath = '' then
     begin
-      InstallerForm.NextStatus('Error : virtualbox could not be installed');
+      InstallerForm.NextStatus('Error : VirtualBox could not be installed.');
       ButtonCancel.Enabled := True;
       Exit;
     end;
   end;
 
   ProgressBar.Position := 4;
-  InstallerForm.NextStatus('Step 4 / 9 : detect already existing whonix vms');
+  InstallerForm.NextStatus('Step 4 / 9 : Detecting already existing Whonix VMs.');
   Output := TStringList.Create;
   Execute(CurrentVBoxManagePath + ' list vms', Output);
   InstallerForm.MemoOutput.Lines.AddStrings(Output);
@@ -336,7 +336,7 @@ begin
     ContainsStr(Output.Text, 'Whonix-Workstation-Xfce') then
   begin
     ProgressBar.Position := 5;
-    InstallerForm.NextStatus('Step 5 / 9 : unpack whonix ova');
+    InstallerForm.NextStatus('Step 5 / 9 : Unpacking Whonix ova...');
     ExeFileStream := TFileStream.Create(Application.ExeName, fmOpenRead);
     ResourceStream := TResourceStream.Create(HInstance, 'OVAINFO', RT_RCDATA);
     with TIniFile.Create(ResourceStream) do
@@ -349,7 +349,7 @@ begin
     ExeFileStream.Free;
 
     ProgressBar.Position := 6;
-    InstallerForm.NextStatus('Step 6 / 9 : install whonix gateway and workstation');
+    InstallerForm.NextStatus('Step 6 / 9 : Installing Whonix-Gateway and Whonix-Workstation.');
     Execute(CurrentVBoxManagePath + ' import "' + UnpackPath +
       'whonix.ova' + '" --vsys 0 --eula accept --vsys 1 --eula accept',
       InstallerForm.MemoOutput.Lines);
@@ -364,20 +364,20 @@ begin
   end;
 
   ProgressBar.Position := 7;
-  InstallerForm.NextStatus('Step 7 / 9 : check if whonix starter is already installed');
+  InstallerForm.NextStatus('Step 7 / 9 : Checking if Whonix-Starter is already installed...');
   EnsureValidExePath(CurrentWhonixStarterPath, defaultWhonixStarterPath);
 
   if CurrentWhonixStarterPath = '' then
   begin
     {$IFDEF WINDOWS}
     ProgressBar.Position := 8;
-    InstallerForm.NextStatus('Step 8 / 9 : unpack whonix starter installer');
+    InstallerForm.NextStatus('Step 8 / 9 : Unpacking Whonix-Starter installer...');
     ResourceStream := TResourceStream.Create(HInstance, 'STARTER', RT_RCDATA);
     StreamSaveToFile(ResourceStream, UnpackPath + 'WhonixStarter.msi');
     ResourceStream.Free;
 
     ProgressBar.Position := 9;
-    InstallerForm.NextStatus('Step 9 / 9 : install whonix starter');
+    InstallerForm.NextStatus('Step 9 / 9 : Installing Whonix-Starter...');
     Execute('msiexec /i "' + UnpackPath + 'WhonixStarter.msi"',
         InstallerForm.MemoOutput.Lines);
     {$ENDIF}
@@ -386,7 +386,7 @@ begin
 
     if CurrentWhonixStarterPath = '' then
     begin
-      InstallerForm.NextStatus('Error : whonix starter could not be installed');
+      InstallerForm.NextStatus('Error : Whonix-Starter could not be installed.');
       ButtonCancel.Enabled := True;
       Exit;
     end;
