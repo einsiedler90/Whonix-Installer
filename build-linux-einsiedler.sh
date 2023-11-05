@@ -17,12 +17,8 @@ export skip_fpc_windows_dependencies_check="true"
 
 export TARGET_SYSTEM="LINUX"
 
-export VERSION_MAJOR="16"
-export VERSION_MINOR="0"
-export VERSION_REVISION="9"
-export VERSION_BUILD="8"
-
-export VERSION_FULL="$VERSION_MAJOR.$VERSION_MINOR.$VERSION_REVISION.$VERSION_BUILD"
+## hardcoded
+export VERSION_FULL="Xfce-16.0.9.8"
 
 # TODO: replace with linux equivalent
 export FILE_LICENSE="../deps/license.txt"

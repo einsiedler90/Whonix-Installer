@@ -13,12 +13,7 @@ set -o nounset
 
 export TARGET_SYSTEM="WINDOWS"
 
-export VERSION_MAJOR="16"
-export VERSION_MINOR="0"
-export VERSION_REVISION="9"
-export VERSION_BUILD="8"
-
-export VERSION_FULL="Xfce-$VERSION_MAJOR.$VERSION_MINOR.$VERSION_REVISION.$VERSION_BUILD"
+export VERSION_FULL="Dummy"
 
 ## All files are created created as empty files using `touch` for the purpose of
 ## simulated local or CI builds only.

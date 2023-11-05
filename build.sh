@@ -88,13 +88,13 @@ cp "WhonixInstaller.lpi.in" "WhonixInstaller.lpi"
 
 echo -e "\
 cd //VersionInfo/MajorVersionNr/@Value
-set $VERSION_MAJOR
+set 0
 cd //VersionInfo/MinorVersionNr/@Value
-set $VERSION_MINOR
+set 0
 cd //VersionInfo/RevisionNr/@Value
-set $VERSION_REVISION
+set 0
 cd //VersionInfo/BuildNr/@Value
-set $VERSION_BUILD
+set 0
 cd //VersionInfo/StringTable/@ProductVersion
 set $VERSION_FULL
 cd //VersionInfo/StringTable/@OriginalFilename
