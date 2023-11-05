@@ -84,17 +84,9 @@ cat "WhonixOvaInfo.ini"
 mv "WhonixInstaller.lpi" "WhonixInstaller.lpi.in"
 cp "WhonixInstaller.lpi.in" "WhonixInstaller.lpi"
 
-## 4.1) update lpi file
+## 4.1) update version info in lpi file
 
 echo -e "\
-cd //VersionInfo/MajorVersionNr/@Value
-set 0
-cd //VersionInfo/MinorVersionNr/@Value
-set 0
-cd //VersionInfo/RevisionNr/@Value
-set 0
-cd //VersionInfo/BuildNr/@Value
-set 0
 cd //VersionInfo/StringTable/@ProductVersion
 set $VERSION_FULL
 cd //VersionInfo/StringTable/@OriginalFilename
