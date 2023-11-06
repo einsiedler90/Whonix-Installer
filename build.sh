@@ -75,60 +75,46 @@ size=$FILE_WHONIX_OVA_SIZE
 ## Debugging.
 cat "WhonixOvaInfo.ini"
 
-## 4.0) rename original lpi file
+## 4.0) copy src folder
 
-## NOTE: We cannot rename the original WhonixInstaller.lpi to WhonixInstaller.lpi.in,
-##       because then this source code could no longer be compiled with the
-##       lazarus GUI.
+rm -rf "tmp_src"
+cp -r "src" "tmp_src"
 
-mv "WhonixInstaller.lpi" "WhonixInstaller.lpi.in"
-cp "WhonixInstaller.lpi.in" "WhonixInstaller.lpi"
-
-## 4.1) update lpi file
+## 4.1) update version info in lpi file
 
 echo -e "\
-cd //VersionInfo/MajorVersionNr/@Value
-set 0
-cd //VersionInfo/MinorVersionNr/@Value
-set 0
-cd //VersionInfo/RevisionNr/@Value
-set 0
-cd //VersionInfo/BuildNr/@Value
-set 0
 cd //VersionInfo/StringTable/@ProductVersion
 set $VERSION_FULL
 cd //VersionInfo/StringTable/@OriginalFilename
 set $FILE_INSTALLER_BINARY_FINAL
-save" | xmllint --shell "WhonixInstaller.lpi"
+save" | xmllint --shell "tmp_src/WhonixInstaller.lpi"
 
 ## 4.2) update resources in lpi file
 
 if [ "$TARGET_SYSTEM" = "WINDOWS" ]; then
   echo -e "\
   cd //Resources/Resource_2[@ResourceName='LICENSE']/@FileName
-  set $FILE_LICENSE
+  set $(realpath $FILE_LICENSE)
   cd //Resources/Resource_5[@ResourceName='VBOX']/@FileName
-  set $FILE_VBOX_INST_EXE
+  set $(realpath $FILE_VBOX_INST_EXE)
   cd //Resources/Resource_6[@ResourceName='STARTER']/@FileName
-  set $FILE_WHONIX_STARTER_MSI
-  save" | xmllint --shell "WhonixInstaller.lpi"
+  set $(realpath $FILE_WHONIX_STARTER_MSI)
+  save" | xmllint --shell "tmp_src/WhonixInstaller.lpi"
 fi
 if [ "$TARGET_SYSTEM" = "LINUX" ]; then
   echo -e "\
   cd //Resources/Resource_2[@ResourceName='LICENSE']/@FileName
-  set $FILE_LICENSE
+  set $(realpath $FILE_LICENSE)
   cd //Resources/Resource_3[@ResourceName='SCRIPT']/@FileName
-  set $FILE_CLI_INSTALLER_SCRIPT
-  save" | xmllint --shell "WhonixInstaller.lpi"
+  set $(realpath $FILE_CLI_INSTALLER_SCRIPT)
+  save" | xmllint --shell "tmp_src/WhonixInstaller.lpi"
 fi
-
-#cp "$FILE_LICENSE" "LICENSE"
-#cp "$FILE_VBOX_INST_EXE" "VBoxSetup.exe"
-#cp "$FILE_WHONIX_STARTER_MSI" "WhonixStarterInstaller.msi"
 
 ## 5.0) build static library libQt5Pas.a
 
 if [ "$TARGET_SYSTEM" = "LINUX" ]; then
+  mkdir -p build
+  cd build
   apt-get source libqt5pas-dev
 
   matching_dirs=$(find . -maxdepth 1 -type d -name 'libqtpas*')
@@ -142,6 +128,7 @@ if [ "$TARGET_SYSTEM" = "LINUX" ]; then
   cp libQt5Pas.a ..
   cd ..
   test libQt5Pas.a
+  cd ..
 fi
 
 ## 5.1) build executable WhonixInstaller.exe
@@ -150,24 +137,19 @@ true "use_ppcross_x64_maybe: $use_ppcross_x64_maybe"
 
 if [ "$TARGET_SYSTEM" = "WINDOWS" ]; then
   # shellcheck disable=SC2086
-  lazbuild -B "WhonixInstaller.lpr" --cpu=x86_64 --os=win64 $use_ppcross_x64_maybe
+  lazbuild -B "tmp_src/WhonixInstaller.lpr" --cpu=x86_64 --os=win64 $use_ppcross_x64_maybe
 elif [ "$TARGET_SYSTEM" = "LINUX" ]; then
   # shellcheck disable=SC2086
-  lazbuild -B "WhonixInstaller.lpr" --ws=qt5 --cpu=x86_64 --os=linux $use_ppcross_x64_maybe
+  lazbuild -B "tmp_src/WhonixInstaller.lpr" --ws=qt5 --cpu=x86_64 --os=linux $use_ppcross_x64_maybe
 fi
-
-## 5.2) restore original lpi file and delete backup
-
-rm "WhonixInstaller.lpi"
-mv "WhonixInstaller.lpi.in" "WhonixInstaller.lpi"
 
 ## 6) append Whonix OVA to WhonixInstaller.exe
 
 if [ "$TARGET_SYSTEM" = "WINDOWS" ]; then
-  cat "WhonixInstaller.exe" "$FILE_WHONIX_OVA" | tee "$FILE_INSTALLER_BINARY_FINAL" >/dev/null
+  cat "build/WhonixInstaller.exe" "$FILE_WHONIX_OVA" | tee "$FILE_INSTALLER_BINARY_FINAL" >/dev/null
 fi
 if [ "$TARGET_SYSTEM" = "LINUX" ]; then
-  cp "WhonixInstaller" "$FILE_INSTALLER_BINARY_FINAL"
+  cp "build/WhonixInstaller" "$FILE_INSTALLER_BINARY_FINAL"
 fi
 
 ## Debugging.
@@ -176,6 +158,7 @@ mimetype "$FILE_INSTALLER_BINARY_FINAL"
 
 if [ "$TARGET_SYSTEM" = "LINUX" ]; then
   if ldd "$FILE_INSTALLER_BINARY_FINAL" | grep -q "Qt5Pas"; then
+    # this can happen if linker finds a libQt5Pas.so befor libQt5Pas.a
     false "$0: ERROR: $FILE_INSTALLER_BINARY_FINAL depends on QT5Pas"
   fi
 fi
