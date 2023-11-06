@@ -94,19 +94,19 @@ save" | xmllint --shell "tmp_src/WhonixInstaller.lpi"
 if [ "$TARGET_SYSTEM" = "WINDOWS" ]; then
   echo -e "\
   cd //Resources/Resource_2[@ResourceName='LICENSE']/@FileName
-  set $(realpath $FILE_LICENSE)
+  set $(realpath "$FILE_LICENSE")
   cd //Resources/Resource_5[@ResourceName='VBOX']/@FileName
-  set $(realpath $FILE_VBOX_INST_EXE)
+  set $(realpath "$FILE_VBOX_INST_EXE")
   cd //Resources/Resource_6[@ResourceName='STARTER']/@FileName
-  set $(realpath $FILE_WHONIX_STARTER_MSI)
+  set $(realpath "$FILE_WHONIX_STARTER_MSI")
   save" | xmllint --shell "tmp_src/WhonixInstaller.lpi"
 fi
 if [ "$TARGET_SYSTEM" = "LINUX" ]; then
   echo -e "\
   cd //Resources/Resource_2[@ResourceName='LICENSE']/@FileName
-  set $(realpath $FILE_LICENSE)
+  set $(realpath "$FILE_LICENSE")
   cd //Resources/Resource_3[@ResourceName='SCRIPT']/@FileName
-  set $(realpath $FILE_CLI_INSTALLER_SCRIPT)
+  set $(realpath "$FILE_CLI_INSTALLER_SCRIPT")
   save" | xmllint --shell "tmp_src/WhonixInstaller.lpi"
 fi
 
