@@ -1,8 +1,6 @@
-# special files
-whonix-xfce-installer-gui-*
-WhonixInstaller
-WhonixInstaller-*
-libqtpas*
+# whonix build and tmp folders
+build/
+tmp_src/
 
 # Lazarus compiler-generated binaries (safe to delete)
 *.exe

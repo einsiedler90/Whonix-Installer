@@ -23,7 +23,7 @@ export VERSION_FULL="Xfce-16.0.9.8"
 # TODO: replace with linux equivalent
 export FILE_LICENSE="../deps/license.txt"
 export FILE_CLI_INSTALLER_SCRIPT="../deps/whonix-xfce-installer-cli"
-export FILE_INSTALLER_BINARY_FINAL="whonix-xfce-installer-gui-$VERSION_FULL"
+export FILE_INSTALLER_BINARY_FINAL="build/whonix-xfce-installer-gui-$VERSION_FULL"
 
 ./build.sh
 
