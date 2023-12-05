@@ -4,6 +4,7 @@
  * Copyright: 2012 - 2023 ENCRYPTED SUPPORT LP <adrelanos@riseup.net>
  * Author: einsiedler90@protonmail.com
  * License: See the file COPYING for copying conditions.
+ *)
 
 unit WhonixUtils;
 
