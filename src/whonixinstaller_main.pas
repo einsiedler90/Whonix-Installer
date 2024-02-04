@@ -58,7 +58,7 @@ type
     UnpackPath: string;
   public
     procedure Installation;
-    procedure NextStatus(Status: string; Output: TStrings = nil);
+    procedure NextStatus(Step: integer; Status: string; Output: TStrings = nil);
   end;
 
 var
@@ -144,7 +144,8 @@ begin
     Exit;
   end;
 
-  if MessageDlg('Exit Installer', 'Are you sure you want to cancel the Whonix installation?',
+  if MessageDlg('Exit Installer',
+    'Are you sure you want to cancel the Whonix installation?',
     mtConfirmation, [mbYes, mbNo], 0) = mrYes then
   begin
     CanClose := True;
@@ -195,7 +196,7 @@ begin
   {$IFDEF WINDOWS}
     ImageBanner.Picture.LoadFromResourceName(Hinstance, 'BANNERWINDOWS');
   {$ELSE}
-    ImageBanner.Picture.LoadFromResourceName(Hinstance, 'BANNERLINUX');
+  ImageBanner.Picture.LoadFromResourceName(Hinstance, 'BANNERLINUX');
   {$ENDIF}
 
   ResourceStream := TResourceStream.Create(HInstance, 'LICENSE', RT_RCDATA);
@@ -296,21 +297,18 @@ var
   ResourceStream: TResourceStream;
   ExeFileStream: TFileStream;
 begin
-  ProgressBar.Position := 1;
-  InstallerForm.NextStatus('Step 1 / 9 : Checking if VirtualBox is already installed...');
+  InstallerForm.NextStatus(1, 'Checking if VirtualBox is already installed...');
   EnsureValidExePath(CurrentVBoxManagePath, defaultVBoxManagePath);
 
   if CurrentVBoxManagePath = '' then
   begin
     {$IFDEF WINDOWS}
-    ProgressBar.Position := 2;
-    InstallerForm.NextStatus('Step 2 / 9 : Unpacking VirtualBox installer...');
+    InstallerForm.NextStatus(2, 'Unpacking VirtualBox installer...');
     ResourceStream := TResourceStream.Create(HInstance, 'VBOX', RT_RCDATA);
     StreamSaveToFile(ResourceStream, UnpackPath + 'vbox.exe');
     ResourceStream.Free;
 
-    ProgressBar.Position := 3;
-    InstallerForm.NextStatus('Step 3 / 9 : Installing VirtualBox..');
+    InstallerForm.NextStatus(3, 'Installing VirtualBox..');
     Execute('cmd.exe /c ""' + UnpackPath + 'vbox.exe"" --silent --ignore-reboot',
       InstallerForm.MemoOutput.Lines);
     {$ENDIF}
@@ -319,14 +317,13 @@ begin
 
     if CurrentVBoxManagePath = '' then
     begin
-      InstallerForm.NextStatus('Error : VirtualBox could not be installed.');
+      InstallerForm.NextStatus(-1, 'VirtualBox could not be installed.');
       ButtonCancel.Enabled := True;
       Exit;
     end;
   end;
 
-  ProgressBar.Position := 4;
-  InstallerForm.NextStatus('Step 4 / 9 : Detecting already existing Whonix VMs.');
+  InstallerForm.NextStatus(4, 'Detecting already existing Whonix VMs.');
   Output := TStringList.Create;
   Execute(CurrentVBoxManagePath + ' list vms', Output);
   InstallerForm.MemoOutput.Lines.AddStrings(Output);
@@ -335,8 +332,7 @@ begin
   if not ContainsStr(Output.Text, 'Whonix-Gateway-Xfce') and not
     ContainsStr(Output.Text, 'Whonix-Workstation-Xfce') then
   begin
-    ProgressBar.Position := 5;
-    InstallerForm.NextStatus('Step 5 / 9 : Unpacking Whonix ova...');
+    InstallerForm.NextStatus(5, 'Unpacking Whonix ova...');
     ExeFileStream := TFileStream.Create(Application.ExeName, fmOpenRead);
     ResourceStream := TResourceStream.Create(HInstance, 'OVAINFO', RT_RCDATA);
     with TIniFile.Create(ResourceStream) do
@@ -348,8 +344,7 @@ begin
     ResourceStream.Free;
     ExeFileStream.Free;
 
-    ProgressBar.Position := 6;
-    InstallerForm.NextStatus('Step 6 / 9 : Installing Whonix-Gateway and Whonix-Workstation.');
+    InstallerForm.NextStatus(6, 'Installing Whonix-Gateway and Whonix-Workstation.');
     Execute(CurrentVBoxManagePath + ' import "' + UnpackPath +
       'whonix.ova' + '" --vsys 0 --eula accept --vsys 1 --eula accept',
       InstallerForm.MemoOutput.Lines);
@@ -363,21 +358,18 @@ begin
     Exit;
   end;
 
-  ProgressBar.Position := 7;
-  InstallerForm.NextStatus('Step 7 / 9 : Checking if Whonix-Starter is already installed...');
+  InstallerForm.NextStatus(7, 'Checking if Whonix-Starter is already installed...');
   EnsureValidExePath(CurrentWhonixStarterPath, defaultWhonixStarterPath);
 
   if CurrentWhonixStarterPath = '' then
   begin
     {$IFDEF WINDOWS}
-    ProgressBar.Position := 8;
-    InstallerForm.NextStatus('Step 8 / 9 : Unpacking Whonix-Starter installer...');
+    InstallerForm.NextStatus(8, 'Unpacking Whonix-Starter installer...');
     ResourceStream := TResourceStream.Create(HInstance, 'STARTER', RT_RCDATA);
     StreamSaveToFile(ResourceStream, UnpackPath + 'WhonixStarter.msi');
     ResourceStream.Free;
 
-    ProgressBar.Position := 9;
-    InstallerForm.NextStatus('Step 9 / 9 : Installing Whonix-Starter...');
+    InstallerForm.NextStatus(9, 'Installing Whonix-Starter...');
     Execute('msiexec /i "' + UnpackPath + 'WhonixStarter.msi"',
         InstallerForm.MemoOutput.Lines);
     {$ENDIF}
@@ -386,7 +378,7 @@ begin
 
     if CurrentWhonixStarterPath = '' then
     begin
-      InstallerForm.NextStatus('Error : Whonix-Starter could not be installed.');
+      InstallerForm.NextStatus(-1, 'Whonix-Starter could not be installed.');
       ButtonCancel.Enabled := True;
       Exit;
     end;
@@ -395,17 +387,32 @@ begin
   ButtonNextClick(ButtonNext);
 end;
 
-procedure TInstallerForm.NextStatus(Status: string; Output: TStrings = nil);
+procedure TInstallerForm.NextStatus(Step: integer; Status: string;
+  Output: TStrings = nil);
+const
+  MAX_STEPS = 9;
 var
   i: integer;
 begin
+  // depricated??? ---------------------->
   if not InstallerForm.Showing then
   begin
     InstallerForm.Show;
   end;
+  // ------------------------------------<
 
-  PanelStatus.Caption := Status;
-  MemoOutput.Append(Status);
+  if (Step >= 0) and (Step <= MAX_STEPS) then
+  begin
+    ProgressBar.Position := Step;
+    PanelStatus.Caption := 'Step ' + IntToStr(Step) + ' / ' +
+      IntToStr(MAX_STEPS) + ' : ' + Status;
+  end
+  else
+  begin
+    PanelStatus.Caption := 'Error : ' + Status;
+  end;
+
+  MemoOutput.Append(PanelStatus.Caption);
 
   if Output <> nil then
   begin
