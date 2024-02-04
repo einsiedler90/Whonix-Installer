@@ -69,8 +69,8 @@ fi
 
 echo "\
 [general]
-size=$FILE_WHONIX_OVA_SIZE
-" | tee "WhonixOvaInfo.ini" >/dev/null
+size=$FILE_WHONIX_OVA_SIZE" \
+  | tee "WhonixOvaInfo.ini" >/dev/null
 
 ## Debugging.
 cat "WhonixOvaInfo.ini"
