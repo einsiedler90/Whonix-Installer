@@ -57,6 +57,8 @@ type
   private
     UnpackPath: string;
   public
+    procedure InstallationBuildIn;
+    procedure InstallationScript(Script: TStrings);
     procedure Installation;
     procedure SetNextStatus(Step: integer; Status: string; Output: TStrings = nil);
   end;
@@ -194,7 +196,7 @@ begin
   InstallerForm.Icon.LoadFromResourceName(Hinstance, 'MAINICON');
 
   {$IFDEF WINDOWS}
-    ImageBanner.Picture.LoadFromResourceName(Hinstance, 'BANNERWINDOWS');
+  ImageBanner.Picture.LoadFromResourceName(Hinstance, 'BANNERWINDOWS');
   {$ELSE}
   ImageBanner.Picture.LoadFromResourceName(Hinstance, 'BANNERLINUX');
   {$ENDIF}
@@ -282,7 +284,7 @@ begin
 
 end;
 
-procedure TInstallerForm.Installation;
+procedure TInstallerForm.InstallationBuildIn;
 const
   {$IFDEF WINDOWS}
   defaultVBoxManagePath = 'C:\Program Files\Oracle\VirtualBox\VBoxManage.exe';
@@ -377,6 +379,49 @@ begin
   end;
 
   ButtonNextClick(ButtonNext);
+end;
+
+procedure TInstallerForm.InstallationScript(Script: TStrings);
+begin
+  SetNextStatus(1, 'Saving install script to unpack path...');
+  Script.SaveToFile(UnpackPath + 'whonix-xfce-installer-cli');
+
+  {$IFNDEF WINDOWS}
+  Execute('chmod +x ' + UnpackPath + 'whonix-xfce-installer-cli',InstallerForm.MemoOutput.Lines);
+
+  SetNextStatus(2, 'Execute install script...');
+
+  Execute(UnpackPath + 'whonix-xfce-installer-cli -d -n',InstallerForm.MemoOutput.Lines);
+  {$ENDIF}
+
+  SetNextStatus(-1, 'Test error.');
+  ButtonCancel.Enabled := True;
+  //ButtonNextClick(ButtonNext);
+end;
+
+procedure TInstallerForm.Installation;
+{$IFNDEF WINDOWS}
+var ResourceStream: TResourceStream;
+    Script: TStringList;
+{$ENDIF}
+begin
+  {$IFNDEF WINDOWS}
+  ResourceStream := TResourceStream.Create(HInstance, 'SCRIPT', RT_RCDATA);
+  Script := TStringList.Create;
+  Script.LoadFromStream(ResourceStream);
+
+  if (Script.Count > 0) and (Script.Strings[0] = '#!/bin/bash') then
+  begin
+    InstallationScript(Script);
+  end else begin
+    InstallationBuildIn;
+  end;
+
+  Script.Free;
+  ResourceStream.Free;
+  {$ELSE}
+  InstallationBuildIn;
+  {$ENDIF}
 end;
 
 procedure TInstallerForm.SetNextStatus(Step: integer; Status: string;
