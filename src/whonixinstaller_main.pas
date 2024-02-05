@@ -58,7 +58,7 @@ type
     UnpackPath: string;
   public
     procedure Installation;
-    procedure NextStatus(Step: integer; Status: string; Output: TStrings = nil);
+    procedure SetNextStatus(Step: integer; Status: string; Output: TStrings = nil);
   end;
 
 var
@@ -297,33 +297,29 @@ var
   ResourceStream: TResourceStream;
   ExeFileStream: TFileStream;
 begin
-  InstallerForm.NextStatus(1, 'Checking if VirtualBox is already installed...');
-  EnsureValidExePath(CurrentVBoxManagePath, defaultVBoxManagePath);
-
-  if CurrentVBoxManagePath = '' then
+  SetNextStatus(1, 'Checking if VirtualBox is already installed...');
+  if not EnsureExePath(CurrentVBoxManagePath, defaultVBoxManagePath) then
   begin
     {$IFDEF WINDOWS}
-    InstallerForm.NextStatus(2, 'Unpacking VirtualBox installer...');
+    SetNextStatus(2, 'Unpacking VirtualBox installer...');
     ResourceStream := TResourceStream.Create(HInstance, 'VBOX', RT_RCDATA);
     StreamSaveToFile(ResourceStream, UnpackPath + 'vbox.exe');
     ResourceStream.Free;
 
-    InstallerForm.NextStatus(3, 'Installing VirtualBox..');
+    SetNextStatus(3, 'Installing VirtualBox..');
     Execute('cmd.exe /c ""' + UnpackPath + 'vbox.exe"" --silent --ignore-reboot',
       InstallerForm.MemoOutput.Lines);
     {$ENDIF}
 
-    EnsureValidExePath(CurrentVBoxManagePath, defaultVBoxManagePath);
-
-    if CurrentVBoxManagePath = '' then
+    if not EnsureExePath(CurrentVBoxManagePath, defaultVBoxManagePath) then
     begin
-      InstallerForm.NextStatus(-1, 'VirtualBox could not be installed.');
+      SetNextStatus(-1, 'VirtualBox could not be installed.');
       ButtonCancel.Enabled := True;
       Exit;
     end;
   end;
 
-  InstallerForm.NextStatus(4, 'Detecting already existing Whonix VMs.');
+  SetNextStatus(4, 'Detecting already existing Whonix VMs.');
   Output := TStringList.Create;
   Execute(CurrentVBoxManagePath + ' list vms', Output);
   InstallerForm.MemoOutput.Lines.AddStrings(Output);
@@ -332,7 +328,7 @@ begin
   if not ContainsStr(Output.Text, 'Whonix-Gateway-Xfce') and not
     ContainsStr(Output.Text, 'Whonix-Workstation-Xfce') then
   begin
-    InstallerForm.NextStatus(5, 'Unpacking Whonix ova...');
+    SetNextStatus(5, 'Unpacking Whonix ova...');
     ExeFileStream := TFileStream.Create(Application.ExeName, fmOpenRead);
     ResourceStream := TResourceStream.Create(HInstance, 'OVAINFO', RT_RCDATA);
     with TIniFile.Create(ResourceStream) do
@@ -344,7 +340,7 @@ begin
     ResourceStream.Free;
     ExeFileStream.Free;
 
-    InstallerForm.NextStatus(6, 'Installing Whonix-Gateway and Whonix-Workstation.');
+    SetNextStatus(6, 'Installing Whonix-Gateway and Whonix-Workstation.');
     Execute(CurrentVBoxManagePath + ' import "' + UnpackPath +
       'whonix.ova' + '" --vsys 0 --eula accept --vsys 1 --eula accept',
       InstallerForm.MemoOutput.Lines);
@@ -358,27 +354,23 @@ begin
     Exit;
   end;
 
-  InstallerForm.NextStatus(7, 'Checking if Whonix-Starter is already installed...');
-  EnsureValidExePath(CurrentWhonixStarterPath, defaultWhonixStarterPath);
-
-  if CurrentWhonixStarterPath = '' then
+  SetNextStatus(7, 'Checking if Whonix-Starter is already installed...');
+  if not EnsureExePath(CurrentWhonixStarterPath, defaultWhonixStarterPath) then
   begin
     {$IFDEF WINDOWS}
-    InstallerForm.NextStatus(8, 'Unpacking Whonix-Starter installer...');
+    SetNextStatus(8, 'Unpacking Whonix-Starter installer...');
     ResourceStream := TResourceStream.Create(HInstance, 'STARTER', RT_RCDATA);
     StreamSaveToFile(ResourceStream, UnpackPath + 'WhonixStarter.msi');
     ResourceStream.Free;
 
-    InstallerForm.NextStatus(9, 'Installing Whonix-Starter...');
+    SetNextStatus(9, 'Installing Whonix-Starter...');
     Execute('msiexec /i "' + UnpackPath + 'WhonixStarter.msi"',
         InstallerForm.MemoOutput.Lines);
     {$ENDIF}
 
-    EnsureValidExePath(CurrentWhonixStarterPath, defaultWhonixStarterPath);
-
-    if CurrentWhonixStarterPath = '' then
+    if not EnsureExePath(CurrentWhonixStarterPath, defaultWhonixStarterPath) then
     begin
-      InstallerForm.NextStatus(-1, 'Whonix-Starter could not be installed.');
+      SetNextStatus(-1, 'Whonix-Starter could not be installed.');
       ButtonCancel.Enabled := True;
       Exit;
     end;
@@ -387,7 +379,7 @@ begin
   ButtonNextClick(ButtonNext);
 end;
 
-procedure TInstallerForm.NextStatus(Step: integer; Status: string;
+procedure TInstallerForm.SetNextStatus(Step: integer; Status: string;
   Output: TStrings = nil);
 const
   MAX_STEPS = 9;
