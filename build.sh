@@ -67,6 +67,7 @@ else
   FILE_WHONIX_OVA_SIZE="0"
 fi
 
+## TODO: Do this inside tmp_src or other temporary folder.
 echo "\
 [general]
 size=$FILE_WHONIX_OVA_SIZE" \
