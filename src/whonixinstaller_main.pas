@@ -431,7 +431,7 @@ const
 var
   i: integer;
 begin
-  // depricated??? ---------------------->
+  // deprecated??? ---------------------->
   if not InstallerForm.Showing then
   begin
     InstallerForm.Show;
