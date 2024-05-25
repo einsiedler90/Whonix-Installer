@@ -16,7 +16,7 @@
       <Resources Count="7">
         <Resource_0 FileName="../WhonixInstallerBannerLinux.jpg" Type="RCDATA" ResourceName="BANNERLINUX"/>
         <Resource_1 FileName="../WhonixInstallerBannerWindows.jpg" Type="RCDATA" ResourceName="BANNERWINDOWS"/>
-        <Resource_2 FileName="../LICENSE" Type="RCDATA" ResourceName="LICENSE"/>
+        <Resource_2 FileName="../COPYING" Type="RCDATA" ResourceName="LICENSE"/>
         <Resource_3 FileName="../DUMMY_RES_FILE" Type="RCDATA" ResourceName="SCRIPT"/>
         <Resource_4 FileName="../WhonixOvaInfo.ini" Type="RCDATA" ResourceName="OVAINFO"/>
         <Resource_5 FileName="../DUMMY_RES_FILE" Type="RCDATA" ResourceName="VBOX"/>

@@ -16,7 +16,7 @@ uses
   Classes, SysUtils, FileUtil, Forms, Process, Math;
 
 function AppDiskGetFreeSpace(const fn: string): Int64;
-procedure EnsureValidExePath(var TargetPath: string; DefaultPath: string);
+function EnsureExePath(var TargetPath: string; DefaultPath: string): Boolean;
 procedure Execute(CommandLine: string; Output: TStrings = nil);
 procedure StreamSaveToFile(Stream: TStream; FileName: String);
 procedure CopyUnblocked(FromStream, ToStream: TStream);
@@ -27,38 +27,38 @@ function AppDiskGetFreeSpace(const fn: string): Int64;
 begin
   {$ifdef linux}
   //this crashes on FreeBSD 12 x64
-  exit(SysUtils.DiskFree(SysUtils.AddDisk(ExtractFileDir(fn))));
+  Exit(SysUtils.DiskFree(SysUtils.AddDisk(ExtractFileDir(fn))));
   {$endif}
 
   {$ifdef windows}
-  exit(SysUtils.DiskFree(SysUtils.GetDriveIDFromLetter(ExtractFileDrive(fn))));
+  Exit(SysUtils.DiskFree(SysUtils.GetDriveIDFromLetter(ExtractFileDrive(fn))));
   {$endif}
 
   //cannot detect
-  exit(-1);
+  Exit(-1);
 end;
 
-procedure EnsureValidExePath(var TargetPath: string; DefaultPath: string);
+function EnsureExePath(var TargetPath: string; DefaultPath: string): Boolean;
 var
   filename: string;
   sl: TStringList;
 begin
   if FileExists(TargetPath) then
   begin
-    Exit;
+    Exit(true);
   end;
 
   if (TargetPath <> DefaultPath) and FileExists(DefaultPath) then
   begin
     TargetPath := DefaultPath;
-    Exit;
+    Exit(true);
   end;
 
   filename := ExtractFileName(DefaultPath);
   TargetPath := FindDefaultExecutablePath(filename);
   if FileExists(TargetPath) then
   begin
-    Exit;
+    Exit(true);
   end;
 
   sl := TStringList.Create;
@@ -71,10 +71,12 @@ begin
   if (sl.Count > 0) and FileExists(sl.Strings[0]) then
   begin
     TargetPath := sl.Strings[0];
+    Result := True;
   end
   else
   begin
     TargetPath := '';
+    Result := False;
   end;
 
   sl.Free;
