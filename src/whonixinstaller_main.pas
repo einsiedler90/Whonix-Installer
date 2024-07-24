@@ -288,10 +288,10 @@ procedure TInstallerForm.InstallationBuildIn;
 const
   {$IFDEF WINDOWS}
   defaultVBoxManagePath = 'C:\Program Files\Oracle\VirtualBox\VBoxManage.exe';
-  defaultWhonixStarterPath = 'C:\Program Files\Whonix\Whonix.exe';
+  defaultWhonixStarterPath = 'C:\Program Files\WhonixStarter\WhonixStarter.exe';
   {$ELSE}
   defaultVBoxManagePath = '/usr/bin/VBoxManage';
-  defaultWhonixStarterPath = '/usr/bin/Whonix';
+  defaultWhonixStarterPath = '/usr/bin/WhonixStarter';
   {$ENDIF}
 var
   CurrentVBoxManagePath, CurrentWhonixStarterPath: string;
