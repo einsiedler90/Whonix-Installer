@@ -17,10 +17,10 @@ object InstallerForm: TInstallerForm
     Height = 384
     Top = 176
     Width = 625
-    ActivePage = TabSheetInstallation
+    ActivePage = TabSheetConfiguration
     Align = alClient
     BorderSpacing.Around = 10
-    TabIndex = 2
+    TabIndex = 1
     TabOrder = 0
     OnChange = PageControlChange
     object TabSheetLicense: TTabSheet
@@ -94,19 +94,19 @@ object InstallerForm: TInstallerForm
       end
       object LabelConfigurationDesc: TLabel
         Left = 15
-        Height = 17
+        Height = 34
         Top = 47
         Width = 585
         Align = alTop
         BorderSpacing.Around = 15
-        Caption = 'Please select one of the installation types listed below.'
+        Caption = 'Please select one of the installation types listed below and click the "Execute" button to start the installation.'
         ParentColor = False
         WordWrap = True
       end
       object RadioButtonConfigFull: TRadioButton
         Left = 15
         Height = 23
-        Top = 89
+        Top = 106
         Width = 585
         Align = alTop
         BorderSpacing.Top = 10
@@ -122,7 +122,7 @@ object InstallerForm: TInstallerForm
       object RadioButtonConfigMinimal: TRadioButton
         Left = 15
         Height = 23
-        Top = 186
+        Top = 203
         Width = 585
         Align = alTop
         BorderSpacing.Top = 10
@@ -131,11 +131,12 @@ object InstallerForm: TInstallerForm
         Font.Style = [fsBold]
         ParentFont = False
         TabOrder = 0
+        Visible = False
       end
       object LabelConfigFullDesc: TLabel
         Left = 31
         Height = 34
-        Top = 127
+        Top = 144
         Width = 569
         Align = alTop
         BorderSpacing.Left = 16
@@ -147,13 +148,14 @@ object InstallerForm: TInstallerForm
       object LabelConfigMinimalDesc: TLabel
         Left = 31
         Height = 34
-        Top = 224
+        Top = 241
         Width = 569
         Align = alTop
         BorderSpacing.Left = 16
         BorderSpacing.Around = 15
         Caption = 'This option installs the minimal requirements to launch Whonix on your computer. This means only VirtualBox and the Whonix VMs will be installed.'
         ParentColor = False
+        Visible = False
         WordWrap = True
       end
     end
