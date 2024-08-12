@@ -55,6 +55,7 @@ type
     procedure TabSheetConfigurationContextPopup(Sender: TObject;
       MousePos: TPoint; var Handled: boolean);
   private
+    IsDebugMode: boolean;
     UnpackPath: string;
   public
     procedure InstallationBuildIn;
@@ -62,6 +63,9 @@ type
     procedure Installation;
     procedure SetNextStatus(Step: integer; Status: string; Output: TStrings = nil);
   end;
+
+const
+  COMMANDLINE_OPTION_DEBUG = 'debug';
 
 var
   InstallerForm: TInstallerForm;
@@ -190,6 +194,13 @@ procedure TInstallerForm.FormCreate(Sender: TObject);
 var
   ResourceStream: TResourceStream;
 begin
+  IsDebugMode := False;
+  if Application.HasOption(COMMANDLINE_OPTION_DEBUG) then
+  begin
+    IsDebugMode := True;
+    InstallerForm.Caption := InstallerForm.Caption + ' [DEBUG MODE]';
+  end;
+
   PageControl.ShowTabs := False;
   PageControl.ActivePageIndex := 0;
 
@@ -237,11 +248,17 @@ begin
       Halt;
     end;
   end;
+
+  // cleanup temp install directory befor installation starts
+  DeleteDirectory(UnpackPath, True);
 end;
 
 procedure TInstallerForm.FormDestroy(Sender: TObject);
 begin
-  DeleteDirectory(UnpackPath, False);
+  if not IsDebugMode then
+  begin
+    DeleteDirectory(UnpackPath, False);
+  end;
 end;
 
 procedure TInstallerForm.LabelCompleteDescClick(Sender: TObject);
@@ -387,11 +404,13 @@ begin
   Script.SaveToFile(UnpackPath + 'whonix-xfce-installer-cli');
 
   {$IFNDEF WINDOWS}
-  Execute('chmod +x ' + UnpackPath + 'whonix-xfce-installer-cli',InstallerForm.MemoOutput.Lines);
+  Execute('chmod +x ' + UnpackPath + 'whonix-xfce-installer-cli',
+    InstallerForm.MemoOutput.Lines);
 
   SetNextStatus(2, 'Execute install script...');
 
-  Execute(UnpackPath + 'whonix-xfce-installer-cli -d -n',InstallerForm.MemoOutput.Lines);
+  Execute(UnpackPath + 'whonix-xfce-installer-cli -d -n',
+    InstallerForm.MemoOutput.Lines);
   {$ENDIF}
 
   SetNextStatus(-1, 'Test error.');
@@ -401,8 +420,9 @@ end;
 
 procedure TInstallerForm.Installation;
 {$IFNDEF WINDOWS}
-var ResourceStream: TResourceStream;
-    Script: TStringList;
+var
+  ResourceStream: TResourceStream;
+  Script: TStringList;
 {$ENDIF}
 begin
   {$IFNDEF WINDOWS}
@@ -413,7 +433,9 @@ begin
   if (Script.Count > 0) and (Script.Strings[0] = '#!/bin/bash') then
   begin
     InstallationScript(Script);
-  end else begin
+  end
+  else
+  begin
     InstallationBuildIn;
   end;
 
