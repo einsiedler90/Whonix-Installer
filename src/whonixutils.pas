@@ -15,15 +15,15 @@ interface
 uses
   Classes, SysUtils, FileUtil, Forms, Process, Math;
 
-function AppDiskGetFreeSpace(const fn: string): Int64;
-function EnsureExePath(var TargetPath: string; DefaultPath: string): Boolean;
-procedure Execute(CommandLine: string; Output: TStrings = nil);
-procedure StreamSaveToFile(Stream: TStream; FileName: String);
-procedure CopyUnblocked(FromStream, ToStream: TStream);
+function AppDiskGetFreeSpace(const fn: string): int64;
+function EnsureExePath(var TargetPath: string; DefaultPath: string): boolean;
+procedure Execute(CommandLine: string; Output: TStrings);
+procedure StreamSaveToFile(Stream: TStream; FileName: string; Output: TStrings);
+//procedure CopyUnblocked(FromStream, ToStream: TStream);
 
 implementation
 
-function AppDiskGetFreeSpace(const fn: string): Int64;
+function AppDiskGetFreeSpace(const fn: string): int64;
 begin
   {$ifdef linux}
   //this crashes on FreeBSD 12 x64
@@ -38,27 +38,27 @@ begin
   Exit(-1);
 end;
 
-function EnsureExePath(var TargetPath: string; DefaultPath: string): Boolean;
+function EnsureExePath(var TargetPath: string; DefaultPath: string): boolean;
 var
   filename: string;
   sl: TStringList;
 begin
   if FileExists(TargetPath) then
   begin
-    Exit(true);
+    Exit(True);
   end;
 
   if (TargetPath <> DefaultPath) and FileExists(DefaultPath) then
   begin
     TargetPath := DefaultPath;
-    Exit(true);
+    Exit(True);
   end;
 
   filename := ExtractFileName(DefaultPath);
   TargetPath := FindDefaultExecutablePath(filename);
   if FileExists(TargetPath) then
   begin
-    Exit(true);
+    Exit(True);
   end;
 
   sl := TStringList.Create;
@@ -82,7 +82,7 @@ begin
   sl.Free;
 end;
 
-procedure Execute(CommandLine: string; Output: TStrings = nil);
+procedure Execute(CommandLine: string; Output: TStrings);
 const
   BUFSIZE = 2048;
 var
@@ -141,26 +141,33 @@ begin
   Process.Free;
 end;
 
-procedure StreamSaveToFile(Stream: TStream; FileName: String);
+procedure StreamSaveToFile(Stream: TStream; FileName: string; Output: TStrings);
+
+  procedure CopyUnblocked(FromStream, ToStream: TStream);
+  begin
+    while FromStream.Position + 1024 * 1024 < FromStream.Size do
+    begin
+      ToStream.CopyFrom(FromStream, 1024 * 1024);
+      Application.ProcessMessages;
+    end;
+    ToStream.CopyFrom(FromStream, FromStream.Size - FromStream.Position);
+  end;
+
 var
   FileStream: TFileStream;
 begin
-  FileStream := TFileStream.Create(FileName, fmCreate);
   try
-    CopyUnblocked(Stream, FileStream);
-  finally
-    FileStream.Free;
-  end;
-end;
+    FileStream := TFileStream.Create(FileName, fmCreate);
+    try
+      CopyUnblocked(Stream, FileStream);
+    finally
+      FileStream.Free;
+    end;
 
-procedure CopyUnblocked(FromStream, ToStream: TStream);
-begin
-  while FromStream.Position + 1024 * 1024 < FromStream.Size do
-  begin
-    ToStream.CopyFrom(FromStream, 1024 * 1024);
-    Application.ProcessMessages;
+    Output.Append('Info: stream saved to ' + FileName);
+  except
+    Output.Append('Error: could not save stream to ' + FileName);
   end;
-  ToStream.CopyFrom(FromStream, FromStream.Size - FromStream.Position);
 end;
 
 end.

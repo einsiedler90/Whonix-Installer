@@ -49,7 +49,7 @@ fi
 pwd
 
 if [ "$TARGET_SYSTEM" = "WINDOWS" ]; then
-  for fso in "$FILE_LICENSE" "$FILE_WHONIX_OVA" "$FILE_WHONIX_STARTER_MSI" "$FILE_VBOX_INST_EXE" ; do
+  for fso in "$FILE_LICENSE" "$FILE_WHONIX_OVA" "$FILE_WHONIX_STARTER_MSI" "$FILE_VCREDIST_INST_EXE" "$FILE_VBOX_INST_EXE" ; do
     test -r "$fso"
   done
 fi
@@ -96,9 +96,11 @@ if [ "$TARGET_SYSTEM" = "WINDOWS" ]; then
   echo -e "\
   cd //Resources/Resource_2[@ResourceName='LICENSE']/@FileName
   set $(realpath "$FILE_LICENSE")
-  cd //Resources/Resource_5[@ResourceName='VBOX']/@FileName
+  cd //Resources/Resource_5[@ResourceName='VCREDIST']/@FileName
+  set $(realpath "$FILE_VCREDIST_INST_EXE")
+  cd //Resources/Resource_6[@ResourceName='VBOX']/@FileName
   set $(realpath "$FILE_VBOX_INST_EXE")
-  cd //Resources/Resource_6[@ResourceName='STARTER']/@FileName
+  cd //Resources/Resource_7[@ResourceName='STARTER']/@FileName
   set $(realpath "$FILE_WHONIX_STARTER_MSI")
   save" | xmllint --shell "tmp_src/WhonixInstaller.lpi"
 fi

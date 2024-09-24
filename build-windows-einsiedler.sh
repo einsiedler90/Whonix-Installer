@@ -21,10 +21,10 @@ export TARGET_SYSTEM="WINDOWS"
 export VERSION_FULL="Xfce-16.0.9.8"
 
 export FILE_LICENSE="../deps/license.txt"
-#export FILE_WHONIX_OVA="../deps/Whonix.ova"
 export FILE_WHONIX_OVA="../deps/Whonix-$VERSION_FULL.ova"
 export FILE_WHONIX_STARTER_MSI="../deps/WhonixStarterInstaller.msi"
-export FILE_VBOX_INST_EXE="../deps/vbox.exe"
+export FILE_VCREDIST_INST_EXE="../deps/VC_redist.x64.exe"
+export FILE_VBOX_INST_EXE="../deps/VirtualBox-7.1.0-164728-Win.exe"
 export FILE_INSTALLER_BINARY_FINAL="build/WhonixInstaller-$VERSION_FULL.exe"
 
 ./build.sh

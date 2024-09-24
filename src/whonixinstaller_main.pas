@@ -57,11 +57,12 @@ type
   private
     IsDebugMode: boolean;
     UnpackPath: string;
-  public
+
     procedure InstallationBuildIn;
     procedure InstallationScript(Script: TStrings);
     procedure Installation;
     procedure SetNextStatus(Step: integer; Status: string; Output: TStrings = nil);
+    procedure ResourceToFile(ResourceName, FileName: string; Output: TStrings);
   end;
 
 const
@@ -320,12 +321,17 @@ begin
   if not EnsureExePath(CurrentVBoxManagePath, defaultVBoxManagePath) then
   begin
     {$IFDEF WINDOWS}
-    SetNextStatus(2, 'Unpacking VirtualBox installer...');
-    ResourceStream := TResourceStream.Create(HInstance, 'VBOX', RT_RCDATA);
-    StreamSaveToFile(ResourceStream, UnpackPath + 'vbox.exe');
-    ResourceStream.Free;
+    SetNextStatus(2, 'Unpacking VC++ Redistributable installer...');
+    ResourceToFile('VCREDIST', UnpackPath + 'vcredist.exe', InstallerForm.MemoOutput.Lines);
 
-    SetNextStatus(3, 'Installing VirtualBox..');
+    SetNextStatus(3, 'Installing VC++ Redistributable...');
+    Execute('cmd.exe /c ""' + UnpackPath + 'vcredist.exe"" /install /quiet /norestart',
+      InstallerForm.MemoOutput.Lines);
+
+    SetNextStatus(4, 'Unpacking VirtualBox installer...');
+    ResourceToFile('VBOX', UnpackPath + 'vbox.exe', InstallerForm.MemoOutput.Lines);
+
+    SetNextStatus(5, 'Installing VirtualBox...');
     Execute('cmd.exe /c ""' + UnpackPath + 'vbox.exe"" --silent --ignore-reboot',
       InstallerForm.MemoOutput.Lines);
     {$ENDIF}
@@ -338,7 +344,7 @@ begin
     end;
   end;
 
-  SetNextStatus(4, 'Detecting already existing Whonix VMs.');
+  SetNextStatus(6, 'Detecting already existing Whonix VMs.');
   Output := TStringList.Create;
   Execute(CurrentVBoxManagePath + ' list vms', Output);
   InstallerForm.MemoOutput.Lines.AddStrings(Output);
@@ -347,7 +353,7 @@ begin
   if not ContainsStr(Output.Text, 'Whonix-Gateway-Xfce') and not
     ContainsStr(Output.Text, 'Whonix-Workstation-Xfce') then
   begin
-    SetNextStatus(5, 'Unpacking Whonix ova...');
+    SetNextStatus(7, 'Unpacking Whonix ova...');
     ExeFileStream := TFileStream.Create(Application.ExeName, fmOpenRead);
     ResourceStream := TResourceStream.Create(HInstance, 'OVAINFO', RT_RCDATA);
     with TIniFile.Create(ResourceStream) do
@@ -355,11 +361,12 @@ begin
       ExeFileStream.Position := ExeFileStream.Size - ReadInt64('general', 'size', 0);
       Free;
     end;
-    StreamSaveToFile(ExeFileStream, UnpackPath + 'whonix.ova');
+    StreamSaveToFile(ExeFileStream, UnpackPath + 'whonix.ova',
+      InstallerForm.MemoOutput.Lines);
     ResourceStream.Free;
     ExeFileStream.Free;
 
-    SetNextStatus(6, 'Installing Whonix-Gateway and Whonix-Workstation.');
+    SetNextStatus(8, 'Installing Whonix-Gateway and Whonix-Workstation.');
     Execute(CurrentVBoxManagePath + ' import "' + UnpackPath +
       'whonix.ova' + '" --vsys 0 --eula accept --vsys 1 --eula accept',
       InstallerForm.MemoOutput.Lines);
@@ -373,16 +380,14 @@ begin
     Exit;
   end;
 
-  SetNextStatus(7, 'Checking if Whonix-Starter is already installed...');
+  SetNextStatus(9, 'Checking if Whonix-Starter is already installed...');
   if not EnsureExePath(CurrentWhonixStarterPath, defaultWhonixStarterPath) then
   begin
     {$IFDEF WINDOWS}
-    SetNextStatus(8, 'Unpacking Whonix-Starter installer...');
-    ResourceStream := TResourceStream.Create(HInstance, 'STARTER', RT_RCDATA);
-    StreamSaveToFile(ResourceStream, UnpackPath + 'WhonixStarter.msi');
-    ResourceStream.Free;
+    SetNextStatus(10, 'Unpacking Whonix-Starter installer...');
+    ResourceToFile('STARTER', UnpackPath + 'WhonixStarter.msi', InstallerForm.MemoOutput.Lines);
 
-    SetNextStatus(9, 'Installing Whonix-Starter...');
+    SetNextStatus(11, 'Installing Whonix-Starter...');
     Execute('msiexec /i "' + UnpackPath + 'WhonixStarter.msi"',
         InstallerForm.MemoOutput.Lines);
     {$ENDIF}
@@ -395,6 +400,7 @@ begin
     end;
   end;
 
+  SetNextStatus(12, 'Installation completed, please wait...');
   ButtonNextClick(ButtonNext);
 end;
 
@@ -449,7 +455,7 @@ end;
 procedure TInstallerForm.SetNextStatus(Step: integer; Status: string;
   Output: TStrings = nil);
 const
-  MAX_STEPS = 9;
+  MAX_STEPS = 12;
 var
   i: integer;
 begin
@@ -489,6 +495,21 @@ begin
     Sleep(100);
     Application.ProcessMessages;
   end;
+end;
+
+procedure TInstallerForm.ResourceToFile(ResourceName, FileName: string;
+  Output: TStrings);
+var
+  ResourceStream: TResourceStream;
+begin
+  if FindResource(HInstance, ResourceName, RT_RCDATA) = 0 then
+  begin
+    Output.Append('Error: could not find resource ' + ResourceName);
+  end;
+
+  ResourceStream := TResourceStream.Create(HInstance, ResourceName, RT_RCDATA);
+  StreamSaveToFile(ResourceStream, FileName, Output);
+  ResourceStream.Free;
 end;
 
 end.
