@@ -17,10 +17,10 @@ object InstallerForm: TInstallerForm
     Height = 384
     Top = 176
     Width = 625
-    ActivePage = TabSheetConfiguration
+    ActivePage = TabSheetInstallation
     Align = alClient
     BorderSpacing.Around = 10
-    TabIndex = 1
+    TabIndex = 2
     TabOrder = 0
     OnChange = PageControlChange
     object TabSheetLicense: TTabSheet
@@ -171,7 +171,7 @@ object InstallerForm: TInstallerForm
         Align = alTop
         BorderSpacing.Top = 10
         BorderSpacing.Around = 15
-        Max = 9
+        Max = 12
         Smooth = True
         TabOrder = 0
       end
