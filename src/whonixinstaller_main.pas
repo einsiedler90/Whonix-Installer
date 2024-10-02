@@ -293,6 +293,12 @@ begin
     ButtonNext.Visible := False;
     ButtonCancel.Caption := 'Finish';
     ButtonCancel.Enabled := True;
+
+    if IsDebugMode then
+    begin
+      MemoOutput.Parent := TabSheetComplete;
+      MemoOutput.Show;
+    end;
   end;
 end;
 
@@ -400,7 +406,7 @@ begin
     end;
   end;
 
-  SetNextStatus(12, 'Installation completed, please wait...');
+  SetNextStatus(12, 'Installation completed!');
   ButtonNextClick(ButtonNext);
 end;
 
