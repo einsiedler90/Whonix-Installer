@@ -470,13 +470,6 @@ const
 var
   i: integer;
 begin
-  // deprecated??? ---------------------->
-  if not InstallerForm.Showing then
-  begin
-    InstallerForm.Show;
-  end;
-  // ------------------------------------<
-
   if (Step >= 0) and (Step <= MAX_STEPS) then
   begin
     ProgressBar.Position := Step;
