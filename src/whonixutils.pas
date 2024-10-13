@@ -144,10 +144,12 @@ end;
 procedure StreamSaveToFile(Stream: TStream; FileName: string; Output: TStrings);
 
   procedure CopyUnblocked(FromStream, ToStream: TStream);
+  const
+    BYTE_COUNT = 1024 * 1024;
   begin
-    while FromStream.Position + 1024 * 1024 < FromStream.Size do
+    while FromStream.Position + BYTE_COUNT < FromStream.Size do
     begin
-      ToStream.CopyFrom(FromStream, 1024 * 1024);
+      ToStream.CopyFrom(FromStream, BYTE_COUNT);
       Application.ProcessMessages;
     end;
     ToStream.CopyFrom(FromStream, FromStream.Size - FromStream.Position);
