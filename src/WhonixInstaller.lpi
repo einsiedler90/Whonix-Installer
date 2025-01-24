@@ -27,7 +27,7 @@
     <VersionInfo>
       <UseVersionInfo Value="True"/>
       <MajorVersionNr Value="1"/>
-      <StringTable Comments="Installer for Whonix" CompanyName="ENCRYPTED SUPPORT LP" FileDescription="Installer for Whonix" InternalName="WhonixInstaller" LegalCopyright="Copyright (C) 2023" OriginalFilename="WhonixInstaller-XYZ-1.2.3.4.exe" ProductName="Whonix" ProductVersion="[WHONIX_VERSION]"/>
+      <StringTable Comments="Installer for Whonix" CompanyName="ENCRYPTED SUPPORT LLC" FileDescription="Installer for Whonix" InternalName="WhonixInstaller" LegalCopyright="Copyright (C) 2023" OriginalFilename="WhonixInstaller-XYZ-1.2.3.4.exe" ProductName="Whonix" ProductVersion="[WHONIX_VERSION]"/>
     </VersionInfo>
     <BuildModes>
       <Item Name="Default" Default="True"/>
