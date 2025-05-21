@@ -17,8 +17,8 @@ true "$0: START"
 ## 1) Requires various environment variables:
 ## See build-einsiedler.sh
 
-if ! echo "WINDOWS LINUX" | grep -w -q "$TARGET_SYSTEM"; then
-  echo "$0: ERROR: TARGET_SYSTEM must be either WINDOWS or LINUX." >&2
+if ! printf '%s\n' "WINDOWS LINUX" | grep -w -- "$TARGET_SYSTEM" &>/dev/null; then
+  printf '%s\n' "$0: ERROR: TARGET_SYSTEM must be either WINDOWS or LINUX." >&2
   exit 1
 fi
 
@@ -68,7 +68,7 @@ else
 fi
 
 ## TODO: Do this inside tmp_src or other temporary folder.
-echo "\
+printf '%s\n' "\
 [general]
 size=$FILE_WHONIX_OVA_SIZE" \
   | tee "WhonixOvaInfo.ini" >/dev/null
@@ -121,7 +121,7 @@ if [ "$TARGET_SYSTEM" = "LINUX" ]; then
   apt-get source libqt5pas-dev
 
   matching_dirs=$(find . -maxdepth 1 -type d -name 'libqtpas*')
-  first_dir=$(echo "$matching_dirs" | head -n1)
+  first_dir=$(printf '%s\n' "$matching_dirs" | head -n1)
   cd "$first_dir"
 
   test -r Qt5Pas.pro
