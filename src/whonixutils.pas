@@ -1,7 +1,7 @@
 (*
  * Whonix Starter ( whonixutils.pas )
  *
- * Copyright: 2012 - 2023 ENCRYPTED SUPPORT LP <adrelanos@riseup.net>
+ * Copyright: 2012 - 2025 ENCRYPTED SUPPORT LLC <adrelanos@riseup.net>
  * Author: einsiedler90@protonmail.com
  * License: See the file COPYING for copying conditions.
  *)
